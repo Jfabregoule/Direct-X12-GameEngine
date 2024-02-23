@@ -71,6 +71,9 @@
     <Filter Include="Source\DirectX12\Private">
       <UniqueIdentifier>{86d3a700-1c9c-4b4e-adb2-fa9fa99c90f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\DirectX12\Classes">
+      <UniqueIdentifier>{82925e2f-cd27-4b5b-97d8-09ccaf27879a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine.cpp">
@@ -140,6 +143,9 @@
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\Camera.cpp">
+      <Filter>Source\DirectX12\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX12\UploadBuffer.h">
       <Filter>Source\DirectX12\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\dx12Inst.h">
+      <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

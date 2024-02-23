@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <d3d12.h>
 #include "Platform/Win32/d3dx12.h"
+#include "DirectX12/MathHelper.h"
 #include <dxgi.h>
 #include <dxgi1_4.h>
 #include <d3dcompiler.h>
