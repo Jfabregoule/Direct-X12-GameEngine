@@ -128,6 +128,7 @@
     <ClInclude Include="Source\DirectX12\d3dUtil.h" />
     <ClInclude Include="Source\DirectX12\d3dx12.h" />
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />
+    <ClInclude Include="Source\DirectX12\DX12Camera.h" />
     <ClInclude Include="Source\DirectX12\dx12Inst.h" />
     <ClInclude Include="Source\DirectX12\GameTimer.h" />
     <ClInclude Include="Source\DirectX12\GeometryGenerator.h" />

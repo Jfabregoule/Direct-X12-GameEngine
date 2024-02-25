@@ -17,5 +17,5 @@ PSInput vs_main(VSInput input)
 
 float4 ps_main(PSInput input) : SV_TARGET
 {
-    return float4(0.0f, 0.0f, 0.0f, 1.0f); // Noir (RGB: 0,0,0)
+    return float4(0.0f, 0.5f, 0.0f, 1.0f); // Noir (RGB: 0,0,0)
 }
