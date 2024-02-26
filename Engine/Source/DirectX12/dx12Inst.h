@@ -82,10 +82,18 @@ public:
     }
 
     VOID InitCamera() {
-        camera.position = DirectX::XMFLOAT3(200.0f, 0.0f, -200.0f);
-        camera.target = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
-        camera.up = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
-        camera.UpdateViewMatrix(0.0f, 0.0f, 0.0f);
+        // Calculer la matrice de vue à partir de la position, de la cible et du vecteur haut de la caméra
+        DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&camera.position);
+        DirectX::XMVECTOR tgt = DirectX::XMLoadFloat3(&camera.target);
+        DirectX::XMVECTOR up = DirectX::XMLoadFloat3(&camera.up);
+
+        // Créer une matrice de projection
+        float aspectRatio = viewport.Width / viewport.Height;
+        DirectX::XMMATRIX projMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, aspectRatio, 0.01f, 1000.0f); // Ajustez les plans de coupure près et loin selon votre scène
+
+        // Stocker la matrice de vue et de projection dans le constant buffer de la caméra
+        DirectX::XMStoreFloat4x4(&camera.viewMatrix, DirectX::XMMatrixLookAtLH(pos, tgt, up));
+        DirectX::XMStoreFloat4x4(&camera.projectionMatrix, projMatrix);
     }
 
     VOID UpdateCamera(float dx, float dy, float dz) {
@@ -231,8 +239,12 @@ public:
         swap_chain1->GetDesc1(&swap_chain_desc);
 
         // Initialisation du viewport et de la zone de découpage
-        viewport.Width = (FLOAT)swap_chain_desc.Width;
-        viewport.Height = (FLOAT)swap_chain_desc.Height;
+        viewport.TopLeftX = 0;
+        viewport.TopLeftY = 0;
+        viewport.Width = static_cast<float>(swap_chain_desc.Width);
+        viewport.Height = static_cast<float>(swap_chain_desc.Height);
+        viewport.MinDepth = 0.0f;
+        viewport.MaxDepth = 1.0f;
 
         scissor.right = swap_chain_desc.Width;
         scissor.bottom = swap_chain_desc.Height;
@@ -339,6 +351,8 @@ public:
         pipeline_state_desc.NumRenderTargets = 1;
         pipeline_state_desc.RTVFormats[0] = swap_chain_desc.Format;
         pipeline_state_desc.SampleDesc.Count = 1;
+
+        // Set the primitive topology type to triangle list
         pipeline_state_desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
         // Define the input assembly configuration
@@ -380,9 +394,10 @@ public:
         command_list->ResourceBarrier(1, &transitionToRenderTarget);
 
         command_list->RSSetViewports(1, &viewport);
-        command_list->RSSetScissorRects(1, &scissor);
+        //command_list->RSSetScissorRects(1, &scissor);
         command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
 
+        // Set pipeline state and root signature
         // Set pipeline state and root signature
         command_list->SetGraphicsRootSignature(root_signature);
         command_list->SetPipelineState(pipeline_state);
@@ -390,9 +405,9 @@ public:
         command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         // Apply camera's view matrix
-        command_list->SetGraphicsRootConstantBufferView(0, camera.GetViewMatrixGpuAddress());
+        command_list->SetGraphicsRootConstantBufferView(0, camera.GetViewMatrixGpuAddress(camera.viewMatrix));
+        command_list->SetGraphicsRootConstantBufferView(1, camera.GetProjectionMatrixGpuAddress(camera.projectionMatrix));
 
-        // Set the vertex buffer for the triangle built by BuildBoxGeometry
         command_list->IASetVertexBuffers(0, 1, &vertexBufferView);
 
         // Draw the triangle built by BuildBoxGeometry

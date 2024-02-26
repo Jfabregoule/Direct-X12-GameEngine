@@ -39,13 +39,13 @@ public:
         DirectX12Instance DX12Inst(handle);
 
         DX12Inst.InitGraphics();
+        DX12Inst.InitCamera();
         DX12Inst.InitShaders();
         DX12Inst.InitRootSignature();
         DX12Inst.InitPipelineState();
         DX12Inst.CreateFencesAndEvents();
         DX12Inst.BuildBoxGeometry();
 
-        DX12Inst.InitCamera();
 
         MSG message;
         while (GameRunning) {
@@ -56,6 +56,10 @@ public:
 
             // Gérer les entrées de l'utilisateur pour déplacer la caméra
             HandleInput(DX12Inst);
+
+            // Faire tourner automatiquement la caméra
+            float deltaTime = 0.016f; // Par exemple, supposez un temps fixe entre les frames
+            DX12Inst.camera.RotateAutomatically(deltaTime);
 
             // Rendre la frame
             DX12Inst.RenderFrame();
