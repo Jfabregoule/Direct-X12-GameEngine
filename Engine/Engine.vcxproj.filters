@@ -151,6 +151,12 @@
     <ClCompile Include="Source\Engine\Component.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Mesh.cpp">
+      <Filter>Source\DirectX12\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\DirectX12Utils.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -245,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Component.h">
       <Filter>Source\Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Mesh.h">
+      <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
