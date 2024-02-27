@@ -148,6 +148,9 @@
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX12\DX.cpp">
+      <Filter>Source\DirectX12\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -238,6 +241,9 @@
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\DX12Camera.h">
+      <Filter>Source\DirectX12\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\DX.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
   </ItemGroup>
