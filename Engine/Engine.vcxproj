@@ -106,6 +106,8 @@
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Component.cpp" />
+    <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
@@ -135,7 +137,9 @@
     <ClInclude Include="Source\DirectX12\MathHelper.h" />
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\Engine\Component.h" />
     <ClInclude Include="Source\Engine\DirectX12Utils.h" />
+    <ClInclude Include="Source\Engine\Entity.h" />
     <ClInclude Include="Source\Engine\OEngine.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
