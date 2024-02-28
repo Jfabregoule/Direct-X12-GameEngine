@@ -291,6 +291,7 @@ public:
         OutputDebugString(L"Pipeline state released.\n");
     }
 
+
     VOID ReleaseFrame() {
         for (int i = 0; i < FRAMES; ++i) {
             if (fence[i] != nullptr) {

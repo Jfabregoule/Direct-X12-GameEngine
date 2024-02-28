@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine.h"
 
 #include <stdio.h>
@@ -20,7 +20,7 @@
     Check(SUCCEEDED(hresult));
 
 #pragma comment(lib,"d3dcompiler.lib")
-#pragma comment(lib, "D3D12.lib")
+#pragma comment(lib, "D3D12.lib") 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -42,20 +42,20 @@ namespace DX12Utils {
         return result;
     }
 
-    void ReportLiveObjects()
+    void ReportLiveObjectsUtils()
     {
-        // Obtenez une instance de l'interface de débogage DirectX
+        // Obtenez une instance de l'interface de dï¿½bogage DirectX
         IDXGIDebug1* dxgiDebug;
         HRESULT hr = DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug));
         if (SUCCEEDED(hr))
         {
             // Appeler ReportLiveObjects()
             dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-            dxgiDebug->Release(); // N'oubliez pas de libérer l'interface après utilisation
+            dxgiDebug->Release(); // N'oubliez pas de libï¿½rer l'interface aprï¿½s utilisation
         }
         else
         {
-            // Gérer l'échec de l'obtention de l'interface de débogage
+            // Gï¿½rer l'ï¿½chec de l'obtention de l'interface de dï¿½bogage
         }
     }
 
