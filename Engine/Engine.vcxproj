@@ -101,6 +101,7 @@
     <ClCompile Include="Source\DirectX12\d3dApp.cpp" />
     <ClCompile Include="Source\DirectX12\d3dUtil.cpp" />
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
+    <ClCompile Include="Source\DirectX12\DX.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Source\DirectX12\d3dUtil.h" />
     <ClInclude Include="Source\DirectX12\d3dx12.h" />
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />
+    <ClInclude Include="Source\DirectX12\DX.h" />
     <ClInclude Include="Source\DirectX12\DX12Camera.h" />
     <ClInclude Include="Source\DirectX12\dx12Inst.h" />
     <ClInclude Include="Source\DirectX12\GameTimer.h" />
