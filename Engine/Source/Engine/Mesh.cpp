@@ -13,19 +13,19 @@ Mesh::~Mesh()
 
 void Mesh::InitializeMesh(DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3)
 {
-	m_VertexBuffer.push_back({ vertex1 });
-	m_VertexBuffer.push_back({ vertex2 });
-	m_VertexBuffer.push_back({ vertex3 });
+	m_Vertices.push_back({ vertex1 });
+    m_Vertices.push_back({ vertex2 });
+    m_Vertices.push_back({ vertex3 });
 
-	m_VertexBufferSize = sizeof(m_VertexBuffer);
+	m_VerticesSize = sizeof(m_Vertices);
 }
 
-vector<Vertex> Mesh::GetBuffer()
+UINT* Mesh::GetVerticesSize()
 {
-	return m_VertexBuffer;
+	return &m_VerticesSize;
 }
 
-UINT Mesh::GetBufferSize()
+vector<Vertex>* Mesh::GetVertices()
 {
-	return m_VertexBufferSize;
+    return &m_Vertices;
 }
