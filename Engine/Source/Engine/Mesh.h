@@ -19,9 +19,9 @@ private:
 
     string m_Name;
 
-    vector<Vertex> m_VertexBuffer;
+    vector<Vertex> m_Vertices;
 
-    UINT m_VertexBufferSize;
+    UINT m_VerticesSize;
 
 public:
 
@@ -31,7 +31,7 @@ public:
 
     void InitializeMesh(DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3);
 
-    vector<Vertex> GetBuffer();
+    UINT* GetVerticesSize();
 
-    UINT GetBufferSize();
+    vector<Vertex>* GetVertices();
 };

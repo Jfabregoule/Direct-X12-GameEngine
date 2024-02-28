@@ -388,16 +388,15 @@ public:
         CheckSucceeded(hresult);
 
         D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
-        float clear_color[4] = { 0.18f, 0.18f, 0.18f, 1.0f };
+        float clear_color[4] = { 0.3f, 0.3f, 0.3f, 1.0f };
 
         auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
         command_list->ResourceBarrier(1, &transitionToRenderTarget);
 
         command_list->RSSetViewports(1, &viewport);
-        //command_list->RSSetScissorRects(1, &scissor);
+        command_list->RSSetScissorRects(1, &scissor);
         command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
 
-        // Set pipeline state and root signature
         // Set pipeline state and root signature
         command_list->SetGraphicsRootSignature(root_signature);
         command_list->SetPipelineState(pipeline_state);
@@ -431,6 +430,7 @@ public:
 
         swap_chain->Present(1, 0);
     }
+
 
     VOID ReleaseFrame() {
         for (int i = 0; i < FRAMES; ++i) {
