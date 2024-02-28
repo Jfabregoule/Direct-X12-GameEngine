@@ -67,8 +67,8 @@ public:
             GameRunning = window->IsRunning();
         }
         DX12Inst.ReleaseFrame();
-        DX12Utils::ReportLiveObjects();
-        DX12Inst.ReleasePipeline();
+        DX12Utils::ReportLiveObjectsUtils();
+        DX12Inst.ReleasePipeline(); 
         DX12Inst.Cleanup();
     };
 

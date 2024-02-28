@@ -154,9 +154,6 @@
     <ClCompile Include="Source\Engine\Mesh.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\DirectX12Utils.cpp">
-      <Filter>Source\Engine\Private</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
