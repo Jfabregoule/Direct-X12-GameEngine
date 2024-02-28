@@ -107,7 +107,6 @@
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
-    <ClCompile Include="Source\Engine\DirectX12Utils.cpp" />
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
