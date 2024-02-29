@@ -3,9 +3,6 @@
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
 
-struct Vertex {
-    DirectX::XMFLOAT3 position;
-};
 
 Vertex vertices[] = {
     {DirectX::XMFLOAT3(0.0f, 0.5f, 0.0f)},   // Vertex 0
@@ -168,11 +165,11 @@ public:
         HRESULT hresult;
 
         // Define root parameters
-        CD3DX12_ROOT_PARAMETER rootParameters[1];
+        CD3DX12_ROOT_PARAMETER rootParameters[1] = {};
         rootParameters[0].InitAsConstantBufferView(0); // Assuming your constant buffer view is in register b0
 
         // Create a root signature descriptor
-        CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
+        CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
         rootSignatureDesc.Init(1, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
         // Serialize the root signature

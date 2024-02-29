@@ -16,7 +16,7 @@ struct Vertex {
 
 class ENGINE_API Mesh
 {
-private:
+protected:
 
     string m_Name;
 
@@ -40,10 +40,10 @@ public:
     * |----------------------------------------------
     */
 
-    Mesh(string name);
+    Mesh();
     ~Mesh();
 
-    void InitializeMesh(DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3);
+    void InitializeMesh(ID3D12Device* device, DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3);
     void CreateVertexBuffer(ID3D12Device* device);
     void CreateIndexBuffer(ID3D12Device* device);
     void CreateVertexBufferView(ID3D12Device* device);
@@ -81,5 +81,7 @@ public:
 
     const Vertex* ConvertVertexConst(vector<Vertex> vertices);
     const UINT* ConvertIndexConst(vector<UINT> index);
+
+    void CleanUpMeshResources();
     
 };

@@ -1,9 +1,9 @@
 #include "Engine.h"
 #include "Mesh.h"
 
-Mesh::Mesh(string name)
+Mesh::Mesh()
 {
-	m_Name = name;
+    m_Name = "mesh";
 }
 
 Mesh::~Mesh()
@@ -11,7 +11,7 @@ Mesh::~Mesh()
 	
 }
 
-void Mesh::InitializeMesh(DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3)
+void Mesh::InitializeMesh(ID3D12Device* device,DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3)
 {
 	m_Vertices.push_back({ vertex1 });
     m_Vertices.push_back({ vertex2 });
@@ -19,6 +19,12 @@ void Mesh::InitializeMesh(DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, 
 
     m_VertexSize = sizeof(vertex1);
 	m_VerticesCount = sizeof(m_Vertices);
+
+    CreateVertexBuffer(device);
+    CreateIndexBuffer(device);
+    CreateVertexBufferView(device);
+    CreateIndexBufferView(device);
+
 }
 
 void Mesh::CreateVertexBuffer(ID3D12Device* device) {
@@ -36,7 +42,7 @@ void Mesh::CreateVertexBuffer(ID3D12Device* device) {
     );
 
     // Remplir le tampon de ressources avec les données des vertices
-    UINT8* pVertexDataBegin;
+    UINT8* pVertexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
     memcpy(pVertexDataBegin, ConvertVertexConst(m_Vertices), m_VertexSize * m_VerticesCount);
@@ -61,7 +67,7 @@ void Mesh::CreateIndexBuffer(ID3D12Device* device) {
     );
 
     // Remplir le tampon de ressources avec les données des indices
-    UINT8* pIndexDataBegin;
+    UINT8* pIndexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_IndicesBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
     memcpy(pIndexDataBegin, ConvertIndexConst(m_Indices), m_IndexCount * m_IndexSize);
@@ -98,3 +104,23 @@ const Vertex* Mesh::ConvertVertexConst(vector<Vertex> vertices) {
 const UINT* Mesh::ConvertIndexConst(vector<UINT> index) {
     return index.data();
 };
+
+void Mesh::CleanUpMeshResources() {
+    // Libérer les ressources du vertex buffer
+    if (m_VertexBuffer != nullptr) {
+        m_VertexBuffer->Release();
+        m_VertexBuffer = nullptr;
+    }
+
+    // Libérer les ressources de l'index buffer
+    if (m_IndicesBuffer != nullptr) {
+        m_IndicesBuffer->Release();
+        m_IndicesBuffer = nullptr;
+    }
+
+    // Autres ressources à libérer, comme des textures, des buffers de constantes, etc.
+
+    // Réinitialiser les vues de tampon
+    ZeroMemory(&m_VertexBufferView, sizeof(D3D12_VERTEX_BUFFER_VIEW));
+    ZeroMemory(&m_IndexBufferView, sizeof(D3D12_INDEX_BUFFER_VIEW));
+}
