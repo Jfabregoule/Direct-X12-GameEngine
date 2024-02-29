@@ -101,13 +101,16 @@
     <ClCompile Include="Source\DirectX12\d3dApp.cpp" />
     <ClCompile Include="Source\DirectX12\d3dUtil.cpp" />
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
+    <ClCompile Include="Source\DirectX12\DX.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
+    <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\Mesh.cpp" />
+    <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
@@ -141,6 +144,7 @@
     <ClInclude Include="Source\Engine\DirectX12Utils.h" />
     <ClInclude Include="Source\Engine\Entity.h" />
     <ClInclude Include="Source\Engine\Mesh.h" />
+    <ClInclude Include="Source\Engine\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\OEngine.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />

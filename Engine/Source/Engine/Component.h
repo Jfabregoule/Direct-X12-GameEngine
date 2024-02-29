@@ -6,15 +6,15 @@ using namespace std;
 
 class Component
 {
-private:
+protected:
 
 	string m_Name;
 
 public:
 
-	Component(string name);
+	Component();
 
-	~Component();
+	virtual ~Component();
 
 	string GetName() { return m_Name; };
 

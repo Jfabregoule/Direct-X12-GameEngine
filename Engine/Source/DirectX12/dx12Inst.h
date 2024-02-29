@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
+#include "Engine/Entity.h"
 
 struct Vertex {
     DirectX::XMFLOAT3 position;
@@ -69,131 +70,19 @@ public:
     D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
     Microsoft::WRL::ComPtr<ID3D12Resource> vertexBuffer;
 
-    DX12Camera camera;
+    Entity* m_pMainCamera;
 
-    VOID MoveCamera(float dx, float dy, float dz) {
-        // Mettre à jour la position de la caméra
-        camera.position.x += dx;
-        camera.position.y += dy;
-        camera.position.z += dz;
+    std::vector <Entity*> m_ListEntities;
 
-        // Mettre à jour la matrice de vue avec la nouvelle position
-        camera.UpdateViewMatrix(dx, dy, dz);
-    }
+    Entity* EntityTest = new Entity();
 
-    VOID InitCamera() {
-        // Calculer la matrice de vue à partir de la position, de la cible et du vecteur haut de la caméra
-        DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&camera.position);
-        DirectX::XMVECTOR tgt = DirectX::XMLoadFloat3(&camera.target);
-        DirectX::XMVECTOR up = DirectX::XMLoadFloat3(&camera.up);
+    /*
+   * |-------------------------------------------------
+   * |						Init						|
+   * |-------------------------------------------------
+   */
 
-        // Créer une matrice de projection
-        float aspectRatio = viewport.Width / viewport.Height;
-        DirectX::XMMATRIX projMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, aspectRatio, 0.01f, 1000.0f); // Ajustez les plans de coupure près et loin selon votre scène
-
-        // Stocker la matrice de vue et de projection dans le constant buffer de la caméra
-        DirectX::XMStoreFloat4x4(&camera.viewMatrix, DirectX::XMMatrixLookAtLH(pos, tgt, up));
-        DirectX::XMStoreFloat4x4(&camera.projectionMatrix, projMatrix);
-    }
-
-    VOID UpdateCamera(float dx, float dy, float dz) {
-        camera.UpdateViewMatrix(dx, dy, dz);
-    }
-
-    VOID BuildBoxGeometry() {
-        // Create vertex buffer
-        const UINT vertexBufferSize = sizeof(vertices);
-        CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_UPLOAD);
-        CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
-        device->CreateCommittedResource(
-            &heapProperties,
-            D3D12_HEAP_FLAG_NONE,
-            &resourceDesc,
-            D3D12_RESOURCE_STATE_GENERIC_READ,
-            nullptr,
-            IID_PPV_ARGS(&vertexBuffer)
-        );
-
-        // Upload vertex data to the vertex buffer
-        UINT8* pVertexDataBegin;
-        CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU
-        vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
-        memcpy(pVertexDataBegin, vertices, sizeof(vertices));
-        vertexBuffer->Unmap(0, nullptr);
-
-        // Initialize the vertex buffer view
-        vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
-        vertexBufferView.StrideInBytes = sizeof(Vertex);
-        vertexBufferView.SizeInBytes = sizeof(vertices);
-    }
-
-    VOID Cleanup() {
-        // Libérer les objets de chaque trame
-        for (int i = 0; i < FRAMES; ++i) {
-            if (command_allocators[i]) {
-                command_allocators[i]->Release();
-                command_allocators[i] = nullptr;
-            }
-            if (render_target_buffers[i]) {
-                render_target_buffers[i]->Release();
-                render_target_buffers[i] = nullptr;
-            }
-            if (fence[i]) {
-                fence[i]->Release();
-                fence[i] = nullptr;
-            }
-            if (fence_event[i]) {
-                CloseHandle(fence_event[i]);
-                fence_event[i] = nullptr;
-            }
-        }
-
-        // Libérer le reste des objets
-        if (render_target_descriptor_heap) {
-            render_target_descriptor_heap->Release();
-            render_target_descriptor_heap = nullptr;
-        }
-        if (root_signature) {
-            root_signature->Release();
-            root_signature = nullptr;
-        }
-        if (swap_chain) {
-            swap_chain->Release();
-            swap_chain = nullptr;
-        }
-        if (graphics_command_queue) {
-            graphics_command_queue->Release();
-            graphics_command_queue = nullptr;
-        }
-        if (device) {
-            device->Release();
-            device = nullptr;
-        }
-        if (dxgi_factory) {
-            dxgi_factory->Release();
-            dxgi_factory = nullptr;
-        }
-        if (debug_interface) {
-            debug_interface->Release();
-            debug_interface = nullptr;
-        }
-        if (command_list) {
-            command_list.Reset();
-        }
-        if (pipeline_state) {
-            pipeline_state->Release();
-            pipeline_state = nullptr;
-        }
-        if (vertex_shader) {
-            vertex_shader->Release();
-            vertex_shader = nullptr;
-        }
-        if (pixel_shader) {
-            pixel_shader->Release();
-            pixel_shader = nullptr;
-        }
-    }
-
+#pragma region Init
 
     VOID InitGraphics() {
         HRESULT hresult;
@@ -273,20 +162,6 @@ public:
             CheckSucceeded(hresult);
         }
         OutputDebugString(L"Render target buffers initialized.\n");
-    }
-
-    VOID InitShaders() {
-        HRESULT hresult;
-
-        UINT compiler_flags = D3DCOMPILE_DEBUG;
-
-        hresult = DX12Utils::CompileShader(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &vertex_shader);
-        CheckSucceeded(hresult);
-        OutputDebugString(L"Vertex shader compiled.\n");
-
-        hresult = DX12Utils::CompileShader(L".\\Content\\Shaders\\shader.hlsl", "ps_main", "ps_5_0", &pixel_shader);
-        CheckSucceeded(hresult);
-        OutputDebugString(L"Pixel shader compiled.\n");
     }
 
     VOID InitRootSignature() {
@@ -376,59 +251,45 @@ public:
         OutputDebugString(L"Pipeline state created.\n");
     }
 
-
-
-    VOID RenderFrame() {
-        UINT frame = swap_chain->GetCurrentBackBufferIndex();
-
-        command_allocators[frame]->Reset();
-        command_list.Reset();
-
-        HRESULT hresult = device->CreateCommandList(0, graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
-        CheckSucceeded(hresult);
-
-        D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
-        float clear_color[4] = { 0.3f, 0.3f, 0.3f, 1.0f };
-
-        auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-        command_list->ResourceBarrier(1, &transitionToRenderTarget);
-
-        command_list->RSSetViewports(1, &viewport);
-        command_list->RSSetScissorRects(1, &scissor);
-        command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
-
-        // Set pipeline state and root signature
-        command_list->SetGraphicsRootSignature(root_signature);
-        command_list->SetPipelineState(pipeline_state);
-
-        command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        // Apply camera's view matrix
-        command_list->SetGraphicsRootConstantBufferView(0, camera.GetViewMatrixGpuAddress(camera.viewMatrix));
-        command_list->SetGraphicsRootConstantBufferView(1, camera.GetProjectionMatrixGpuAddress(camera.projectionMatrix));
-
-        command_list->IASetVertexBuffers(0, 1, &vertexBufferView);
-
-        // Draw the triangle built by BuildBoxGeometry
-        command_list->OMSetRenderTargets(1, &current_render_target_descriptor, 0, 0);
-        command_list->DrawInstanced(3, 1, 0, 0);
-
-        auto transitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-        command_list->ResourceBarrier(1, &transitionToPresent);
-
-        command_list->Close();
-        ID3D12CommandList* command_lists[] = { command_list.Get() };
-        graphics_command_queue->ExecuteCommandLists(_countof(command_lists), command_lists);
-
-        fence_value[frame]++;
-        graphics_command_queue->Signal(fence[frame], fence_value[frame]);
-
-        if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
-            fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
-            WaitForSingleObject(fence_event[frame], INFINITE);
+    VOID CreateFencesAndEvents() {
+        for (int i = 0; i < FRAMES; ++i) {
+            HRESULT hresult = device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
+            CheckSucceeded(hresult);
+            fence_event[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+            if (fence_event[i] == nullptr) {
+                // Handle event creation failure
+            }
         }
+        OutputDebugString(L"Fences and events created.\n");
+    }
 
-        swap_chain->Present(1, 0);
+#pragma endregion
+
+    /*
+   * |-------------------------------------------------
+   * |						Methods 					|
+   * |-------------------------------------------------
+   */
+
+    VOID RenderFrame();
+    VOID Draw(Entity* entity);
+    VOID DrawAll();
+    VOID SetBackground(float r, float g, float b, float a = 1.0f);
+
+    /*
+   * |-------------------------------------------------
+   * |						Clean Up 					|
+   * |-------------------------------------------------
+   */
+
+#pragma region Clean Up
+
+    VOID ReleasePipeline() {
+        if (pipeline_state) {
+            pipeline_state->Release();
+            pipeline_state = nullptr;
+        }
+        OutputDebugString(L"Pipeline state released.\n");
     }
 
 
@@ -445,23 +306,75 @@ public:
         }
     }
 
-    VOID ReleasePipeline() {
+    VOID Cleanup() {
+        // Libérer les objets de chaque trame
+        for (int i = 0; i < FRAMES; ++i) {
+            if (command_allocators[i]) {
+                command_allocators[i]->Release();
+                command_allocators[i] = nullptr;
+            }
+            if (render_target_buffers[i]) {
+                render_target_buffers[i]->Release();
+                render_target_buffers[i] = nullptr;
+            }
+            if (fence[i]) {
+                fence[i]->Release();
+                fence[i] = nullptr;
+            }
+            if (fence_event[i]) {
+                CloseHandle(fence_event[i]);
+                fence_event[i] = nullptr;
+            }
+        }
+
+        // Libérer le reste des objets
+        if (render_target_descriptor_heap) {
+            render_target_descriptor_heap->Release();
+            render_target_descriptor_heap = nullptr;
+        }
+        if (root_signature) {
+            root_signature->Release();
+            root_signature = nullptr;
+        }
+        if (swap_chain) {
+            swap_chain->Release();
+            swap_chain = nullptr;
+        }
+        if (graphics_command_queue) {
+            graphics_command_queue->Release();
+            graphics_command_queue = nullptr;
+        }
+        if (device) {
+            device->Release();
+            device = nullptr;
+        }
+        if (dxgi_factory) {
+            dxgi_factory->Release();
+            dxgi_factory = nullptr;
+        }
+        if (debug_interface) {
+            debug_interface->Release();
+            debug_interface = nullptr;
+        }
+        if (command_list) {
+            command_list.Reset();
+        }
         if (pipeline_state) {
             pipeline_state->Release();
             pipeline_state = nullptr;
         }
-        OutputDebugString(L"Pipeline state released.\n");
+        if (vertex_shader) {
+            vertex_shader->Release();
+            vertex_shader = nullptr;
+        }
+        if (pixel_shader) {
+            pixel_shader->Release();
+            pixel_shader = nullptr;
+        }
     }
 
-    VOID CreateFencesAndEvents() {
-        for (int i = 0; i < FRAMES; ++i) {
-            HRESULT hresult = device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
-            CheckSucceeded(hresult);
-            fence_event[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-            if (fence_event[i] == nullptr) {
-                // Handle event creation failure
-            }
-        }
-        OutputDebugString(L"Fences and events created.\n");
-    }
+#pragma endregion
+
 };
+
+

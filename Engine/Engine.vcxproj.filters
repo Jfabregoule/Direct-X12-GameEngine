@@ -136,14 +136,10 @@
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Component.cpp">
-      <Filter>Source\Engine\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Entity.cpp">
-      <Filter>Source\Engine\Private</Filter>
+    <ClCompile Include="Source\DirectX12\DX.cpp">
+      <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Component.cpp" />
-    <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\DirectX12\d3dApp.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
@@ -158,6 +154,18 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX12\GameTimer.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entity.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Mesh.cpp">
+      <Filter>Source\DirectX12\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\MeshRenderer.cpp">
+      <Filter>Source\Engine\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,25 +229,10 @@
     <ClInclude Include="Source\DirectX12\Camera.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dApp.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dUtil.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dx12.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GameTimer.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\MathHelper.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\UploadBuffer.h">
@@ -251,13 +244,32 @@
     <ClInclude Include="Source\DirectX12\DX12Camera.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Component.h">
-      <Filter>Source\Engine\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Entity.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Component.h" />
-    <ClInclude Include="Source\Engine\Entity.h" />
+    <ClInclude Include="Source\Engine\Component.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\d3dApp.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\MathHelper.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\GameTimer.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Mesh.h">
+      <Filter>Source\DirectX12\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\MeshRenderer.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
