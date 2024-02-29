@@ -39,7 +39,7 @@ void Mesh::CreateVertexBuffer(ID3D12Device* device) {
     UINT8* pVertexDataBegin;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
-    memcpy(pVertexDataBegin, ConvertVectorConst(m_Vertices), m_VertexSize * m_VerticesCount);
+    memcpy(pVertexDataBegin, ConvertVertexConst(m_Vertices), m_VertexSize * m_VerticesCount);
     m_VertexBuffer->Unmap(0, nullptr);
 
     return;
@@ -64,7 +64,7 @@ void Mesh::CreateIndexBuffer(ID3D12Device* device) {
     UINT8* pIndexDataBegin;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_IndicesBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
-    memcpy(pIndexDataBegin, indices, indexCount * indexSize);
+    memcpy(pIndexDataBegin, ConvertIndexConst(m_Indices), m_IndexCount * m_IndexSize);
     m_IndicesBuffer->Unmap(0, nullptr);
 
     return;
@@ -74,9 +74,9 @@ void Mesh::CreateVertexBufferView(ID3D12Device* device)
 {
  
     // Remplir la structure D3D12_VERTEX_BUFFER_VIEW
-    m_VertexBufferView.BufferLocation = m_Vertices.GetGPUVirtualAddress(); // Adresse virtuelle du vertex buffer
-    m_VertexBufferView.SizeInBytes = m_vertexBufferData.vertexCount * m_vertexBufferData.stride; // Taille totale du vertex buffer en octets
-    m_VertexBufferView.StrideInBytes = m_vertexBufferData.stride; // Taille d'un vertex en octets
+    m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress(); // Adresse virtuelle du vertex buffer
+    m_VertexBufferView.SizeInBytes = m_VerticesCount * m_VertexSize; // Taille totale du vertex buffer en octets
+    m_VertexBufferView.StrideInBytes = m_VertexSize; // Taille d'un vertex en octets
 
     return;
 }
@@ -84,13 +84,17 @@ void Mesh::CreateVertexBufferView(ID3D12Device* device)
 void Mesh::CreateIndexBufferView(ID3D12Device* device)
 {
     // Remplir la structure D3D12_INDEX_BUFFER_VIEW
-    m_IndexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress(); // Adresse virtuelle de l'index buffer
+    m_IndexBufferView.BufferLocation = m_IndicesBuffer->GetGPUVirtualAddress(); // Adresse virtuelle de l'index buffer
     m_IndexBufferView.Format = DXGI_FORMAT_R32_UINT; // Format des indices (par exemple, 32 bits non signés)
-    m_IndexBufferView.SizeInBytes = sizeof(UINT) * m_indexBufferData.indexCount; // Taille totale de l'index buffer en octets
+    m_IndexBufferView.SizeInBytes = m_IndexCount * m_IndexSize; // Taille totale de l'index buffer en octets
 
     return;
 };
 
-const Vertex* Mesh::ConvertVectorConst(vector<Vertex> vertices) {
+const Vertex* Mesh::ConvertVertexConst(vector<Vertex> vertices) {
     return vertices.data();
+};
+
+const UINT* Mesh::ConvertIndexConst(vector<UINT> index) {
+    return index.data();
 };
