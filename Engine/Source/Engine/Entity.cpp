@@ -1,7 +1,18 @@
 #include "Engine/Entity.h"
 #include <vector>
+#include "Platform/Win32/d3dx12.h"
+#include "DirectX12/MathHelper.h"
 
 class Component;
+class MeshRenderer;
+
+#ifndef Vertex
+
+struct Vertex {
+	DirectX::XMFLOAT3 position;
+};
+
+#endif
 
 Entity::Entity() {
 	m_ListComponent = {};
@@ -32,3 +43,7 @@ Component* Entity::GetComponentByName(std::string name) {
 		}
 	}
 }
+
+void Entity::SetMeshRenderer(Vertex Vertices) {
+	m_ListComponent.push_back(new MeshRenderer(Vertices));
+};

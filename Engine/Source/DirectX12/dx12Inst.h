@@ -1,12 +1,11 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
+#include "Engine/Entity.h"
 
 struct Vertex {
     DirectX::XMFLOAT3 position;
 };
-
-class Entity;
 
 Vertex vertices[] = {
     {DirectX::XMFLOAT3(0.0f, 0.5f, 0.0f)},   // Vertex 0
@@ -74,6 +73,8 @@ public:
     Entity* m_pMainCamera;
 
     std::vector <Entity*> m_ListEntities;
+
+    Entity* EntityTest = new Entity();
 
     /*
    * |-------------------------------------------------

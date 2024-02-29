@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "Engine/Component.h"
 
 struct Transform {};
-class Component;
 
 class Entity {
 public:
@@ -32,4 +32,5 @@ public:
 	void SetScale();
 
 	Component* GetComponentByName(std::string name);
+	void SetMeshRenderer(Vertex Vertices);
 };
