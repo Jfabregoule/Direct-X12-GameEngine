@@ -27,9 +27,9 @@ public:
 	Entity();
 	~Entity();
 
-	void SetPosition();
-	void SetRotate();
-	void SetScale();
+	void SetPosition(float positionX, float positionY, float positionZ);
+	void SetRotate(float yaw, float pitch, float roll);
+	void SetScale(float scaleX, float scaleY, float scaleZ);
 
 	Component* GetComponentByName(std::string name);
 	void SetMeshRenderer(Vertex Vertices);
