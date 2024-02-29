@@ -1,3 +1,4 @@
+#include "Engine.h"
 #include "Transform.h"
 
 //#define IDENTITY {1,0,0,0,    0,1,0,0,    0,0,1,0,    0,0,0,1};
@@ -81,9 +82,9 @@ void Transform::Rotate(float yaw, float pitch, float roll) {
 
 
 
-void Transform::Translate(float postionX, float positionY, float positionZ) {
+void Transform::Translate(float positionX, float positionY, float positionZ) {
     // Vector
-    m_VectorPosition.x += postionX;
+    m_VectorPosition.x += positionX;
     m_VectorPosition.y += positionY;
     m_VectorPosition.z += positionZ;
 
