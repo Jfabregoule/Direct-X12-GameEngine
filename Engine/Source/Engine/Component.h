@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 
-
 class Component
 {
 protected:
