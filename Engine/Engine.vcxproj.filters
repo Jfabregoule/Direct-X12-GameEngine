@@ -167,6 +167,9 @@
     <ClCompile Include="Source\Engine\MeshRenderer.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\transform.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -269,6 +272,9 @@
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\MeshRenderer.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\transform.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
   </ItemGroup>

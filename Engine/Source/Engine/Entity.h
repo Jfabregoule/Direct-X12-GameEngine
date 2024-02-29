@@ -2,8 +2,7 @@
 #include <vector>
 #include <string>
 #include "Engine/Component.h"
-
-struct Transform {};
+#include "Engine/transform.h"
 
 class Entity {
 public:
