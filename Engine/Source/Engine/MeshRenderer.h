@@ -9,14 +9,16 @@ class Shader;
 class MeshRenderer : public Component {
 private:
 
-	Mesh* m_pMesh;
+	Mesh* m_pMesh = nullptr;
 	Texture* m_pTexture = nullptr;
-	Shader* m_pShader;
+	Shader* m_pShader = nullptr;
 	string m_Name = "mesh_renderer";
 
 public:
 
 	MeshRenderer();
+	~MeshRenderer();
+	
 
 	/*
 	|---------------------------------------------------------------
@@ -38,5 +40,5 @@ public:
 	|---------------------------------------------------------------
 	*/
 
-
+	void InitMeshRenderer();
 };

@@ -3,6 +3,7 @@
 #include <string>
 #include "Engine/Component.h"
 #include "Engine/transform.h"
+#include "DirectX12/d3dUtil.h"
 
 class Entity {
 public:
@@ -26,9 +27,9 @@ public:
 	Entity();
 	~Entity();
 
-	void SetPosition();
-	void SetRotate();
-	void SetScale();
+	void Translate(float postionX, float positionY, float positionZ);
+	void Rotate(float yaw, float pitch, float roll);
+	void Scale(float scaleX, float scaleY, float scaleZ);
 
 	Component* GetComponentByName(std::string name);
 	void SetMeshRenderer(Vertex Vertices);

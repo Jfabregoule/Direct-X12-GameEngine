@@ -2,17 +2,7 @@
 #include <vector>
 #include "Platform/Win32/d3dx12.h"
 #include "DirectX12/MathHelper.h"
-
-class Component;
-class MeshRenderer;
-
-#ifndef Vertex
-
-struct Vertex {
-	DirectX::XMFLOAT3 position;
-};
-
-#endif
+#include "Engine/MeshRenderer.h"
 
 Entity::Entity() {
 	m_ListComponent = {};
@@ -24,26 +14,30 @@ Entity::~Entity() {
 
 };
 
-void Entity::SetPosition() {
-	m_Transform.SetPosition();
+void Entity::Translate(float postionX, float positionY, float positionZ) {
+	m_Transform.Translate(postionX, positionY, positionZ);
 };
 
-void Entity::SetRotate() {
-	m_Transform.SetRotate();
+void Entity::Rotate(float yaw, float pitch, float roll) {
+	m_Transform.Rotate(yaw,pitch,roll);
 };
 
-void Entity::SetScale() {
-	m_Transform.SetScale();
+void Entity::Scale(float scaleX, float scaleY, float scaleZ) {
+	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
 Component* Entity::GetComponentByName(std::string name) {
 	for (int i = 0; i < m_ListComponent.size(); i++) {
-		if (m_ListComponent[i].m_Name == name) {
+		if (m_ListComponent[i]->GetName() == name) {
 			return m_ListComponent[i];
 		}
 	}
+	return nullptr;
 }
 
 void Entity::SetMeshRenderer(Vertex Vertices) {
-	m_ListComponent.push_back(new MeshRenderer(Vertices));
+	if (GetComponentByName("mesh_renderer") == nullptr) {
+		m_ListComponent.push_back(new MeshRenderer());
+
+	}
 };
