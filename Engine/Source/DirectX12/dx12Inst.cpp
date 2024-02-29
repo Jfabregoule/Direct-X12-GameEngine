@@ -112,8 +112,11 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     command_list->SetGraphicsRootConstantBufferView(0, m_pMainCamera->GetComponentByName("Camera").GetViewMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").viewMatrix));
     command_list->SetGraphicsRootConstantBufferView(1, m_pMainCamera->GetComponentByName("Camera").camera.GetProjectionMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").projectionMatrix));
 
-    command_list->IASetVertexBuffers(0, 1, &mesh_renderer->GetMesh()->GetVertexBufferView());
-    command_list->IASetIndexBuffer(&mesh_renderer->GetMesh()->GetIndexBufferView());
+    auto vertexbufftemp = mesh_renderer->GetMesh()->GetVertexBufferView();
+    auto Indexbufftemp = mesh_renderer->GetMesh()->GetIndexBufferView();
+
+    command_list->IASetVertexBuffers(0, 1, &vertexbufftemp);
+    command_list->IASetIndexBuffer(&Indexbufftemp);
 
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

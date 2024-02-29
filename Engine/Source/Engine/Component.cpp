@@ -8,5 +8,5 @@ Component::Component()
 
 Component::~Component()
 {
-	cout << "Destroying component : " << m_Name;
+	std::cout << "Destroying component : " << m_Name;
 }

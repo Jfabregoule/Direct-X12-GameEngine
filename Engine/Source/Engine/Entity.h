@@ -3,6 +3,7 @@
 #include <string>
 #include "Engine/Component.h"
 #include "Engine/transform.h"
+#include "Engine/DirectX12Utils.h"
 
 class Entity {
 public:

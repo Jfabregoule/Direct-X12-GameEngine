@@ -3,10 +3,6 @@
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
 
-struct Vertex {
-    DirectX::XMFLOAT3 position;
-};
-
 Vertex vertices[] = {
     {DirectX::XMFLOAT3(0.0f, 0.5f, 0.0f)},   // Vertex 0
     {DirectX::XMFLOAT3(0.5f, -0.5f, 0.0f)},  // Vertex 1

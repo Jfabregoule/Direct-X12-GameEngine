@@ -6,14 +6,6 @@
 class Component;
 class MeshRenderer;
 
-#ifndef Vertex
-
-struct Vertex {
-	DirectX::XMFLOAT3 position;
-};
-
-#endif
-
 Entity::Entity() {
 	m_ListComponent = {};
 	m_Parent = nullptr;

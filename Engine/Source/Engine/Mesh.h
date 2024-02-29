@@ -2,17 +2,10 @@
 #include "Engine.h"
 #include "Platform/Win32/d3dx12.h"
 #include "DirectX12/MathHelper.h"
+#include "Engine/DirectX12Utils.h"
 
 using namespace std;
 using Microsoft::WRL::ComPtr;
-
-#ifndef Vertex
-
-struct Vertex {
-    DirectX::XMFLOAT3 position;
-};
-
-#endif
 
 class ENGINE_API Mesh
 {
