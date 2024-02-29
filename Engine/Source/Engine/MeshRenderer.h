@@ -7,13 +7,36 @@ class Texture;
 class Shader;
 
 class MeshRenderer : public Component {
-public:
+private:
 
 	Mesh* m_pMesh;
 	Texture* m_pTexture = nullptr;
-	Shader* m_pShader = nullptr;
+	Shader* m_pShader;
+	string m_Name = "mesh_renderer";
 
+public:
 
 	MeshRenderer();
+
+	/*
+	|---------------------------------------------------------------
+	|						Getter/Setter							|
+	|---------------------------------------------------------------
+	*/
+
+	Mesh* GetMesh() { return m_pMesh; };
+	Texture* GetTexture() { return m_pTexture; };
+	Shader* GetShader() { return m_pShader; };
+
+	void SetMesh(Mesh* mesh) { m_pMesh = mesh; };
+	void SetTexture(Texture* texture) { m_pTexture = texture; };
+	void SetShader(Shader* shader) { m_pShader = shader; };
+
+	/*
+	|---------------------------------------------------------------
+	|							Methods								|
+	|---------------------------------------------------------------
+	*/
+
 
 };

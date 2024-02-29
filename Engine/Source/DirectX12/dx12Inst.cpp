@@ -102,18 +102,24 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(entity->GetComponentByName("mesh_renderer"));
 
+    if (mesh_renderer == nullptr)
+        return; // Vérifie si le mesh renderer est valide
+
+    UINT frame = swap_chain->GetCurrentBackBufferIndex();
+    D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
+
     // Apply camera's view matrix
     command_list->SetGraphicsRootConstantBufferView(0, m_pMainCamera->GetComponentByName("Camera").GetViewMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").viewMatrix));
     command_list->SetGraphicsRootConstantBufferView(1, m_pMainCamera->GetComponentByName("Camera").camera.GetProjectionMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").projectionMatrix));
 
-    command_list->IASetVertexBuffers(0, 1, &(mesh_renderer->m_pMesh->m_vertexBufferView));
-    command_list->IASetIndexBuffer(&(mesh_renderer->m_indexBufferView));
+    command_list->IASetVertexBuffers(0, 1, &mesh_renderer->GetMesh()->m_vertexBufferView);
+    command_list->IASetIndexBuffer(&mesh_renderer->GetMesh()->m_indexBufferView);
 
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     // Draw the triangle built by BuildBoxGeometry
-    command_list->OMSetRenderTargets(1, &current_render_target_descriptor, 0, 0);
-    command_list->DrawInstanced(mesh_renderer->m_VerticesSize, 1, 0, 0);
+    command_list->OMSetRenderTargets(1, &(current_render_target_descriptor), 0, 0);
+    command_list->DrawInstanced(*mesh_renderer->GetMesh()->GetVerticesSize(), 1, 0, 0);
 };
 
 
