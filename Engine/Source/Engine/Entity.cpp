@@ -16,21 +16,21 @@ Entity::~Entity() {
 
 };
 
-void Entity::SetPosition() {
-	m_Transform.SetPosition();
+void Entity::SetPosition(float positionX, float positionY, float positionZ) {
+	m_Transform.Translate(positionX, positionY, positionZ);
 };
 
-void Entity::SetRotate() {
-	m_Transform.SetRotate();
+void Entity::SetRotate(float yaw, float pitch, float roll) {
+	m_Transform.Rotate(yaw, pitch, roll);
 };
 
-void Entity::SetScale() {
-	m_Transform.SetScale();
+void Entity::SetScale(float scaleX, float scaleY, float scaleZ) {
+	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
 Component* Entity::GetComponentByName(std::string name) {
 	for (int i = 0; i < m_ListComponent.size(); i++) {
-		if (m_ListComponent[i].m_Name == name) {
+		if (m_ListComponent[i]->GetName() == name) {
 			return m_ListComponent[i];
 		}
 	}
