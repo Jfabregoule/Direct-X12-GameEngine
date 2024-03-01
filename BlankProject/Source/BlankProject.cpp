@@ -40,7 +40,7 @@ public:
         DirectX12Instance DX12Inst(handle);
 
         DX12Inst.InitGraphics();
-        DX12Inst.InitCamera();
+        //DX12Inst.InitCamera();
         shader.InitializeShader(DX12Inst.device);
         DX12Inst.CreateFencesAndEvents();
         //DX12Inst.BuildBoxGeometry();

@@ -158,9 +158,6 @@
     <ClCompile Include="Source\Engine\Entity.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Mesh.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\MeshRenderer.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Shader.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Mesh.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -274,9 +274,6 @@
     <ClInclude Include="Source\DirectX12\GameTimer.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Mesh.h">
-      <Filter>Source\DirectX12\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\MeshRenderer.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
@@ -293,6 +290,9 @@
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Shader.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Mesh.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
   </ItemGroup>

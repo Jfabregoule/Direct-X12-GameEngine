@@ -7,7 +7,7 @@ Shader::Shader()
 {
 	m_Device = nullptr;
 	m_HResult = S_OK;
-	m_PipelineState = nullptr;
+	m_pPipelineState = nullptr;
 	m_PipelineDesc = {};
 	m_M4XMsaaState = false;
 	m_M4XMsaaQuality = 0;
@@ -61,7 +61,7 @@ bool Shader::InitializePipelineState()
 
 	/* Define Pipeline State Description */
 	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size()};
-	m_PipelineDesc.pRootSignature = m_RootSignature.Get();
+	m_PipelineDesc.pRootSignature = m_pRootSignature;
 
 	/* Set shaders */
 	m_PipelineDesc.VS = 
@@ -97,7 +97,7 @@ bool Shader::InitializePipelineState()
 
 	/* Create the pipeline state */
 
-	m_HResult = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_PipelineState));
+	m_HResult = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState));
 	if (m_HResult != S_OK)
 	{
 		return false;
@@ -125,7 +125,7 @@ bool Shader::InitializeRootSignature()
 		0,
 		m_SerializedRootSignature->GetBufferPointer(),
 		m_SerializedRootSignature->GetBufferSize(),
-		IID_PPV_ARGS(m_RootSignature.GetAddressOf())
+		IID_PPV_ARGS(&m_pRootSignature)
 	);
 	if (m_HResult != S_OK)
 	{
