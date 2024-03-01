@@ -1,0 +1,71 @@
+#pragma once
+
+#pragma region Includes
+#include "Engine.h"
+#include "Platform/Win32/d3dx12.h"
+#include "DirectX12/MathHelper.h"
+#include <vector>
+#pragma endregion
+
+#pragma region Namespaces
+using namespace std;
+using namespace Microsoft::WRL;
+using namespace DirectX;
+#pragma endregion 
+
+const int _COUNT = 1;
+
+class ENGINE_API Shader
+{
+private:
+	#pragma region Attributes
+	ID3D12Device* m_Device;
+
+	ID3D12PipelineState* m_PipelineState;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC m_PipelineDesc;
+	ID3DBlob* m_VSByteCode = nullptr;
+	ID3DBlob* m_PSByteCode = nullptr;
+	bool m_M4XMsaaState;
+	UINT m_M4XMsaaQuality;
+
+	ComPtr<ID3D12RootSignature> m_RootSignature;
+	ComPtr<ID3DBlob> m_SerializedRootSignature;
+	ComPtr<ID3DBlob> m_ErrorBlob;
+
+	HRESULT m_HResult;
+
+	vector<D3D12_INPUT_ELEMENT_DESC> m_InputLayout;
+	#pragma endregion
+
+public:
+	#pragma region Structs
+	struct ConstantBufferStruct
+	{
+		XMFLOAT4X4 world;
+		XMFLOAT4X4 view;
+		XMFLOAT4X4 projection;
+		XMFLOAT4X4 worldViewProjMatrix;
+	};
+
+	struct VertexPositionColor
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT3 tangent;
+	};
+	#pragma endregion
+
+	Shader();
+
+	~Shader();
+
+	void InitializeShader(ID3D12Device* device);
+
+	bool InitializePipelineState();
+
+	bool InitializeRootSignature();
+
+	void Update();
+
+	void CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code);
+};

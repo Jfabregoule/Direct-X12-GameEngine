@@ -1,9 +1,9 @@
 #include "Engine.h"
 #include "Component.h"
 
-Component::Component()
+Component::Component(std::string name)
 {
-	m_Name = "default";
+	m_Name = name;
 }
 
 Component::~Component()

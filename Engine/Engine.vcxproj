@@ -113,6 +113,7 @@
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
+    <ClCompile Include="Source\Engine\Shader.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
     <ClCompile Include="Source\Engine\transform.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Source\Engine\Mesh.h" />
     <ClInclude Include="Source\Engine\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\OEngine.h" />
+    <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
     <ClInclude Include="Source\Engine\transform.h" />

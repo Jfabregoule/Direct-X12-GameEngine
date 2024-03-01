@@ -4,15 +4,15 @@
 
 class Component
 {
-protected:
+private:
 
 	std::string m_Name;
 
 public:
 
-	Component();
+	Component(std::string name);
 
-	virtual ~Component();
+	~Component();
 
 	std::string GetName() { return m_Name; };
 
