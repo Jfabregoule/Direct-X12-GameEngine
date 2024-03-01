@@ -25,15 +25,6 @@
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "dxguid.lib")
 
-struct Vertex {
-    DirectX::XMFLOAT3 position;
-};
-
-struct VertexColor {
-    DirectX::XMFLOAT3 position;
-    DirectX::XMFLOAT4 color;
-};
-
 namespace DX12Utils {
 
     void PrintCompileErrorMessages(ID3DBlob* error) {

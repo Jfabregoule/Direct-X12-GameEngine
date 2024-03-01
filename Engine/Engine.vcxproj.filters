@@ -136,9 +136,6 @@
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\DX.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Component.cpp" />
     <ClCompile Include="Source\DirectX12\d3dApp.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
@@ -171,6 +168,9 @@
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Cube.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\CubeMesh.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -282,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Cube.h">
       <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\Vertex.h">
+      <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
