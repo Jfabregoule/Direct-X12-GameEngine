@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Platform/Win32/d3dx12.h"
 #include "DirectX12/MathHelper.h"
-#include "Engine/DirectX12Utils.h"
+#include "DirectX12/Vertex.h"
 
 using namespace std;
 using Microsoft::WRL::ComPtr;

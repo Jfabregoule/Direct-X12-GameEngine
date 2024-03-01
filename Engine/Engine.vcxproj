@@ -101,7 +101,6 @@
     <ClCompile Include="Source\DirectX12\d3dApp.cpp" />
     <ClCompile Include="Source\DirectX12\d3dUtil.cpp" />
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
-    <ClCompile Include="Source\DirectX12\DX.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
@@ -109,6 +108,7 @@
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
     <ClCompile Include="Source\Engine\Cube.cpp" />
+    <ClCompile Include="Source\Engine\CubeMesh.cpp" />
     <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
@@ -141,6 +141,7 @@
     <ClInclude Include="Source\DirectX12\GeometryGenerator.h" />
     <ClInclude Include="Source\DirectX12\MathHelper.h" />
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
+    <ClInclude Include="Source\DirectX12\Vertex.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Engine\Component.h" />
     <ClInclude Include="Source\Engine\Cube.h" />

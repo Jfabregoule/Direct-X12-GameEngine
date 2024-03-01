@@ -25,10 +25,6 @@
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "dxguid.lib")
 
-struct Vertex {
-    DirectX::XMFLOAT3 position;
-};
-
 namespace DX12Utils {
 
     void PrintCompileErrorMessages(ID3DBlob* error) {
