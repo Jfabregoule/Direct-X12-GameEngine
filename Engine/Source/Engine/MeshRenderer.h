@@ -1,10 +1,10 @@
 #pragma once
 #include "Engine/Component.h"
 #include "Engine/Mesh.h"
+#include "Engine/Shader.h"
 #include <string>
 
 class Texture;
-class Shader;
 
 class MeshRenderer : public Component {
 private:
