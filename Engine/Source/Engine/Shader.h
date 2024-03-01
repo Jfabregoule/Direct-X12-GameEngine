@@ -21,14 +21,14 @@ private:
 	#pragma region Attributes
 	ID3D12Device* m_Device;
 
-	ID3D12PipelineState* m_PipelineState;
+	ID3D12PipelineState* m_pPipelineState;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC m_PipelineDesc;
 	ID3DBlob* m_VSByteCode = nullptr;
 	ID3DBlob* m_PSByteCode = nullptr;
 	bool m_M4XMsaaState;
 	UINT m_M4XMsaaQuality;
 
-	ComPtr<ID3D12RootSignature> m_RootSignature;
+	ID3D12RootSignature* m_pRootSignature;
 	ComPtr<ID3DBlob> m_SerializedRootSignature;
 	ComPtr<ID3DBlob> m_ErrorBlob;
 
@@ -55,9 +55,22 @@ public:
 	};
 	#pragma endregion
 
-	Shader();
+	/*
+	* |----------------------------------------------
+	* |	                    Init                     |
+	* |----------------------------------------------
+	*/
 
+	Shader();
 	~Shader();
+
+	ID3D12RootSignature* GetRootSignature() {
+		return m_pRootSignature;
+	};
+
+	ID3D12PipelineState* GetPipelineState(){
+		return m_pPipelineState;
+	};
 
 	void InitializeShader(ID3D12Device* device);
 

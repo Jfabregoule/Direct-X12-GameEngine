@@ -52,11 +52,7 @@ VOID DirectX12Instance::RenderFrame() {
     //Set la viewport
     command_list->RSSetViewports(1, &viewport);
 
-    // Set pipeline state and root signature
-    //A FAIRE ICI, lorsque la classe shader existera on renseignera la PSO de l'objet dessiné
-    //L'objet dessiné aura dans sa PSO les shaders adaptés pour cet objet
-    command_list->SetGraphicsRootSignature(root_signature);
-    command_list->SetPipelineState(pipeline_state);
+    
 
     /*
     * |----------------------------------------------
@@ -99,11 +95,19 @@ VOID DirectX12Instance::RenderFrame() {
 
 
 VOID DirectX12Instance::Draw(Entity* entity) {
+    
+    
 
     MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(entity->GetComponentByName("mesh_renderer"));
 
     if (mesh_renderer == nullptr)
         return; // Vérifie si le mesh renderer est valide
+
+    // Set pipeline state and root signature
+    //A FAIRE ICI, lorsque la classe shader existera on renseignera la PSO de l'objet dessiné
+    //L'objet dessiné aura dans sa PSO les shaders adaptés pour cet objet
+    command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
+    command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
     UINT frame = swap_chain->GetCurrentBackBufferIndex();
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
