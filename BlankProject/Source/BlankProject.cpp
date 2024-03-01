@@ -33,6 +33,7 @@ public:
     /* - Called to Initialize the Application - */
 
     VOID Initialize() {
+        Shader shader;
         HWND handle;
         handle = Handle();
         Window *window = GetWindow();
@@ -40,9 +41,7 @@ public:
 
         DX12Inst.InitGraphics();
         DX12Inst.InitCamera();
-        DX12Inst.InitShaders();
-        DX12Inst.InitRootSignature();
-        DX12Inst.InitPipelineState();
+        shader.InitializeShader(DX12Inst.device);
         DX12Inst.CreateFencesAndEvents();
         DX12Inst.BuildBoxGeometry();
 
@@ -50,7 +49,7 @@ public:
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
-                TranslateMessage(&message);
+                TranslateMessage(&message);     
                 DispatchMessage(&message);
             }
 

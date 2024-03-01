@@ -1,29 +1,80 @@
+// Constant buffer structure
+cbuffer WorldBuffer : register(b0)
+{
+    float4x4 world; // Transformation matrix for object
+};
+
+cbuffer ViewBuffer : register(b1)
+{
+    float4x4 view; // View matrix
+}
+
+cbuffer ProjBuffer : register(b2)
+{
+    float4x4 projection; // Projection matrix
+}
+
+cbuffer ViewProjBuffer : register(b3)
+{
+    float4x4 worldViewProjMatrix; // Combined transformation matrix
+}
+
+// Texture sampler
+Texture2D textureMap : register(t0);
+SamplerState samplerState : register(s0);
+
 struct VSInput
 {
     float3 position : POSITION;
+    float2 texCoord : TEXCOORD; // Texture coordinates
 };
 
 struct PSInput
 {
     float4 position : SV_POSITION;
     float3 color : COLOR;
+    float2 texCoord : TEXCOORD; // Texture coordinates
 };
 
 PSInput vs_main(VSInput input)
 {
     PSInput output;
-    
-    // Transformation de la position en coordonnées homogènes 4D
-    output.position = float4(input.position, 1.0f);
 
-    // Vous pouvez définir une couleur ici ou la transmettre à partir de VS à PS
-    output.color = float3(1.0f, 0.0f, 0.0f); // Rouge
+    // Apply object transformations
+    float4 worldPosition = mul(float4(input.position, 1.0f), world);
+    float4 viewPosition = mul(worldPosition, view);
+    float4 clipPosition = mul(viewPosition, projection);
+
+    // Pass through transformed position
+    output.position = clipPosition;
+
+    // Pass through texture coordinates
+    output.texCoord = input.texCoord;
+
+    // Set color to black initially
+    output.color = float3(1.0f, 1.0f, 1.0f);
 
     return output;
 }
 
 float4 ps_main(PSInput input) : SV_TARGET
 {
-    // Utilisez la couleur interpolée provenant du vertex shader
-    return float4(input.color, 1.0f); // Utilisation de la couleur interpolée pour le fragment
+    float4 finalColor;
+
+    // If texture is available, sample from it, otherwise use black color
+    if (textureMap)
+    {
+        // Sample from texture using provided texture coordinates
+        float4 texColor = textureMap.Sample(samplerState, input.texCoord);
+
+        // Multiply texture color with interpolated color from vertex shader
+        finalColor = float4(texColor.rgb * input.color, texColor.a);
+    }
+    else
+    {
+        // Use interpolated color from vertex shader directly
+        finalColor = float4(input.color, 1.0f);
+    }
+
+    return finalColor;
 }
