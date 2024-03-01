@@ -60,7 +60,7 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    SetBackground(1.0f, 0.18f, 0.18f, 1.0f);
+    SetBackground(0.38f, 0.38f, 0.38f, 1.0f);
 
     DrawAll();
 
@@ -102,7 +102,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     if (mesh_renderer == nullptr)
         return; // Vérifie si le mesh renderer est valide
-
+    OutputDebugString(L"NTM\n");
     // Set pipeline state and root signature
     //A FAIRE ICI, lorsque la classe shader existera on renseignera la PSO de l'objet dessiné
     //L'objet dessiné aura dans sa PSO les shaders adaptés pour cet objet
@@ -131,7 +131,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
 VOID DirectX12Instance::DrawAll() {
-    for (int i = 0; i < m_ListEntities.size(); i++) {
+    for (int i = 0; i < m_ListEntities.size() ; i++) {
         Draw(m_ListEntities[i]);
     }
 };

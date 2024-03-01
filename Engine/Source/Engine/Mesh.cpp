@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Mesh.h"
+#include "Engine/CubeMesh.h"
 
 Mesh::Mesh()
 {
@@ -11,13 +12,19 @@ Mesh::~Mesh()
 	
 }
 
-void Mesh::InitializeMesh(ID3D12Device* device,DirectX::XMFLOAT3 vertex1, DirectX::XMFLOAT3 vertex2, DirectX::XMFLOAT3 vertex3)
+void Mesh::InitializeMesh(ID3D12Device* device, Vertex* vertices)
 {
-	m_Vertices.push_back({ vertex1 });
-    m_Vertices.push_back({ vertex2 });
-    m_Vertices.push_back({ vertex3 });
+    if (vertices == nullptr) {
+        CubeMesh* pCubeMesh = new CubeMesh();
+        m_Vertices = pCubeMesh->cube;
+        m_Indices = pCubeMesh->cubeIndices;
+    }
+    else {
+        m_Vertices = vertices;
+        m_Indices = nullptr;
+    }
 
-    m_VertexSize = sizeof(vertex1);
+    m_VertexSize = sizeof(vertices[0]);
 	m_VerticesCount = sizeof(m_Vertices);
 
     CreateVertexBuffer(device);
@@ -45,7 +52,7 @@ void Mesh::CreateVertexBuffer(ID3D12Device* device) {
     UINT8* pVertexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
-    memcpy(pVertexDataBegin, ConvertVertexConst(m_Vertices), m_VertexSize * m_VerticesCount);
+    memcpy(pVertexDataBegin, m_Vertices, m_VertexSize * m_VerticesCount);
     m_VertexBuffer->Unmap(0, nullptr);
 
     return;
@@ -70,7 +77,7 @@ void Mesh::CreateIndexBuffer(ID3D12Device* device) {
     UINT8* pIndexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
     m_IndicesBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
-    memcpy(pIndexDataBegin, ConvertIndexConst(m_Indices), m_IndexCount * m_IndexSize);
+    memcpy(pIndexDataBegin, m_Indices, m_IndexCount * m_IndexSize);
     m_IndicesBuffer->Unmap(0, nullptr);
 
     return;
@@ -95,14 +102,6 @@ void Mesh::CreateIndexBufferView(ID3D12Device* device)
     m_IndexBufferView.SizeInBytes = m_IndexCount * m_IndexSize; // Taille totale de l'index buffer en octets
 
     return;
-};
-
-const Vertex* Mesh::ConvertVertexConst(vector<Vertex> vertices) {
-    return vertices.data();
-};
-
-const UINT* Mesh::ConvertIndexConst(vector<UINT> index) {
-    return index.data();
 };
 
 void Mesh::CleanUpMeshResources() {

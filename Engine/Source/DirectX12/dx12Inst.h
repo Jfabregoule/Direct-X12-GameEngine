@@ -64,8 +64,6 @@ public:
 
     std::vector <Entity*> m_ListEntities;
 
-    Entity* EntityTest = new Entity();
-
     /*
    * |-------------------------------------------------
    * |						Init						|
@@ -152,93 +150,6 @@ public:
             CheckSucceeded(hresult);
         }
         OutputDebugString(L"Render target buffers initialized.\n");
-    }
-
-    VOID InitRootSignature() {
-        HRESULT hresult;
-
-        // Define root parameters
-        CD3DX12_ROOT_PARAMETER rootParameters[1] = {};
-        rootParameters[0].InitAsConstantBufferView(0); // Assuming your constant buffer view is in register b0
-
-        // Create a root signature descriptor
-        CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
-        rootSignatureDesc.Init(1, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-
-        // Serialize the root signature
-        ID3DBlob* rootSignatureBlob;
-        ID3DBlob* errorBlob;
-        hresult = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &rootSignatureBlob, &errorBlob);
-        if (FAILED(hresult)) {
-            // Handle serialization error
-            if (errorBlob) {
-                OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-                errorBlob->Release();
-            }
-            return;
-        }
-        OutputDebugString(L"Root signature serialized.\n");
-
-        // Create the root signature
-        hresult = device->CreateRootSignature(0, rootSignatureBlob->GetBufferPointer(), rootSignatureBlob->GetBufferSize(), IID_PPV_ARGS(&root_signature));
-        if (FAILED(hresult)) {
-            // Handle root signature creation error
-            return;
-        }
-        OutputDebugString(L"Root signature created.\n");
-
-        // Release the serialized root signature blob
-        if (rootSignatureBlob) {
-            rootSignatureBlob->Release();
-        }
-    }
-
-    VOID InitPipelineState() {
-        HRESULT hresult;
-
-        // Compile shaders, create root signature, etc. first...
-
-        // Declare the pipeline state description
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC pipeline_state_desc = {}; // Initialize to zero to avoid indeterminate values
-
-        // Assign the root signature to the pipeline state description
-        pipeline_state_desc.pRootSignature = root_signature;
-
-        // Other steps for creating pipeline state...
-        pipeline_state_desc.VS.pShaderBytecode = vertex_shader->GetBufferPointer();
-        pipeline_state_desc.VS.BytecodeLength = vertex_shader->GetBufferSize();
-        pipeline_state_desc.PS.pShaderBytecode = pixel_shader->GetBufferPointer();
-        pipeline_state_desc.PS.BytecodeLength = pixel_shader->GetBufferSize();
-        pipeline_state_desc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-        pipeline_state_desc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-        pipeline_state_desc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-        pipeline_state_desc.SampleMask = UINT_MAX;
-        pipeline_state_desc.NumRenderTargets = 1;
-        pipeline_state_desc.RTVFormats[0] = swap_chain_desc.Format;
-        pipeline_state_desc.SampleDesc.Count = 1;
-
-        // Set the primitive topology type to triangle list
-        pipeline_state_desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-        // Define the input assembly configuration
-        D3D12_INPUT_ELEMENT_DESC inputElementDescs[] = {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-        };
-
-        // Define the input assembly description
-        D3D12_INPUT_LAYOUT_DESC inputLayoutDesc;
-        inputLayoutDesc.pInputElementDescs = inputElementDescs;
-        inputLayoutDesc.NumElements = _countof(inputElementDescs);
-
-        // Configure the input assembly description into the pipeline state description
-        pipeline_state_desc.InputLayout = inputLayoutDesc;
-
-        // Create the pipeline state
-        hresult = device->CreateGraphicsPipelineState(&pipeline_state_desc, IID_PPV_ARGS(&pipeline_state));
-        if (FAILED(hresult)) {
-            // Handle pipeline state creation error
-        }
-        OutputDebugString(L"Pipeline state created.\n");
     }
 
     VOID CreateFencesAndEvents() {
