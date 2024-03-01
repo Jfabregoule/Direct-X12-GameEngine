@@ -5,6 +5,7 @@
 #include <string>
 
 class Texture;
+class Shader;
 
 class MeshRenderer : public Component {
 private:
