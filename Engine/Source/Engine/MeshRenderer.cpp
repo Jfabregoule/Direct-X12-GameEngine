@@ -10,7 +10,8 @@ MeshRenderer::~MeshRenderer() {
 
 };
 
-void MeshRenderer::InitMeshRenderer() {
+void MeshRenderer::InitMeshRenderer(ID3D12Device* device) {
 	m_pMesh = new Mesh();
+	m_pMesh->InitializeMesh(device);
 	m_pShader = new Shader();
 };

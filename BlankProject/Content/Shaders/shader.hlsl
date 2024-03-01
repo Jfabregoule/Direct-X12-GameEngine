@@ -1,4 +1,3 @@
-// Constant buffer structure
 cbuffer WorldBuffer : register(b0)
 {
     float4x4 world; // Transformation matrix for object
@@ -19,7 +18,6 @@ cbuffer ViewProjBuffer : register(b3)
     float4x4 worldViewProjMatrix; // Combined transformation matrix
 }
 
-// Texture sampler
 Texture2D textureMap : register(t0);
 SamplerState samplerState : register(s0);
 
@@ -51,7 +49,7 @@ PSInput vs_main(VSInput input)
     // Pass through texture coordinates
     output.texCoord = input.texCoord;
 
-    // Set color to black initially
+    // Set color to white initially
     output.color = float3(1.0f, 1.0f, 1.0f);
 
     return output;
@@ -61,20 +59,11 @@ float4 ps_main(PSInput input) : SV_TARGET
 {
     float4 finalColor;
 
-    // If texture is available, sample from it, otherwise use black color
-    if (textureMap)
-    {
-        // Sample from texture using provided texture coordinates
-        float4 texColor = textureMap.Sample(samplerState, input.texCoord);
+    // Sample from texture using provided texture coordinates
+    float4 texColor = textureMap.Sample(samplerState, input.texCoord);
 
-        // Multiply texture color with interpolated color from vertex shader
-        finalColor = float4(texColor.rgb * input.color, texColor.a);
-    }
-    else
-    {
-        // Use interpolated color from vertex shader directly
-        finalColor = float4(input.color, 1.0f);
-    }
+    // Multiply texture color with interpolated color from vertex shader
+    finalColor = float4(texColor.rgb * input.color, texColor.a);
 
     return finalColor;
 }

@@ -108,7 +108,7 @@
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
     <ClCompile Include="Source\Engine\Cube.cpp" />
-    <ClCompile Include="Source\Engine\CubeMesh.cpp" />
+    <ClCompile Include="Source\Engine\CubeMesh.h" />
     <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />

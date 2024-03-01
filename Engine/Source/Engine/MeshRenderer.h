@@ -41,5 +41,5 @@ public:
 	|---------------------------------------------------------------
 	*/
 
-	void InitMeshRenderer();
+	void InitMeshRenderer(ID3D12Device* device);
 };

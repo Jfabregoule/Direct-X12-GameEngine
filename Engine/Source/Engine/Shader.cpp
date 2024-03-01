@@ -22,7 +22,7 @@ void Shader::InitializeShader(ID3D12Device* device)
 	m_Device = device;
 	ID3DBlob* error;
 
-	CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_PSByteCode);
+	CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
 	if (m_HResult != S_OK)
 	{
 		OutputDebugString(L"Error Compiling Shader");

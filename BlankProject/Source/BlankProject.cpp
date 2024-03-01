@@ -4,6 +4,7 @@
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/dx12Inst.h"
 #include "DirectX12/DX12Camera.h"
+#include "Engine/Entity.h"
 
 BOOL GameRunning = TRUE;
 
@@ -44,6 +45,9 @@ public:
         shader.InitializeShader(DX12Inst.device);
         DX12Inst.CreateFencesAndEvents();
         //DX12Inst.BuildBoxGeometry();
+
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities[0]->AddComponentByName("mesh_renderer");
 
 
         MSG message;
