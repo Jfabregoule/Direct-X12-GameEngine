@@ -51,20 +51,20 @@ void Shader::InitializeShader(ID3D12Device* device)
 
 bool Shader::InitializePipelineState()
 {
-	/* Defining input layout */
+	// Définition du layout d'entrée
 	m_InputLayout.push_back(
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
 	m_InputLayout.push_back(
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+		{ "COLOR", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
 
-	/* Define Pipeline State Description */
-	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size()};
-	m_PipelineDesc.pRootSignature = m_pRootSignature;
+	// Définition de la description de l'état du pipeline
+	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
+	m_PipelineDesc.pRootSignature = m_pRootSignature; // safe
 
-	/* Set shaders */
-	m_PipelineDesc.VS = 
+	// Définition des shaders
+	m_PipelineDesc.VS =
 	{
 		reinterpret_cast<BYTE*>(m_VSByteCode->GetBufferPointer()),
 		m_VSByteCode->GetBufferSize()
@@ -75,35 +75,35 @@ bool Shader::InitializePipelineState()
 		m_PSByteCode->GetBufferSize()
 	};
 
-	/* Set Rasterizer, blend & depth stencil state */
-	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	// Définition de l'état de rasterisation, de mélange et de stencil
+	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT); // safe
+	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT); // safe
+	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // safe
 
-	/* Set Sample & Primitive Typology */
-	m_PipelineDesc.SampleMask = UINT_MAX;
-	m_PipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// Définition du masque d'échantillonage et de la topologie primitive
+	m_PipelineDesc.SampleMask = UINT_MAX; // safe
+	m_PipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; // safe
 
-	/* Set Render target */
-	m_PipelineDesc.NumRenderTargets = 1;
-	m_PipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	// Définition de la cible de rendu
+	m_PipelineDesc.NumRenderTargets = 1; // safe
+	m_PipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // safe
 
-	/* Initialize Sample Description */
-	m_PipelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1;
-	m_PipelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0;
+	// Initialisation de la description d'échantillonage
+	m_PipelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1; // safe
+	m_PipelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0; // safe
 
-	/* Set Depth stencil format */
-	m_PipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+	// Définition du format de vue de profondeur-stencil
+	m_PipelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT; // safe
 
-	/* Create the pipeline state */
-
-	m_HResult = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState));
-	if (m_HResult != S_OK)
+	// Création de l'état du pipeline
+	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState)); // safe
+	if (FAILED(hr))
 	{
 		return false;
 	}
 	return true;
 }
+
 
 bool Shader::InitializeRootSignature()
 {
@@ -119,6 +119,10 @@ bool Shader::InitializeRootSignature()
 		m_SerializedRootSignature.GetAddressOf(),
 		m_ErrorBlob.GetAddressOf()
 	);
+	if (m_HResult != S_OK)
+	{
+		return false;
+	}
 
 	/* Creating the Root Signature */
 	m_HResult = m_Device->CreateRootSignature(

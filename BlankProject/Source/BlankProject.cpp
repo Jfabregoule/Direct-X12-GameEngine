@@ -34,7 +34,7 @@ public:
     /* - Called to Initialize the Application - */
 
     VOID Initialize() {
-        Shader shader;
+        //Shader shader;
         HWND handle;
         handle = Handle();
         Window *window = GetWindow();
@@ -42,12 +42,12 @@ public:
 
         DX12Inst.InitGraphics();
         //DX12Inst.InitCamera();
-        shader.InitializeShader(DX12Inst.device);
+        //shader.InitializeShader(DX12Inst.device);
         DX12Inst.CreateFencesAndEvents();
         //DX12Inst.BuildBoxGeometry();
 
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities[0]->AddComponentByName("mesh_renderer");
+        DX12Inst.m_ListEntities.at(0)->AddComponentByName("mesh_renderer");
 
 
         MSG message;
@@ -64,7 +64,6 @@ public:
         }
         DX12Inst.ReleaseFrame();
         DX12Utils::ReportLiveObjectsUtils();
-        DX12Inst.ReleasePipeline(); 
         DX12Inst.Cleanup();
     };
 

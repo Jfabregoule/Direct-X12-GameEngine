@@ -16,7 +16,7 @@ protected:
     Vertex*                         m_Vertices;
     UINT                            m_VertexSize;//Taille d'un vertex en octet
     UINT                            m_VerticesCount;//Nombre de vertex dans le tableau
-    ComPtr<ID3D12Resource>          m_VertexBuffer;
+    ID3D12Resource*                 m_VertexBuffer;
     D3D12_VERTEX_BUFFER_VIEW        m_VertexBufferView = {};
 
     UINT*                           m_Indices;

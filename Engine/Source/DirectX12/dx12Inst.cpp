@@ -102,12 +102,12 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     if (mesh_renderer == nullptr)
         return; // Vérifie si le mesh renderer est valide
-    OutputDebugString(L"NTM\n");
     // Set pipeline state and root signature
     //A FAIRE ICI, lorsque la classe shader existera on renseignera la PSO de l'objet dessiné
     //L'objet dessiné aura dans sa PSO les shaders adaptés pour cet objet
     command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
     command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
+
 
     UINT frame = swap_chain->GetCurrentBackBufferIndex();
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
@@ -132,6 +132,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 VOID DirectX12Instance::DrawAll() {
     for (int i = 0; i < m_ListEntities.size() ; i++) {
+        //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
     }
 };
