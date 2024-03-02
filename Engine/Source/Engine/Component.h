@@ -16,5 +16,5 @@ public:
 
 	std::string GetName() { return m_Name; };
 
-	void SetName(std::string name) { m_Name = name; };
+	void SetName(const char* name);
 };

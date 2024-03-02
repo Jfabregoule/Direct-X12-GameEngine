@@ -13,7 +13,6 @@ private:
 	Mesh* m_pMesh = nullptr;
 	Texture* m_pTexture = nullptr;
 	Shader* m_pShader = nullptr;
-	string m_Name = "mesh_renderer";
 
 public:
 

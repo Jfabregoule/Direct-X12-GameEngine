@@ -70,11 +70,19 @@ std::vector<Component*> Entity::GetAllComponents()
 
 void Entity::AddComponentByName(std::string componentName)
 {
-	if (std::strcmp(componentName.c_str(), "camera"))
+	if (std::strcmp(componentName.c_str(), "camera") == 0)
 		;//m_Components.push_back(new Camera());
-	else if (std::strcmp(componentName.c_str(), "mesh_render"))
-		if (GetComponentByName("mesh_renderer") == nullptr) 
-			m_ListComponent.push_back(new MeshRenderer());
+	else if (std::strcmp(componentName.c_str(), "mesh_renderer") == 0)
+	{
+		if (GetComponentByName("mesh_renderer") == nullptr)
+		{
+			MeshRenderer* meshRenderer = new MeshRenderer();
+			meshRenderer->InitMeshRenderer(m_pDevice);
+			m_ListComponent.push_back(meshRenderer);
+		}
+			
+	}
+		
 		
 		
 }

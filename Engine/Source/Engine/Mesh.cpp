@@ -16,16 +16,18 @@ void Mesh::InitializeMesh(ID3D12Device* device, Vertex* vertices)
 {
     if (vertices == nullptr) {
         CubeMesh* pCubeMesh = new CubeMesh();
+        pCubeMesh->GenerateCube();
         m_Vertices = pCubeMesh->cube;
         m_Indices = pCubeMesh->cubeIndices;
+        m_VerticesCount = pCubeMesh->cubeVerticesCount;
+        m_IndexCount = pCubeMesh->cubeIndicesCount;
     }
     else {
         m_Vertices = vertices;
         m_Indices = nullptr;
     }
-
-    m_VertexSize = sizeof(vertices[0]);
-	m_VerticesCount = sizeof(m_Vertices);
+    m_VertexSize = sizeof(Vertex);
+    m_IndexSize = sizeof(UINT);
 
     CreateVertexBuffer(device);
     CreateIndexBuffer(device);
@@ -35,40 +37,46 @@ void Mesh::InitializeMesh(ID3D12Device* device, Vertex* vertices)
 }
 
 void Mesh::CreateVertexBuffer(ID3D12Device* device) {
-
     // Créer un tampon de ressources (vertex buffer)
-    CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_DEFAULT);
+    CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(m_VertexSize * m_VerticesCount);
-    device->CreateCommittedResource(
+    HRESULT hr = device->CreateCommittedResource(
         &heapProperties,
         D3D12_HEAP_FLAG_NONE,
         &resourceDesc,
-        D3D12_RESOURCE_STATE_COPY_DEST,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
         nullptr,
         IID_PPV_ARGS(&m_VertexBuffer)
     );
+    if (FAILED(hr)) {
+        // Gérer l'échec de la création de la ressource
+        return;
+    }
 
     // Remplir le tampon de ressources avec les données des vertices
+    CD3DX12_RANGE readRange(0, 0);
     UINT8* pVertexDataBegin = nullptr;
-    CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
-    m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
+    hr = m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
+    if (hr != S_OK) {
+        // Gérer l'échec de la mise en mappage
+        m_VertexBuffer->Release(); // Libérer la ressource avant de quitter
+        m_VertexBuffer = nullptr; // Réinitialiser le pointeur
+        return;
+    }
     memcpy(pVertexDataBegin, m_Vertices, m_VertexSize * m_VerticesCount);
     m_VertexBuffer->Unmap(0, nullptr);
-
-    return;
-
-};
+}
 
 void Mesh::CreateIndexBuffer(ID3D12Device* device) {
 
     // Créer un tampon de ressources (index buffer)
-    CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_DEFAULT);
+    CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(m_IndexCount * m_IndexSize);
-    device->CreateCommittedResource(
+    HRESULT hr = device->CreateCommittedResource(
         &heapProperties,
         D3D12_HEAP_FLAG_NONE,
         &resourceDesc,
-        D3D12_RESOURCE_STATE_COPY_DEST,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
         nullptr,
         IID_PPV_ARGS(&m_IndicesBuffer)
     );
@@ -76,7 +84,13 @@ void Mesh::CreateIndexBuffer(ID3D12Device* device) {
     // Remplir le tampon de ressources avec les données des indices
     UINT8* pIndexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0); // On ne lit pas les données actuellement, donc la plage est vide
-    m_IndicesBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
+    hr = m_IndicesBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
+    if (hr != S_OK) {
+        // Gérer l'échec de la mise en mappage
+        m_IndicesBuffer->Release(); // Libérer la ressource avant de quitter
+        m_IndicesBuffer = nullptr; // Réinitialiser le pointeur
+        return;
+    }
     memcpy(pIndexDataBegin, m_Indices, m_IndexCount * m_IndexSize);
     m_IndicesBuffer->Unmap(0, nullptr);
 

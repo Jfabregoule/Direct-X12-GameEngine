@@ -8,10 +8,10 @@ using namespace DirectX;
 
 struct CubeMesh {
 	Vertex cube[8];
-	Vertex* pCube = cube;
+	UINT cubeVerticesCount = 8; // Taille du tableau cube
 
 	UINT cubeIndices[36] = { 0,1,3 , 0,2,3 , 0,2,7 , 0,4,7 , 1,0,4 , 1,5,4 , 1,6,5 , 1,3,6 , 3,2,7 , 3,6,7 , 7,4,5 , 7,6,5 };
-	UINT* pCubeIndices = cubeIndices;
+	UINT cubeIndicesCount = 36;
 
 	void GenerateCube() {
 
