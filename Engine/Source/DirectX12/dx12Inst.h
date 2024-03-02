@@ -2,6 +2,7 @@
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
+#include <dxgi1_4.h> // Include for DXGI interfaces
 
 class ENGINE_API DirectX12Instance {
 
@@ -28,8 +29,8 @@ public:
 
     ID3D12Debug* debug_interface;
     ID3D12Device* device;
-    IDXGISwapChain3* swap_chain;
-    IDXGIFactory2* dxgi_factory;
+    IDXGISwapChain4* swap_chain; // Use IDXGISwapChain4
+    IDXGIFactory4* dxgi_factory; // Use IDXGIFactory4
     ID3D12CommandQueue* graphics_command_queue;
     ID3D12RootSignature* root_signature;
 
@@ -42,8 +43,7 @@ public:
     D3D12_CPU_DESCRIPTOR_HANDLE render_target_descriptors[FRAMES];
     ID3D12Resource* render_target_buffers[FRAMES];
     D3D12_COMMAND_QUEUE_DESC graphics_command_queue_desc = {};
-    DXGI_SWAP_CHAIN_DESC1 swap_chain_desc = { 0 };
-    IDXGISwapChain1* swap_chain1;
+    UINT m_CurrentBufferIndex = 0;
     D3D12_VIEWPORT viewport = { 0 };
     D3D12_RECT scissor = { 0 };
     ID3DBlob* vertex_shader;
@@ -81,7 +81,7 @@ public:
         OutputDebugString(L"Debug layer enabled.\n");
 
         // Initialisation de la fabrique DXGI
-        hresult = CreateDXGIFactory(IID_PPV_ARGS(&dxgi_factory));
+        hresult = CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgi_factory)); // Use CreateDXGIFactory2 for IDXGIFactory4
         CheckSucceeded(hresult);
         OutputDebugString(L"DXGI Factory created.\n");
 
@@ -96,24 +96,32 @@ public:
         CheckSucceeded(hresult);
         OutputDebugString(L"Graphics command queue created.\n");
 
+        RECT windowRect;
+        GetClientRect(m_handle, &windowRect);
+        int width = windowRect.right - windowRect.left;
+        int height = windowRect.bottom - windowRect.top;
+
         // Initialisation de la description de la chaîne d'échange
+        DXGI_SWAP_CHAIN_DESC1 swap_chain_desc = {};
+        swap_chain_desc.Width = width;
+        swap_chain_desc.Height = height;
         swap_chain_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         swap_chain_desc.SampleDesc.Count = 1;
+        swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swap_chain_desc.BufferCount = FRAMES;
+        swap_chain_desc.Scaling = DXGI_SCALING_STRETCH;
         swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-        OutputDebugString(L"Swap chain description initialized.\n");
-
-        // Création de la chaîne d'échange
-        hresult = dxgi_factory->CreateSwapChainForHwnd(graphics_command_queue, m_handle, &swap_chain_desc, 0, 0, &swap_chain1);
+        swap_chain_desc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+        IDXGISwapChain1* tempSwapChain;
+        hresult = dxgi_factory->CreateSwapChainForHwnd(graphics_command_queue, m_handle, &swap_chain_desc, nullptr, nullptr, &tempSwapChain);
         CheckSucceeded(hresult);
+
+        // Convertir la chaîne d'échange en IDXGISwapChain4
+        hresult = tempSwapChain->QueryInterface(IID_PPV_ARGS(&swap_chain));
+        tempSwapChain->Release(); // Libérer la référence temporaire
+        CheckSucceeded(hresult);
+
         OutputDebugString(L"Swap chain created.\n");
-
-        hresult = swap_chain1->QueryInterface(IID_PPV_ARGS(&swap_chain));
-        CheckSucceeded(hresult);
-        OutputDebugString(L"Swap chain interface acquired.\n");
-
-        // Obtention de la description de la chaîne d'échange
-        swap_chain1->GetDesc1(&swap_chain_desc);
 
         // Initialisation du viewport et de la zone de découpage
         viewport.TopLeftX = 0;
@@ -123,8 +131,8 @@ public:
         viewport.MinDepth = 0.0f;
         viewport.MaxDepth = 1.0f;
 
-        scissor.right = swap_chain_desc.Width;
-        scissor.bottom = swap_chain_desc.Height;
+        scissor.right = static_cast<LONG>(swap_chain_desc.Width);
+        scissor.bottom = static_cast<LONG>(swap_chain_desc.Height);
         OutputDebugString(L"Viewport and scissor initialized.\n");
 
         // Initialisation du tas de descripteurs de cible de rendu
@@ -151,6 +159,7 @@ public:
         }
         OutputDebugString(L"Render target buffers initialized.\n");
     }
+
 
     VOID CreateFencesAndEvents() {
         for (int i = 0; i < FRAMES; ++i) {
@@ -233,10 +242,6 @@ public:
             render_target_descriptor_heap->Release();
             render_target_descriptor_heap = nullptr;
         }
-        if (root_signature) {
-            root_signature->Release();
-            root_signature = nullptr;
-        }
         if (swap_chain) {
             swap_chain->Release();
             swap_chain = nullptr;
@@ -260,22 +265,8 @@ public:
         if (command_list) {
             command_list.Reset();
         }
-        if (pipeline_state) {
-            pipeline_state->Release();
-            pipeline_state = nullptr;
-        }
-        if (vertex_shader) {
-            vertex_shader->Release();
-            vertex_shader = nullptr;
-        }
-        if (pixel_shader) {
-            pixel_shader->Release();
-            pixel_shader = nullptr;
-        }
     }
 
 #pragma endregion
 
 };
-
-

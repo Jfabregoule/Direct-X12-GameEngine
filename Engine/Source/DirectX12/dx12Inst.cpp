@@ -9,9 +9,9 @@ DirectX12Instance* DirectX12Instance::inst;
 DirectX12Instance::DirectX12Instance(HWND handle)
 {
 
-	inst = this;
+    inst = this;
 
-	m_handle = handle;
+    m_handle = handle;
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -36,7 +36,15 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    UINT frame = swap_chain->GetCurrentBackBufferIndex();
+    HRESULT deviceRemovedReason = device->GetDeviceRemovedReason();
+    if (deviceRemovedReason != S_OK) {
+        // Traitez le retrait du périphérique ici
+        // Par exemple, vous pouvez journaliser la raison du retrait ou réinitialiser le périphérique
+        // Vous pouvez également appeler une fonction de gestion de retrait de périphérique dédiée
+        return;
+    }
+
+    UINT frame = m_CurrentBufferIndex;
 
     //Met la command list en mode "écoute"
     command_allocators[frame]->Reset();//Frame définit l'index du back buffer sur lequel on va dessiners
@@ -51,8 +59,15 @@ VOID DirectX12Instance::RenderFrame() {
 
     //Set la viewport
     command_list->RSSetViewports(1, &viewport);
+    command_list->RSSetScissorRects(1, &scissor);
 
-    
+    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
+
+    // Configurer le registre de racine (root parameter) pour le tampon de constantes
+    UINT rootParameterIndex = 1; // Supposons que c'est l'index du registre de racine que vous avez configuré dans votre pipeline de rendu
+    command_list->SetGraphicsRootConstantBufferView(rootParameterIndex, gpuAddress);
+
+
 
     /*
     * |----------------------------------------------
@@ -82,21 +97,21 @@ VOID DirectX12Instance::RenderFrame() {
     fence_value[frame]++;
     graphics_command_queue->Signal(fence[frame], fence_value[frame]);
 
+    HANDLE eventHandle = CreateEventEx(nullptr, L"false", false, EVENT_ALL_ACCESS);
+
+
     //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
     if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
         fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
         WaitForSingleObject(fence_event[frame], INFINITE);
     }
-
+    CloseHandle(eventHandle);
     //Affiche le current Back Buffer
-    swap_chain->Present(1, 0);
+   swap_chain->Present(1, 0);
+    m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
 }
 
-
-
 VOID DirectX12Instance::Draw(Entity* entity) {
-    
-    
 
     MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(entity->GetComponentByName("mesh_renderer"));
 
@@ -109,7 +124,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
 
-    UINT frame = swap_chain->GetCurrentBackBufferIndex();
+    UINT frame = m_CurrentBufferIndex;
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
 
     // Apply camera's view matrix
@@ -124,22 +139,23 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-    // Draw the triangle built by BuildBoxGeometry
-    command_list->OMSetRenderTargets(1, &(current_render_target_descriptor), 0, 0);
-    command_list->DrawInstanced(*mesh_renderer->GetMesh()->GetVerticesSize(), 1, 0, 0);
+
+    // Draw the thing
+    command_list->OMSetRenderTargets(1, &current_render_target_descriptor, 0, 0);
+    command_list->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 
 
 VOID DirectX12Instance::DrawAll() {
-    for (int i = 0; i < m_ListEntities.size() ; i++) {
+    for (int i = 0; i < m_ListEntities.size(); i++) {
         //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
     }
 };
 
-VOID DirectX12Instance::SetBackground(float r,float g,float b,float a) {
+VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
 
-    UINT frame = swap_chain->GetCurrentBackBufferIndex();
+    UINT frame = m_CurrentBufferIndex;
     float clear_color[4] = { r, g, b, a };
 
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
@@ -148,4 +164,3 @@ VOID DirectX12Instance::SetBackground(float r,float g,float b,float a) {
 
 
 #pragma endregion
-
