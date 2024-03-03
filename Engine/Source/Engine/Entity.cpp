@@ -9,6 +9,7 @@ Entity::Entity(ID3D12Device* device) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
 	m_Transform = struct Transform();
+	m_Transform.Identity();
 	m_pDevice = device;
 };
 
@@ -52,6 +53,16 @@ std::vector<Entity*> Entity::GetChildren()
 void Entity::AddChildren(Entity* childEntity)
 {
 	m_Children.push_back(childEntity);
+}
+
+Transform* Entity::GetTransform()
+{
+	return &m_Transform;
+}
+
+DirectX::XMFLOAT4X4* Entity::GetTransformConvert()
+{
+	return &m_Transform.m_Matrix;
 }
 
 Component* Entity::GetComponentByName(std::string name) {

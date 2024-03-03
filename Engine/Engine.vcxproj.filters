@@ -173,9 +173,6 @@
     <ClCompile Include="Source\Engine\Mesh.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\CubeMesh.h">
-      <Filter>Source\Engine\Classes</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -293,6 +290,9 @@
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Mesh.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\CubeMesh.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
   </ItemGroup>

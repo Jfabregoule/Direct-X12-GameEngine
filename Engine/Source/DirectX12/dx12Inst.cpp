@@ -12,6 +12,19 @@ DirectX12Instance::DirectX12Instance(HWND handle)
     inst = this;
 
     m_handle = handle;
+
+    // Paramètres de la projection perspective
+    float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
+    float fovAngleY = DirectX::XMConvertToRadians(45.0f);
+    float nearZ = 0.1f;
+    float farZ = 1000.0f;
+
+    // Création de la matrice de projection perspective
+    XMMATRIX projMatrix = XMMatrixPerspectiveFovLH(fovAngleY, aspectRatio, nearZ, farZ);
+
+    // Stocker la matrice de projection dans une variable mProj (par exemple)
+    XMStoreFloat4x4(&mProj, projMatrix);
+    
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -96,17 +109,19 @@ VOID DirectX12Instance::RenderFrame() {
     ID3D12CommandList* command_lists[] = { command_list.Get() };
     graphics_command_queue->ExecuteCommandLists(_countof(command_lists), command_lists);
 
-    fence_value[frame]++;
-    graphics_command_queue->Signal(fence[frame], fence_value[frame]);
-
-    //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
-    if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
-        fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
-        WaitForSingleObject(fence_event[frame], INFINITE);
-    }
     //Affiche le current Back Buffer
    swap_chain->Present(1, 0);
    m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
+
+   fence_value[frame]++;
+   graphics_command_queue->Signal(fence[frame], fence_value[frame]);
+
+   //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
+   if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
+       fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
+       WaitForSingleObject(fence_event[frame], INFINITE);
+   }
+
 }
 
 VOID DirectX12Instance::Draw(Entity* entity) {
@@ -115,9 +130,39 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     if (mesh_renderer == nullptr)
         return; // Vérifie si le mesh renderer est valide
-    // Set pipeline state and root signature
-    //A FAIRE ICI, lorsque la classe shader existera on renseignera la PSO de l'objet dessiné
-    //L'objet dessiné aura dans sa PSO les shaders adaptés pour cet objet
+
+    ///////////////////////////////////////////
+
+    entity->Rotate(0.001f,0.001f,0.0f);
+    entity->GetTransform()->UpdateMatrix();
+    
+    float dx = 0.0f;
+    float dy = 0.0f;
+
+    mTheta += dx;
+    mPhi += dy;
+
+    // Restrict the angle mPhi.
+    mPhi = MathHelper::Clamp(mPhi, 0.1f, MathHelper::Pi - 0.1f);
+
+    float x = mRadius * sinf(mPhi) * cosf(mTheta);
+    float z = mRadius * sinf(mPhi) * sinf(mTheta);
+    float y = mRadius * cosf(mPhi);
+     
+    XMVECTOR pos = XMVectorSet( x - 1000.0f, y - 1000.0f, z - 1000.0f, 1.0f);
+    XMVECTOR target = XMVectorZero();
+    XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+    XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+    XMStoreFloat4x4(&mView, view);
+
+    XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
+    XMMATRIX proj = XMLoadFloat4x4(&mProj);
+    m_worldViewProjMatrix = world * view * proj;
+     
+    ///////////////////////////////////////////
+
+    
     command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
     command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
@@ -128,13 +173,13 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     // Apply camera's view matrix
     ID3D12Resource *constantBufferGPU;
-    DirectX::XMMATRIX temp = DirectX::XMMatrixIdentity();
-    DirectX::XMFLOAT4X4 worldViewProjMatrix;
-    DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
+    //DirectX::XMFLOAT4X4 temp = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 worldViewProjMatrix =  MathHelper::Identity4x4();
+    //DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
 
     // Méthode pour initialiser le tampon de constantes sur le GPU
     auto test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-    auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(worldViewProjMatrix));
+    auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(m_worldViewProjMatrix));
     HRESULT hresult = device->CreateCommittedResource(
         &test,
         D3D12_HEAP_FLAG_NONE,
@@ -149,6 +194,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
         CD3DX12_RANGE readRange(0, 0);
         hresult = constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&pConstantBufferData));
         CheckSucceeded(hresult);
+        memcpy(pConstantBufferData, &m_worldViewProjMatrix, sizeof(m_worldViewProjMatrix));
         constantBufferGPU->Unmap(0, nullptr);
 
         // Définissez la vue de tampon de constantes
