@@ -77,6 +77,7 @@ bool Shader::InitializePipelineState()
 
 	// Définition de l'état de rasterisation, de mélange et de stencil
 	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT); // safe
+	m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT); // safe
 	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // safe
 
