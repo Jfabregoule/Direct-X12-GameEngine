@@ -54,18 +54,20 @@ VOID DirectX12Instance::RenderFrame() {
     CheckSucceeded(hresult);
 
     //Passage du 1er back buffer en mode render target
-    auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    command_list->ResourceBarrier(1, &transitionToRenderTarget);
 
     //Set la viewport
     command_list->RSSetViewports(1, &viewport);
     command_list->RSSetScissorRects(1, &scissor);
 
-    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
+    auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    command_list->ResourceBarrier(1, &transitionToRenderTarget);
+
+    // Obtenir l'adresse virtuelle GPU après la transition
+    //D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
 
     // Configurer le registre de racine (root parameter) pour le tampon de constantes
-    UINT rootParameterIndex = 1; // Supposons que c'est l'index du registre de racine que vous avez configuré dans votre pipeline de rendu
-    command_list->SetGraphicsRootConstantBufferView(rootParameterIndex, gpuAddress);
+    //UINT rootParameterIndex = 1; // Supposons que c'est l'index du registre de racine que vous avez configuré dans votre pipeline de rendu
+    //command_list->SetGraphicsRootConstantBufferView(rootParameterIndex, gpuAddress);
 
 
 
@@ -97,15 +99,11 @@ VOID DirectX12Instance::RenderFrame() {
     fence_value[frame]++;
     graphics_command_queue->Signal(fence[frame], fence_value[frame]);
 
-    HANDLE eventHandle = CreateEventEx(nullptr, L"false", false, EVENT_ALL_ACCESS);
-
-
     //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
     if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
         fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
         WaitForSingleObject(fence_event[frame], INFINITE);
     }
-    CloseHandle(eventHandle);
     //Affiche le current Back Buffer
    swap_chain->Present(1, 0);
     m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
@@ -126,8 +124,44 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     UINT frame = m_CurrentBufferIndex;
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
+    command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     // Apply camera's view matrix
+    ID3D12Resource *constantBufferGPU;
+    DirectX::XMFLOAT4X4 worldViewProjMatrix; // Données du tampon de constantes
+
+    worldViewProjMatrix._41 = 0.0f;
+    worldViewProjMatrix._42 = 0.0f;
+    worldViewProjMatrix._43 = 10.0f; // Place l'objet à 10 unités en arrière pour être en face du point (0, 0, 0)
+
+    // Matrice identité pour la rotation et l'échelle
+    worldViewProjMatrix._11 = 1.0f;
+    worldViewProjMatrix._22 = 1.0f;
+    worldViewProjMatrix._33 = 1.0f;
+    worldViewProjMatrix._44 = 1.0f;
+
+    // Méthode pour initialiser le tampon de constantes sur le GPU
+    auto test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+    auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(worldViewProjMatrix));
+    HRESULT hresult = device->CreateCommittedResource(
+        &test,
+        D3D12_HEAP_FLAG_NONE,
+        &testo,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(&constantBufferGPU));
+        CheckSucceeded(hresult);
+
+        // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
+        UINT8* pConstantBufferData;
+        CD3DX12_RANGE readRange(0, 0);
+        hresult = constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&pConstantBufferData));
+        CheckSucceeded(hresult);
+        constantBufferGPU->Unmap(0, nullptr);
+
+        // Définissez la vue de tampon de constantes
+        D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = constantBufferGPU->GetGPUVirtualAddress();
+        command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
     //command_list->SetGraphicsRootConstantBufferView(0, m_pMainCamera->GetComponentByName("Camera").GetViewMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").viewMatrix));
     //command_list->SetGraphicsRootConstantBufferView(1, m_pMainCamera->GetComponentByName("Camera").camera.GetProjectionMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").projectionMatrix));
 
@@ -137,7 +171,6 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     command_list->IASetVertexBuffers(0, 1, &vertexbufftemp);
     command_list->IASetIndexBuffer(&Indexbufftemp);
 
-    command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
     // Draw the thing

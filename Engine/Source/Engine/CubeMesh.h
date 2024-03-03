@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include "DirectX12/Vertex.h"
 #include <vector>
-#include <wrl.h>
 
 using namespace DirectX;
 
@@ -11,12 +10,29 @@ struct CubeMesh {
 	UINT cubeVerticesCount = 8; // Taille du tableau cube
 
 	UINT cubeIndices[36] = {
-		0,1,2 , 2,1,3 , // Face avant
-		4,0,6 , 6,0,2 , // Face gauche
-		5,4,7 , 7,4,6 , // Face arrière
-		1,5,3 , 3,5,7 , // Face droite
-		4,5,0 , 0,5,1 , // Face supérieure
-		2,3,6 , 6,3,7   // Face inférieure
+		// front face
+		0, 1, 2,
+		0, 2, 3,
+
+		// back face
+		4, 6, 5,
+		4, 7, 6,
+
+		// left face
+		4, 5, 1,
+		4, 1, 0,
+
+		// right face
+		3, 2, 6,
+		3, 6, 7,
+
+		// top face
+		1, 5, 6,
+		1, 6, 2,
+
+		// bottom face
+		4, 0, 3,
+		4, 3, 7
 	};
 	UINT cubeIndicesCount = 36;
 
