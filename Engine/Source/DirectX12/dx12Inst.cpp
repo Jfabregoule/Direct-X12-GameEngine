@@ -106,7 +106,7 @@ VOID DirectX12Instance::RenderFrame() {
     }
     //Affiche le current Back Buffer
    swap_chain->Present(1, 0);
-    m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
+   m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
 }
 
 VOID DirectX12Instance::Draw(Entity* entity) {
@@ -128,17 +128,9 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     // Apply camera's view matrix
     ID3D12Resource *constantBufferGPU;
-    DirectX::XMFLOAT4X4 worldViewProjMatrix; // Données du tampon de constantes
-
-    worldViewProjMatrix._41 = 0.0f;
-    worldViewProjMatrix._42 = 0.0f;
-    worldViewProjMatrix._43 = 10.0f; // Place l'objet à 10 unités en arrière pour être en face du point (0, 0, 0)
-
-    // Matrice identité pour la rotation et l'échelle
-    worldViewProjMatrix._11 = 1.0f;
-    worldViewProjMatrix._22 = 1.0f;
-    worldViewProjMatrix._33 = 1.0f;
-    worldViewProjMatrix._44 = 1.0f;
+    DirectX::XMMATRIX temp = DirectX::XMMatrixIdentity();
+    DirectX::XMFLOAT4X4 worldViewProjMatrix;
+    DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
 
     // Méthode pour initialiser le tampon de constantes sur le GPU
     auto test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);

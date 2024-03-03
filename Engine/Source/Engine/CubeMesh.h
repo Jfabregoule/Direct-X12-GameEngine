@@ -5,7 +5,7 @@
 
 using namespace DirectX;
 
-struct CubeMesh {
+struct ENGINE_API CubeMesh {
 	Vertex cube[8];
 	UINT cubeVerticesCount = 8; // Taille du tableau cube
 
@@ -37,14 +37,14 @@ struct CubeMesh {
 	UINT cubeIndicesCount = 36;
 
 	void GenerateCube() {
-		cube[0] = Vertex(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-		cube[1] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
-		cube[2] = Vertex(XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
-		cube[3] = Vertex(XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		cube[0] = Vertex(XMFLOAT3(-5.0f, -5.0f, -5.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		cube[1] = Vertex(XMFLOAT3(-5.0f, 5.0f, -5.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
+		cube[2] = Vertex(XMFLOAT3(5.0f, -5.0f, -5.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
+		cube[3] = Vertex(XMFLOAT3(5.0f, 5.0f, -5.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
 
-		cube[4] = Vertex(XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
-		cube[5] = Vertex(XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
-		cube[6] = Vertex(XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-		cube[7] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
+		cube[4] = Vertex(XMFLOAT3(-5.0f, -5.0f, 5.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
+		cube[5] = Vertex(XMFLOAT3(-5.0f, 5.0f, 5.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
+		cube[6] = Vertex(XMFLOAT3(5.0f, -5.0f, 5.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		cube[7] = Vertex(XMFLOAT3(5.0f, 5.0f, 5.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
 	};
 };
