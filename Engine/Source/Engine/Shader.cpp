@@ -22,14 +22,14 @@ void Shader::InitializeShader(ID3D12Device* device)
 	m_Device = device;
 	ID3DBlob* error;
 
-	CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
+	m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
 	if (m_HResult != S_OK)
 	{
 		OutputDebugString(L"Error Compiling Shader");
 		return;
 	}
 
-	CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "ps_main", "ps_5_0", &m_PSByteCode);
+	m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "ps_main", "ps_5_0", &m_PSByteCode);
 	if (m_HResult != S_OK)
 	{
 		OutputDebugString(L"Error Compiling Shader");
@@ -143,8 +143,10 @@ void Shader::Update()
 
 }
 
-void Shader::CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code) 
+HRESULT Shader::CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code) 
 {
 	ID3DBlob* error;
 	m_HResult = D3DCompileFromFile(filename, 0, 0, entrypoint, profile, D3DCOMPILE_DEBUG, 0, out_code, &error);
+
+	return m_HResult;
 }
