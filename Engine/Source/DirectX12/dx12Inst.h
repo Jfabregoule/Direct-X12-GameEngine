@@ -64,6 +64,22 @@ public:
 
     std::vector <Entity*> m_ListEntities;
 
+    XMFLOAT4X4 mWorld = MathHelper::Identity4x4();
+    XMFLOAT4X4 mView = MathHelper::Identity4x4();
+    XMFLOAT4X4 mProj = MathHelper::Identity4x4();
+
+    XMMATRIX m_worldViewProjMatrix;
+
+    int mClientWidth = 800;
+    int mClientHeight = 600;
+
+    float count = 0;
+    float mTheta = 1.5f * XM_PI;
+    float mPhi = XM_PIDIV4;
+    float mRadius = 5.0f;
+
+    int prout = 1;
+
     /*
    * |-------------------------------------------------
    * |						Init						|
