@@ -73,9 +73,9 @@ public:
         //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         //DX12Inst.m_ListEntities.at(3)->InitObject("cube");
         //DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
-        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
+        //DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
 
 
         MSG message;
