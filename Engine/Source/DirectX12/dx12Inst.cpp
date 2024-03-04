@@ -24,7 +24,7 @@ DirectX12Instance::DirectX12Instance(HWND handle)
 
     // Stocker la matrice de projection dans une variable mProj (par exemple)
     XMStoreFloat4x4(&mProj, projMatrix);
-    
+
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -75,6 +75,9 @@ VOID DirectX12Instance::RenderFrame() {
     auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
     command_list->ResourceBarrier(1, &transitionToRenderTarget);
 
+    CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    command_list->ResourceBarrier(1, &barrier);
+
     // Obtenir l'adresse virtuelle GPU après la transition
     //D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
 
@@ -104,23 +107,26 @@ VOID DirectX12Instance::RenderFrame() {
     auto transitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
     command_list->ResourceBarrier(1, &transitionToPresent);
 
+    auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    command_list->ResourceBarrier(1, &DsvTransitionToPresent);
+
     //On close la commandList et on l'envoie dans la commandQueue
     command_list->Close();
     ID3D12CommandList* command_lists[] = { command_list.Get() };
     graphics_command_queue->ExecuteCommandLists(_countof(command_lists), command_lists);
 
     //Affiche le current Back Buffer
-   swap_chain->Present(1, 0);
-   m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
+    swap_chain->Present(1, 0);
+    m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
 
-   fence_value[frame]++;
-   graphics_command_queue->Signal(fence[frame], fence_value[frame]);
+    fence_value[frame]++;
+    graphics_command_queue->Signal(fence[frame], fence_value[frame]);
 
-   //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
-   if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
-       fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
-       WaitForSingleObject(fence_event[frame], INFINITE);
-   }
+    //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
+    if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
+        fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
+        WaitForSingleObject(fence_event[frame], INFINITE);
+    }
 
 }
 
@@ -134,10 +140,10 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     ///////////////////////////////////////////
 
     //entity->Translate(0.01f,-0.01f,0.02f);
-    entity->Rotate(0.0f,0.01f,0.0f);
+    entity->Rotate(0.0f, 0.01f, 0.0f);
     //entity->Scale(1.01f, 1.01f, 1.01f);
     entity->GetTransform()->UpdateMatrix();
-    
+
     float dx = 0.0f;
     float dy = 0.0f;
 
@@ -150,8 +156,8 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     float x = mRadius * sinf(mPhi) * cosf(mTheta);
     float z = mRadius * sinf(mPhi) * sinf(mTheta);
     float y = mRadius * cosf(mPhi);
-     
-    XMVECTOR pos = XMVectorSet( -10.0f, 3.0f, -1.0f, 1.0f);
+
+    XMVECTOR pos = XMVectorSet(-10.0f, 3.0f, -1.0f, 1.0f);
     XMVECTOR target = XMVectorZero();
     XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
@@ -161,10 +167,10 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
     XMMATRIX proj = XMLoadFloat4x4(&mProj);
     m_worldViewProjMatrix = world * view * proj;
-     
+
     ///////////////////////////////////////////
 
-    
+
     command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
     command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
@@ -174,7 +180,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     // Apply camera's view matrix
-    ID3D12Resource *constantBufferGPU;
+    ID3D12Resource* constantBufferGPU;
     //DirectX::XMFLOAT4X4 temp = MathHelper::Identity4x4();
     //DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
 
@@ -188,19 +194,19 @@ VOID DirectX12Instance::Draw(Entity* entity) {
         D3D12_RESOURCE_STATE_GENERIC_READ,
         nullptr,
         IID_PPV_ARGS(&constantBufferGPU));
-        CheckSucceeded(hresult);
+    CheckSucceeded(hresult);
 
-        // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
-        UINT8* pConstantBufferData;
-        CD3DX12_RANGE readRange(0, 0);
-        hresult = constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&pConstantBufferData));
-        CheckSucceeded(hresult);
-        memcpy(pConstantBufferData, &m_worldViewProjMatrix, sizeof(m_worldViewProjMatrix));
-        constantBufferGPU->Unmap(0, nullptr);
+    // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
+    UINT8* pConstantBufferData;
+    CD3DX12_RANGE readRange(0, 0);
+    hresult = constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&pConstantBufferData));
+    CheckSucceeded(hresult);
+    memcpy(pConstantBufferData, &m_worldViewProjMatrix, sizeof(m_worldViewProjMatrix));
+    constantBufferGPU->Unmap(0, nullptr);
 
-        // Définissez la vue de tampon de constantes
-        D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = constantBufferGPU->GetGPUVirtualAddress();
-        command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
+    // Définissez la vue de tampon de constantes
+    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = constantBufferGPU->GetGPUVirtualAddress();
+    command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
     //command_list->SetGraphicsRootConstantBufferView(0, m_pMainCamera->GetComponentByName("Camera").GetViewMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").viewMatrix));
     //command_list->SetGraphicsRootConstantBufferView(1, m_pMainCamera->GetComponentByName("Camera").camera.GetProjectionMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").projectionMatrix));
 
@@ -213,7 +219,9 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
     // Draw the thing
-    command_list->OMSetRenderTargets(1, &current_render_target_descriptor, 0, 0);
+    auto DsvHeap = mDsvHeap->GetCPUDescriptorHandleForHeapStart();
+    command_list->OMSetRenderTargets(1, &current_render_target_descriptor, true, &DsvHeap);
+
     command_list->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 
@@ -232,6 +240,7 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
 
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
     command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
+    command_list->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 };
 
 

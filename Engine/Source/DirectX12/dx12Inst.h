@@ -60,6 +60,10 @@ public:
     D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
     Microsoft::WRL::ComPtr<ID3D12Resource> vertexBuffer;
 
+    Microsoft::WRL::ComPtr<ID3D12Resource> mDepthStencilBuffer;
+    Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> mRtvHeap;
+    Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> mDsvHeap;
+
     Entity* m_pMainCamera;
 
     std::vector <Entity*> m_ListEntities;
@@ -78,7 +82,9 @@ public:
     float mPhi = XM_PIDIV4;
     float mRadius = 5.0f;
 
-    int prout = 1;
+    bool      m4xMsaaState = false;    // 4X MSAA enabled
+    UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
+
 
     /*
    * |-------------------------------------------------
@@ -174,6 +180,66 @@ public:
             CheckSucceeded(hresult);
         }
         OutputDebugString(L"Render target buffers initialized.\n");
+
+        CreateRtvAndDsvDescriptorHeaps();
+
+        // Create the depth/stencil buffer and view.
+        D3D12_RESOURCE_DESC depthStencilDesc;
+        depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+        depthStencilDesc.Alignment = 0;
+        depthStencilDesc.Width = mClientWidth;
+        depthStencilDesc.Height = mClientHeight;
+        depthStencilDesc.DepthOrArraySize = 1;
+        depthStencilDesc.MipLevels = 1;
+
+        depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
+        depthStencilDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+        depthStencilDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+        depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+        depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+        D3D12_CLEAR_VALUE optClear;
+        optClear.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+        optClear.DepthStencil.Depth = 1.0f;
+        optClear.DepthStencil.Stencil = 0;
+        CD3DX12_HEAP_PROPERTIES ziziProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+        device->CreateCommittedResource(
+            &ziziProperties,
+            D3D12_HEAP_FLAG_NONE,
+            &depthStencilDesc,
+            D3D12_RESOURCE_STATE_COMMON,
+            &optClear,
+            IID_PPV_ARGS(mDepthStencilBuffer.GetAddressOf()));
+
+        // Create descriptor to mip level 0 of entire resource using the format of the resource.
+        D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+        dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+        dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+        dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+        dsvDesc.Texture2D.MipSlice = 0;
+        device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
+
+
+
+    }
+
+    VOID CreateRtvAndDsvDescriptorHeaps()
+    {
+        D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
+        rtvHeapDesc.NumDescriptors = 3;
+        rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+        rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+        rtvHeapDesc.NodeMask = 0;
+        device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(mRtvHeap.GetAddressOf()));
+
+
+        D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
+        dsvHeapDesc.NumDescriptors = 1;
+        dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+        dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+        dsvHeapDesc.NodeMask = 0;
+        device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf()));
     }
 
 
@@ -280,6 +346,10 @@ public:
         }
         if (command_list) {
             command_list.Reset();
+        }
+        if (mDepthStencilBuffer) {
+            mDepthStencilBuffer->Release();
+            mDepthStencilBuffer = nullptr;
         }
     }
 
