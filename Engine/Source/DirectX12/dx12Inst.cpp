@@ -90,7 +90,7 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    SetBackground(0.6f, 0.6f, 0.6f, 1.0f);
+    SetBackground(0.6f, 0.6f, 0.6f, 0.0f);
 
     DrawAll();
 
@@ -133,7 +133,8 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    entity->Rotate(0.0f,0.01f,0.0f);
+    //entity->Translate(0.0f,0.01f,0.0f);
+    entity->Rotate(0.0f,0.005f,0.0f);
     entity->GetTransform()->UpdateMatrix();
     
     float dx = 0.0f;
@@ -174,7 +175,6 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     // Apply camera's view matrix
     ID3D12Resource *constantBufferGPU;
     //DirectX::XMFLOAT4X4 temp = MathHelper::Identity4x4();
-    DirectX::XMFLOAT4X4 worldViewProjMatrix =  MathHelper::Identity4x4();
     //DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
 
     // Méthode pour initialiser le tampon de constantes sur le GPU
