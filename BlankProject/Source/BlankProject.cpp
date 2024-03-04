@@ -48,9 +48,24 @@ public:
         //DX12Inst.BuildBoxGeometry();
 
         Component* addedComponent;
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(0)->InitObject("cube");
-        //DX12Inst.m_ListEntities.at(0)->Translate(0.0f,0.0f,0.0f);
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(0)->InitObject("pyramid");
+        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
+        DX12Inst.m_ListEntities.at(0)->Rotate(0.0f, 0.0f, 0.0f);
+
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(1)->InitObject("cube");
+        DX12Inst.m_ListEntities.at(1)->Translate(0.0f, 0.0f, 0.0f);
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(2)->InitObject("cube");
+        DX12Inst.m_ListEntities.at(2)->Translate(0.0f, 0.0f, 2.0f);
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(3)->InitObject("pyramid");
+        DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
+        ////DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        ////DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
+        ////dynamic_cast<MeshRenderer*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("mesh_renderer"))->InitMeshRenderer(DX12Inst.device, "cube");
+        ////DX12Inst.m_ListEntities.at(1)->Translate(2.5f,0.0f,0.0f);
         //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         //DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
         //DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 0.0f);
