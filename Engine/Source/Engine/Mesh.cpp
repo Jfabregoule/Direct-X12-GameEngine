@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Engine/CubeMesh.h"
 #include "Engine/PyramidMesh.h"
+#include "Engine/PipeMesh.h"
 
 Mesh::Mesh()
 {
@@ -33,6 +34,15 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
             m_Indices = pPyramidMesh->pyramidIndices;
             m_VerticesCount = pPyramidMesh->pyramidVerticesCount;
             m_IndexCount = pPyramidMesh->pyramidIndicesCount;
+        }
+        else if (type == "pipe")
+        {
+            PipeMesh* pPipeMesh = new PipeMesh(10);
+            pPipeMesh->GeneratePipe();
+            m_Vertices = pPipeMesh->pipe;
+            m_Indices = pPipeMesh->pipeIndices;
+            m_VerticesCount = pPipeMesh->pipeVerticesCount;
+            m_IndexCount = pPipeMesh->pipeIndicesCount;
         }
         else
         {
