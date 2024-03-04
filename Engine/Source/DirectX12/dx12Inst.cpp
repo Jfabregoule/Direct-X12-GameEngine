@@ -90,7 +90,7 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    SetBackground(0.6f, 0.6f, 0.6f, 0.0f);
+    SetBackground(0.6f, 0.6f, 0.6f, 1.0f);
 
     DrawAll();
 
@@ -133,8 +133,9 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    //entity->Translate(0.0f,0.01f,0.0f);
-    entity->Rotate(0.0f,0.005f,0.0f);
+    entity->Translate(0.01f,-0.01f,0.02f);
+    //entity->Rotate(2.0f,2.0f,2.0f);
+    entity->Scale(1.01f, 1.01f, 1.01f);
     entity->GetTransform()->UpdateMatrix();
     
     float dx = 0.0f;
