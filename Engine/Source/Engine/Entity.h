@@ -43,7 +43,7 @@ public:
 	void					AddChildren(Entity* childEntity);
 
 	Transform*				GetTransform();
-	DirectX::XMFLOAT4X4*		GetTransformConvert();
+	DirectX::XMFLOAT4X4*	GetTransformConvert();
 
 	std::vector<Component*>	GetAllComponents();
 	void AddComponentByName(std::string componentName);

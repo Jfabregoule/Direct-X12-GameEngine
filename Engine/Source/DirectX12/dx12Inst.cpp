@@ -90,7 +90,7 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    SetBackground(0.38f, 0.38f, 0.38f, 1.0f);
+    SetBackground(0.6f, 0.6f, 0.6f, 1.0f);
 
     DrawAll();
 
@@ -133,7 +133,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    entity->Rotate(0.001f,0.001f,0.0f);
+    entity->Rotate(0.0f,0.01f,0.0f);
     entity->GetTransform()->UpdateMatrix();
     
     float dx = 0.0f;
@@ -149,7 +149,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     float z = mRadius * sinf(mPhi) * sinf(mTheta);
     float y = mRadius * cosf(mPhi);
      
-    XMVECTOR pos = XMVectorSet( x - 1000.0f, y - 1000.0f, z - 1000.0f, 1.0f);
+    XMVECTOR pos = XMVectorSet( x - 1.0f, y - 1.0f, z - 1.0f, 1.0f);
     XMVECTOR target = XMVectorZero();
     XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
