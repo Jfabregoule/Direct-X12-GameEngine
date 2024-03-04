@@ -200,7 +200,7 @@ public:
     VOID RenderFrame();
     VOID Draw(Entity* entity);
     VOID DrawAll();
-    VOID SetBackground(float r, float g, float b, float a = 1.0f);
+    VOID SetBackground(float r, float g, float b, float a = 0.0f);
 
     /*
    * |-------------------------------------------------
