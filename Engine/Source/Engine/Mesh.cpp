@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Mesh.h"
 #include "Engine/CubeMesh.h"
+#include "Engine/PyramidMesh.h"
 
 Mesh::Mesh()
 {
@@ -12,15 +13,36 @@ Mesh::~Mesh()
 	
 }
 
-void Mesh::InitializeMesh(ID3D12Device* device, Vertex* vertices)
+void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
 {
     if (vertices == nullptr) {
-        CubeMesh* pCubeMesh = new CubeMesh();
-        pCubeMesh->GenerateCube();
-        m_Vertices = pCubeMesh->cube;
-        m_Indices = pCubeMesh->cubeIndices;
-        m_VerticesCount = pCubeMesh->cubeVerticesCount;
-        m_IndexCount = pCubeMesh->cubeIndicesCount;
+        if (type == "cube")
+        {
+            CubeMesh* pCubeMesh = new CubeMesh();
+            pCubeMesh->GenerateCube();
+            m_Vertices = pCubeMesh->cube;
+            m_Indices = pCubeMesh->cubeIndices;
+            m_VerticesCount = pCubeMesh->cubeVerticesCount;
+            m_IndexCount = pCubeMesh->cubeIndicesCount;
+        }
+        else if (type == "pyramid")
+        {
+            PyramidMesh* pPyramidMesh = new PyramidMesh();
+            pPyramidMesh->GeneratePyramid();
+            m_Vertices = pPyramidMesh->pyramid;
+            m_Indices = pPyramidMesh->pyramidIndices;
+            m_VerticesCount = pPyramidMesh->pyramidVerticesCount;
+            m_IndexCount = pPyramidMesh->pyramidIndicesCount;
+        }
+        else
+        {
+            CubeMesh* pCubeMesh = new CubeMesh();
+            pCubeMesh->GenerateCube();
+            m_Vertices = pCubeMesh->cube;
+            m_Indices = pCubeMesh->cubeIndices;
+            m_VerticesCount = pCubeMesh->cubeVerticesCount;
+            m_IndexCount = pCubeMesh->cubeIndicesCount;
+        }
     }
     else {
         m_Vertices = vertices;

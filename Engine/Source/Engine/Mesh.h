@@ -36,7 +36,7 @@ public:
     Mesh();
     ~Mesh();
 
-    void InitializeMesh(ID3D12Device* device, Vertex* vertices = nullptr);
+    void InitializeMesh(ID3D12Device* device, string type = "null", Vertex* vertices = nullptr);
     void CreateVertexBuffer(ID3D12Device* device);
     void CreateIndexBuffer(ID3D12Device* device);
     void CreateVertexBufferView(ID3D12Device* device);
