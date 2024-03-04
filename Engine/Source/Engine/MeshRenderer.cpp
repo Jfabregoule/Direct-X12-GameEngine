@@ -10,10 +10,10 @@ MeshRenderer::~MeshRenderer() {
 
 };
 
-void MeshRenderer::InitMeshRenderer(ID3D12Device* device) {
+void MeshRenderer::InitMeshRenderer(ID3D12Device* device, string type) {
 	SetName("mesh_renderer");
 	m_pMesh = new Mesh();
-	m_pMesh->InitializeMesh(device);
+	m_pMesh->InitializeMesh(device, type);
 	m_pShader = new Shader();
 	m_pShader->InitializeShader(device);
 };

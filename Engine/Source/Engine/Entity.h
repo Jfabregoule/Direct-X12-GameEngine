@@ -46,12 +46,14 @@ public:
 	DirectX::XMFLOAT4X4*	GetTransformConvert();
 
 	std::vector<Component*>	GetAllComponents();
-	void AddComponentByName(std::string componentName);
+	Component* AddComponentByName(std::string componentName);
 	Component* GetComponentByName(std::string name);
 
 	void Translate(float postionX, float positionY, float positionZ);
 	void Rotate(float yaw, float pitch, float roll);
 	void Scale(float scaleX, float scaleY, float scaleZ);
 
-	void SetMesh(Vertex* vertices = nullptr);
+	void InitObject(std::string type);
+
+	//void SetMesh(Vertex* vertices = nullptr);
 };

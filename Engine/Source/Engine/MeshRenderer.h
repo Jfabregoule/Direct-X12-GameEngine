@@ -7,7 +7,7 @@
 class Texture;
 class Shader;
 
-class MeshRenderer : public Component {
+class ENGINE_API MeshRenderer : public Component {
 private:
 
 	Mesh* m_pMesh = nullptr;
@@ -40,5 +40,5 @@ public:
 	|---------------------------------------------------------------
 	*/
 
-	void InitMeshRenderer(ID3D12Device* device);
+	void InitMeshRenderer(ID3D12Device* device, string type = "null");
 };

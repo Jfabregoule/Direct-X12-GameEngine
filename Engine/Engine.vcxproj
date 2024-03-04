@@ -107,7 +107,6 @@
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
-    <ClCompile Include="Source\Engine\Cube.cpp" />
     <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
@@ -144,13 +143,13 @@
     <ClInclude Include="Source\DirectX12\Vertex.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Engine\Component.h" />
-    <ClInclude Include="Source\Engine\Cube.h" />
     <ClInclude Include="Source\Engine\CubeMesh.h" />
     <ClInclude Include="Source\Engine\DirectX12Utils.h" />
     <ClInclude Include="Source\Engine\Entity.h" />
     <ClInclude Include="Source\Engine\Mesh.h" />
     <ClInclude Include="Source\Engine\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\OEngine.h" />
+    <ClInclude Include="Source\Engine\PyramidMesh.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />

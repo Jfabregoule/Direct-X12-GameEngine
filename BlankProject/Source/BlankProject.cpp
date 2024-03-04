@@ -5,6 +5,7 @@
 #include "DirectX12/dx12Inst.h"
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
+#include "Engine/MeshRenderer.h"
 
 BOOL GameRunning = TRUE;
 
@@ -46,21 +47,33 @@ public:
         DX12Inst.CreateFencesAndEvents();
         //DX12Inst.BuildBoxGeometry();
 
+        Component* addedComponent;
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(0)->AddComponentByName("mesh_renderer");
+        DX12Inst.m_ListEntities.at(0)->InitObject("cube");
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f,0.0f,0.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
-        DX12Inst.m_ListEntities.at(1)->Translate(2.5f,0.0f,0.0f);
+        DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
+        DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 0.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(2)->AddComponentByName("mesh_renderer");
-        DX12Inst.m_ListEntities.at(2)->Translate(-2.5f,0.0f,0.0f);
+        DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
+        DX12Inst.m_ListEntities.at(2)->Translate(0.0f, 0.0f, 2.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(3)->AddComponentByName("mesh_renderer");
-        DX12Inst.m_ListEntities.at(3)->Translate(0.0f,2.5f,0.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(4)->AddComponentByName("mesh_renderer");
-        DX12Inst.m_ListEntities.at(4)->Translate(0.0f,-2.5f,0.0f);
+        DX12Inst.m_ListEntities.at(3)->InitObject("cube");
+        DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
+        ////DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        ////DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
+        ////dynamic_cast<MeshRenderer*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("mesh_renderer"))->InitMeshRenderer(DX12Inst.device, "cube");
+        ////DX12Inst.m_ListEntities.at(1)->Translate(2.5f,0.0f,0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //addedComponent = DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
+        //dynamic_cast<MeshRenderer*>(addedComponent)->InitMeshRenderer(DX12Inst.device, "cube");
+        //DX12Inst.m_ListEntities.at(1)->Translate(-2.5f,0.0f,0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(2)->AddComponentByName("mesh_renderer");
+        //DX12Inst.m_ListEntities.at(2)->Translate(0.0f,2.5f,0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(3)->AddComponentByName("mesh_renderer");
+        //DX12Inst.m_ListEntities.at(3)->Translate(0.0f,-2.5f,0.0f);
 
 
         MSG message;
