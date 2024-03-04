@@ -105,14 +105,16 @@ namespace Win32 {
 
 		// Draw
 
+		// Couleur fenetre
 		HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
 
 		RECT newRect = RECT{ 0, 0, size.cx, size.cy };
 
 		FillRect(hdc, &newRect, brush);
 
+		// Couleur contour
 		if (Active() && !Win32::Utils::IsWindowFullscreen(Handle())) {
-			brush = CreateSolidBrush(RGB(0, 100, 150));
+			brush = CreateSolidBrush(RGB(0, 200, 300));
 			FrameRect(hdc, &newRect, brush);
 		}
 
@@ -144,6 +146,7 @@ namespace Win32 {
 			rect = RECT{ 0, 0, size.cx, 30 };
 
 			SetBkMode(hdc, TRANSPARENT);
+			//							Couleur Texte + Icons		
 			SetTextColor(hdc, Active() ? RGB(255, 255, 255) : RGB(92, 92, 92));
 
 			DrawText(hdc, m_Title.c_str(), wcslen(m_Title.c_str()), &rect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
