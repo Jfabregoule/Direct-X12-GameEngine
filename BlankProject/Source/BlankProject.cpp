@@ -45,35 +45,24 @@ public:
         //DX12Inst.InitCamera();
         //shader.InitializeShader(DX12Inst.device);
         DX12Inst.CreateFencesAndEvents();
-        DX12Inst.BuildBoxGeometry();
+        //DX12Inst.BuildBoxGeometry();
 
         Component* addedComponent;
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(0)->InitObject("cube");
+        //DX12Inst.m_ListEntities.at(0)->Translate(0.0f,0.0f,0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
+        //DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 0.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
+        //DX12Inst.m_ListEntities.at(2)->Translate(0.0f, 0.0f, 2.0f);
+        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        //DX12Inst.m_ListEntities.at(3)->InitObject("cube");
+        //DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(0)->InitObject("pyramid");
+        DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(1)->InitObject("cube");
-        DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 0.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(2)->InitObject("cube");
-        DX12Inst.m_ListEntities.at(2)->Translate(0.0f, 0.0f, 2.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(3)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
-        ////DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        ////DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
-        ////dynamic_cast<MeshRenderer*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("mesh_renderer"))->InitMeshRenderer(DX12Inst.device, "cube");
-        ////DX12Inst.m_ListEntities.at(1)->Translate(2.5f,0.0f,0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //addedComponent = DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
-        //dynamic_cast<MeshRenderer*>(addedComponent)->InitMeshRenderer(DX12Inst.device, "cube");
-        //DX12Inst.m_ListEntities.at(1)->Translate(-2.5f,0.0f,0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(2)->AddComponentByName("mesh_renderer");
-        //DX12Inst.m_ListEntities.at(2)->Translate(0.0f,2.5f,0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(3)->AddComponentByName("mesh_renderer");
-        //DX12Inst.m_ListEntities.at(3)->Translate(0.0f,-2.5f,0.0f);
 
 
         MSG message;
@@ -82,13 +71,6 @@ public:
                 TranslateMessage(&message);     
                 DispatchMessage(&message);
             }
-
-            // Gérer les entrées de l'utilisateur pour déplacer la caméra
-            HandleInput(DX12Inst);
-
-            // Faire tourner automatiquement la caméra
-            float deltaTime = 0.016f; // Par exemple, supposez un temps fixe entre les frames
-            DX12Inst.camera.RotateAutomatically(deltaTime);
 
             // Rendre la frame
             DX12Inst.RenderFrame();
@@ -106,31 +88,6 @@ public:
     VOID Update() { };
 
     VOID Close() { GameRunning = FALSE; }
-
-    VOID HandleInput(DirectX12Instance& DX12Inst) {
-        // Gérer les entrées du clavier
-        if (GetAsyncKeyState('W') & 0x8000) {
-            DX12Inst.MoveCamera(0.0f, 0.0f, 0.1f); // Avancer
-        }
-        if (GetAsyncKeyState('S') & 0x8000) {
-            DX12Inst.MoveCamera(0.0f, 0.0f, -0.1f); // Reculer
-        }
-        if (GetAsyncKeyState('A') & 0x8000) {
-            DX12Inst.MoveCamera(-0.1f, 0.0f, 0.0f); // Aller à gauche
-        }
-        if (GetAsyncKeyState('D') & 0x8000) {
-            DX12Inst.MoveCamera(0.1f, 0.0f, 0.0f); // Aller à droite
-        }
-
-        // Gérer les entrées de la souris pour le déplacement de la caméra
-        POINT currentMousePos;
-        GetCursorPos(&currentMousePos);
-        float dx = static_cast<float>(currentMousePos.x - lastMousePos.x) * 0.001f;
-        float dy = static_cast<float>(currentMousePos.y - lastMousePos.y) * 0.001f;
-        DX12Inst.UpdateCamera(dx, dy, 0.0f);
-
-        lastMousePos = currentMousePos;
-    }
 };
 
 
