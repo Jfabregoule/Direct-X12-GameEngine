@@ -135,3 +135,9 @@ void Entity::SetMesh(Vertex* vertices) {
 		return;
 	}
 };
+
+void Entity::UpdateEntity() {
+
+	m_Transform.UpdateMatrix();
+
+};

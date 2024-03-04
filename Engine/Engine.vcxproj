@@ -106,6 +106,7 @@
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Collider.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
     <ClCompile Include="Source\Engine\Cube.cpp" />
     <ClCompile Include="Source\Engine\Entity.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\DirectX12\Vertex.h" />
     <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\Engine\Collider.h" />
     <ClInclude Include="Source\Engine\Component.h" />
     <ClInclude Include="Source\Engine\Cube.h" />
     <ClInclude Include="Source\Engine\CubeMesh.h" />

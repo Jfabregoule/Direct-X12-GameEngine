@@ -54,4 +54,5 @@ public:
 	void Scale(float scaleX, float scaleY, float scaleZ);
 
 	void SetMesh(Vertex* vertices = nullptr);
+	void UpdateEntity();
 };
