@@ -36,8 +36,8 @@ void Transform::Identity() {
 void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
 
     // Vector
-    m_VectorScale.x = scaleX;
-    m_VectorScale.y = scaleY;
+    m_VectorScale.x *= scaleX;
+    m_VectorScale.y *= scaleY;
     m_VectorScale.z *= scaleZ;
 
 

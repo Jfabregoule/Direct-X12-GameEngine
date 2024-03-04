@@ -1,4 +1,4 @@
-cbuffer ViewProjBuffer : register(b0)
+cbuffer WorldViewProjBuffer : register(b0)
 {
     float4x4 worldViewProjMatrix; // Combined transformation matrix
 }
