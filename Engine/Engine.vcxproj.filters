@@ -336,5 +336,8 @@
     <ClInclude Include="Source\Engine\Collider.h">
       <Filter>Source\Engine\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\PipeMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
