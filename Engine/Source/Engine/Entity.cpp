@@ -79,23 +79,21 @@ std::vector<Component*> Entity::GetAllComponents()
 	return m_ListComponent;
 }
 
-void Entity::AddComponentByName(std::string componentName)
+Component *Entity::AddComponentByName(std::string componentName)
 {
+	
 	if (std::strcmp(componentName.c_str(), "camera") == 0)
 		;//m_Components.push_back(new Camera());
-	else if (std::strcmp(componentName.c_str(), "mesh_renderer") == 0)
+	if (std::strcmp(componentName.c_str(), "mesh_renderer") == 0)
 	{
 		if (GetComponentByName("mesh_renderer") == nullptr)
 		{
 			MeshRenderer* meshRenderer = new MeshRenderer();
-			meshRenderer->InitMeshRenderer(m_pDevice);
 			m_ListComponent.push_back(meshRenderer);
+			return meshRenderer;
 		}
 			
 	}
-		
-		
-		
 }
 
 #pragma endregion
@@ -106,38 +104,45 @@ void Entity::AddComponentByName(std::string componentName)
 * |----------------------------------------------
 */
 
-void Entity::Translate(float postionX, float positionY, float positionZ) {
+void	Entity::Translate(float postionX, float positionY, float positionZ) {
 	m_Transform.Translate(postionX, positionY, positionZ);
 };
 
-void Entity::Rotate(float yaw, float pitch, float roll) {
+void	Entity::Rotate(float yaw, float pitch, float roll) {
 	m_Transform.Rotate(yaw, pitch, roll);
 };
 
-void Entity::Scale(float scaleX, float scaleY, float scaleZ) {
+void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
-void Entity::SetMesh(Vertex* vertices) {
-	if (GetComponentByName("mesh_renderer") != nullptr) {
-		if (vertices == nullptr) {
-			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
-			mesh_renderer->SetMesh(new Mesh());
-			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice);
-		}
-		else {
-			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
-			mesh_renderer->SetMesh(new Mesh());
-			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice, vertices);
-		}
+void	Entity::InitObject(string type)
+{
+	if (type == "camera")
+	{
+		//
 	}
-	else {
-		return;
+	else if (type == "cube" || type == "pyramid")
+	{
+		Component* meshRenderer = AddComponentByName("mesh_renderer");
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
 	}
-};
+}
 
-void Entity::UpdateEntity() {
-
-	m_Transform.UpdateMatrix();
-
-};
+//void Entity::SetMesh(Vertex* vertices) {
+//	if (GetComponentByName("mesh_renderer") != nullptr) {
+//		if (vertices == nullptr) {
+//			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
+//			mesh_renderer->SetMesh(new Mesh());
+//			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice);
+//		}
+//		else {
+//			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
+//			mesh_renderer->SetMesh(new Mesh());
+//			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice, vertices);
+//		}
+//	}
+//	else {
+//		return;
+//	}
+//};
