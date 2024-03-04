@@ -48,6 +48,7 @@ public:
 
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->AddComponentByName("mesh_renderer");
+        DX12Inst.m_ListEntities.at(0)->Translate(0.0f,0.0f,0.0f);
 
 
         MSG message;
