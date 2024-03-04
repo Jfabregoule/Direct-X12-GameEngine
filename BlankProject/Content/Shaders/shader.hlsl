@@ -23,6 +23,7 @@ PSInput vs_main(VSInput input)
     output.position = mul(worldViewProjMatrix, float4(input.position, 1.0f));
     // Set color to white initially
     output.color = input.color;
+    input.color.a = 1.0f;
 
     return output;
 }
