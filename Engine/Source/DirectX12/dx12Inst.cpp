@@ -3,6 +3,7 @@
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/InputManager.h"
 
 DirectX12Instance* DirectX12Instance::inst;
 
@@ -194,7 +195,9 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
 VOID DirectX12Instance::DrawAll() {
-    m_pMainCamera->Translate(0.0f, 0.0f, 0.05f);
+    m_pMainCamera->Translate(0.05f, 0.05f, 0.05f);
+    //m_pMainCamera->Rotate(0.0f, 0.0f, 0.5f);
+    //m_pMainCamera->Scale(1.01f, 1.01f, 1.01f);
     for (int i = 0; i < m_ListEntities.size(); i++) {
         //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
@@ -211,6 +214,7 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
     command_list->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 };
 
+
 VOID DirectX12Instance::UpdateCam(Entity* entity) {
     Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
     XMFLOAT3 CamPos = m_pMainCamera->GetTransform()->m_VectorPosition;
@@ -225,6 +229,12 @@ VOID DirectX12Instance::UpdateCam(Entity* entity) {
     XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
     XMFLOAT4X4 monZob = cam->GetMatrixProj();
     XMMATRIX proj = XMLoadFloat4x4(&monZob);
+
+   //m_pInputManager->Handle();
+    //m_pInputManager->UpdateState();
+
+   // m_pMainCamera->GetTransform();
+
     m_worldViewProjMatrix = world * view * proj;
 };
 

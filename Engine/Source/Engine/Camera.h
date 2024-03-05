@@ -21,6 +21,10 @@ private:
 	DirectX::XMVECTOR m_Target;
 	DirectX::XMVECTOR m_Up;
 
+	DirectX::XMVECTOR m_Forward;
+	DirectX::XMVECTOR m_Position;
+	DirectX::XMVECTOR m_Tup;
+
 public:
 
 	Camera();
@@ -50,6 +54,11 @@ public:
 	|---------------------------------------------------------------
 	*/
 
+
+	void MoveForward(float distance);
+	void MoveBackward(float distance);
+	void StrafeRight(float distance);
+	void StrafeLeft(float distance);
 	void UpdateMatrix();
 
 };
