@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 
-InputManager::InputManager() {
+InputManager::InputManager(DirectX12Instance *inst) {
     currentStateZ = IDLE;
     previousStateZ = IDLE;
 
@@ -20,6 +20,7 @@ InputManager::InputManager() {
 
     currentStateA = IDLE;
     previousStateA = IDLE;
+    dx12Inst = inst;
 }
 
 InputManager::~InputManager()
@@ -83,6 +84,7 @@ void InputManager::Handle() {
         newStateA = RELEASED;
     }
 #pragma endregion A
+    UpdateState();
 }
 
 void InputManager::UpdateState() {
@@ -120,6 +122,22 @@ void InputManager::UpdateState() {
         currentStateZ = IDLE;
         OutputDebugString(L"Z IDLE \n");
         OutputDebugString(L"\n");
+    }
+    if (currentStateW == PRESSED || currentStateW == HELD)
+    {
+        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
+    }
+    if (currentStateA == PRESSED || currentStateA == HELD)
+    {
+        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
+    }
+    if (currentStateS == PRESSED || currentStateS == HELD)
+    {
+        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, -0.1f);
+    }
+    if (currentStateD == PRESSED || currentStateD == HELD)
+    {
+        dx12Inst->m_pMainCamera->Translate(0.1f, 0.0f, 0.0f);
     }
 #pragma endregion Z
 
@@ -243,6 +261,7 @@ void InputManager::UpdateState() {
     }
 #pragma endregion A 
 
+    dynamic_cast<Camera*>(dx12Inst->m_pMainCamera->GetComponentByName("camera"))->UpdateFront();
 }
 
 InputState InputManager::GetCurrentState(char m_Key) {

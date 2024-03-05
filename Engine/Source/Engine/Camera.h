@@ -4,6 +4,7 @@
 
 #include "Engine/Component.h"
 #include "DirectX12/MathHelper.h"
+#include "transform.h"
 
 
 
@@ -25,9 +26,11 @@ private:
 	DirectX::XMVECTOR m_Position;
 	DirectX::XMVECTOR m_Tup;
 
+	Transform* camTransform;
+
 public:
 
-	Camera();
+	Camera(Transform *transform);
 	~Camera();
 
 	void Init(float aspectRatio);
@@ -59,6 +62,7 @@ public:
 	void MoveBackward(float distance);
 	void StrafeRight(float distance);
 	void StrafeLeft(float distance);
+	void UpdateFront();
 	void UpdateMatrix();
 
 };

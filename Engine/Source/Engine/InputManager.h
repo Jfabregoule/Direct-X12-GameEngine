@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../DirectX12/dx12Inst.h"
 
 enum InputState {
     IDLE,
@@ -10,7 +11,7 @@ enum InputState {
 
 class ENGINE_API InputManager {
 
-public:
+private:
 
     InputState previousStateZ;
     InputState currentStateZ;
@@ -36,7 +37,11 @@ public:
     InputState currentStateA;
     InputState newStateA;
 
-    InputManager();
+    DirectX12Instance* dx12Inst;
+
+public:
+
+    InputManager(DirectX12Instance* inst);
     ~InputManager();
 
     void Handle();

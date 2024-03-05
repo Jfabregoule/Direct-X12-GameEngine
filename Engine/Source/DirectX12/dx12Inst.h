@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
-#include "Engine/InputManager.h" 
 #include "Engine/Entity.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
 
@@ -27,8 +26,6 @@ public:
 public:
 
     HWND m_handle;
-
-    InputManager m_pInputManager;
 
     BOOL GameRunning = TRUE;
 
