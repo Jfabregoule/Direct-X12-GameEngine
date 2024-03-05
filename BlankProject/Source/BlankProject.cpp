@@ -6,6 +6,7 @@
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/InputManager.h"
 
 BOOL GameRunning = TRUE;
 
@@ -42,6 +43,7 @@ public:
         DirectX12Instance DX12Inst(handle);
 
         DX12Inst.InitGraphics();
+        InputManager handleInputs(&DX12Inst);
 
         Component* addedComponent;
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
@@ -84,12 +86,12 @@ public:
             }
 
             // Rendre la frame
+            handleInputs.Handle();
             DX12Inst.RenderFrame();
 
             GameRunning = window->IsRunning();
         }
         DX12Inst.ReleaseFrame();
-        DX12Utils::ReportLiveObjectsUtils();
         DX12Inst.Cleanup();
     };
 
