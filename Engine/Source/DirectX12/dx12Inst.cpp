@@ -230,6 +230,7 @@ VOID DirectX12Instance::UpdateCam(Entity* entity) {
     XMFLOAT4X4 monZob = cam->GetMatrixProj();
     XMMATRIX proj = XMLoadFloat4x4(&monZob);
 
+
    //m_pInputManager->Handle();
     //m_pInputManager->UpdateState();
 
