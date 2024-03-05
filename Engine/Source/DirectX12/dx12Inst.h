@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
+#include "Engine/InputManager.h" 
 #include "Engine/Entity.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
 
@@ -14,6 +15,7 @@ private:
 
     static DirectX12Instance* Instance() { return inst; }
 
+
 public:
 
     /* - Constructor with Singleton assignment and predefined variables - */
@@ -21,9 +23,12 @@ public:
     DirectX12Instance(HWND handle);
     ~DirectX12Instance();
 
+
 public:
 
     HWND m_handle;
+
+    InputManager m_pInputManager;
 
     BOOL GameRunning = TRUE;
 
@@ -344,20 +349,20 @@ public:
             device->Release();
             device = nullptr;
         }
-        if (dxgi_factory) {
+        if (dxgi_factory) { 
             dxgi_factory->Release();
             dxgi_factory = nullptr;
-        }
+        } 
         if (debug_interface) {
             debug_interface->Release();
-            debug_interface = nullptr;
+            debug_interface = nullptr; 
         }
-        if (command_list) {
-            command_list.Reset();
+        if (command_list) { 
+            command_list.Reset(); 
         }
         if (mDepthStencilBuffer) {
-            mDepthStencilBuffer->Release();
-            mDepthStencilBuffer = nullptr;
+            mDepthStencilBuffer->Release(); 
+            mDepthStencilBuffer = nullptr; 
         }
     }
 

@@ -31,8 +31,36 @@ void Camera::Init(float aspectRatio) {
     m_Target = DirectX::XMVectorZero();
 }
 
-void Camera::UpdateMatrix() {
-    // Création de la matrice de projection perspective
-    m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
 
-};
+void Camera::MoveForward(float distance) {
+    DirectX::XMVECTOR forward = DirectX::XMVector3Normalize(m_Forward);
+    DirectX::XMVECTOR displacement = DirectX::XMVectorScale(forward, distance);
+
+    m_Position = DirectX::XMVectorAdd(m_Position, displacement);
+}
+
+void Camera::MoveBackward(float distance) {
+    DirectX::XMVECTOR backward = DirectX::XMVectorNegate(DirectX::XMVector3Normalize(m_Forward));
+    DirectX::XMVECTOR displacement = DirectX::XMVectorScale(backward, distance);
+
+    m_Position = DirectX::XMVectorAdd(m_Position, displacement);
+}
+
+void Camera::StrafeRight(float distance) {
+    DirectX::XMVECTOR right = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(m_Forward, m_Tup));
+    DirectX::XMVECTOR displacement = DirectX::XMVectorScale(right, distance);
+
+    m_Position = DirectX::XMVectorAdd(m_Position, displacement);
+}
+
+void Camera::StrafeLeft(float distance) {
+    DirectX::XMVECTOR left = DirectX::XMVectorNegate(DirectX::XMVector3Normalize(DirectX::XMVector3Cross(m_Forward, m_Tup)));
+    DirectX::XMVECTOR displacement = DirectX::XMVectorScale(left, distance);
+
+    m_Position = DirectX::XMVectorAdd(m_Position, displacement);
+}
+
+void Camera::UpdateMatrix() {
+    m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
+    DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);
+}
