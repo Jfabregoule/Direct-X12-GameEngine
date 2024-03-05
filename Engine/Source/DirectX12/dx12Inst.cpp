@@ -3,6 +3,7 @@
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/InputManager.h"
 
 DirectX12Instance* DirectX12Instance::inst;
 
@@ -194,9 +195,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
 VOID DirectX12Instance::DrawAll() {
-    //m_pMainCamera->Translate(0.05f, 0.05f, 0.05f);
-    //m_pMainCamera->Rotate(0.0f, 0.0f, 0.5f);
-    //m_pMainCamera->Scale(1.01f, 1.01f, 1.01f);
+    m_pMainCamera->Translate(0.05f, 0.05f, 0.05f);
     for (int i = 0; i < m_ListEntities.size(); i++) {
         //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
