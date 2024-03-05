@@ -55,10 +55,7 @@ public:
 	*/
 
 
-	void MoveForward(float distance);
-	void MoveBackward(float distance);
-	void StrafeRight(float distance);
-	void StrafeLeft(float distance);
+
 	void UpdateMatrix();
 
 };
