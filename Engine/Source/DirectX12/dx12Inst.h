@@ -74,8 +74,8 @@ public:
 
     XMMATRIX m_worldViewProjMatrix;
 
-    int mClientWidth = 800;
-    int mClientHeight = 600;
+    int mClientWidth = 1280;
+    int mClientHeight = 720;
 
     float count = 0;
     float mTheta = 1.5f * XM_PI;
@@ -219,9 +219,15 @@ public:
         dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
         dsvDesc.Texture2D.MipSlice = 0;
         device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
+        CreateFencesAndEvents();
+
+        float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
 
-
+        m_pMainCamera = new Entity(device);
+        Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
+        cam->Init(aspectRatio);
+        m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
     }
 
     VOID CreateRtvAndDsvDescriptorHeaps()
@@ -267,6 +273,8 @@ public:
     VOID Draw(Entity* entity);
     VOID DrawAll();
     VOID SetBackground(float r, float g, float b, float a = 0.0f);
+    VOID UpdateCam(Entity* entity);
+
 
     /*
    * |-------------------------------------------------
