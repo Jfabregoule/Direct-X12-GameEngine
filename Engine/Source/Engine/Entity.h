@@ -4,6 +4,7 @@
 #include "Engine/Component.h"
 #include "Engine/transform.h"
 #include "DirectX12/Vertex.h"
+#include "Engine/Camera.h"
 
 class ID3D12Device;
 

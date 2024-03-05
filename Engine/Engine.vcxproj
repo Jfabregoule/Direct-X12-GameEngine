@@ -97,7 +97,6 @@
     <ClCompile Include="Source\Core\CoreDefinitions.cpp" />
     <ClCompile Include="Source\Core\CoreMinimal.cpp" />
     <ClCompile Include="Source\Core\PerGameSettings.cpp" />
-    <ClCompile Include="Source\DirectX12\Camera.cpp" />
     <ClCompile Include="Source\DirectX12\d3dApp.cpp" />
     <ClCompile Include="Source\DirectX12\d3dUtil.cpp" />
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
@@ -106,6 +105,7 @@
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Camera.cpp" />
     <ClCompile Include="Source\Engine\Collider.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
     <ClCompile Include="Source\Engine\Entity.cpp" />
@@ -130,7 +130,6 @@
     <ClInclude Include="Source\Core\CoreDefinitions.h" />
     <ClInclude Include="Source\Core\CoreMinimal.h" />
     <ClInclude Include="Source\Core\PerGameSettings.h" />
-    <ClInclude Include="Source\DirectX12\Camera.h" />
     <ClInclude Include="Source\DirectX12\d3dApp.h" />
     <ClInclude Include="Source\DirectX12\d3dUtil.h" />
     <ClInclude Include="Source\DirectX12\d3dx12.h" />
@@ -143,6 +142,7 @@
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\DirectX12\Vertex.h" />
     <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\Engine\Camera.h" />
     <ClInclude Include="Source\Engine\Collider.h" />
     <ClInclude Include="Source\Engine\Component.h" />
     <ClInclude Include="Source\Engine\CubeMesh.h" />

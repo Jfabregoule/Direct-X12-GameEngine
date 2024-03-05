@@ -13,18 +13,6 @@ DirectX12Instance::DirectX12Instance(HWND handle)
 
     m_handle = handle;
 
-    // Paramètres de la projection perspective
-    float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
-    float fovAngleY = DirectX::XMConvertToRadians(45.0f);
-    float nearZ = 0.1f;
-    float farZ = 1000.0f;
-
-    // Création de la matrice de projection perspective
-    XMMATRIX projMatrix = XMMatrixPerspectiveFovLH(fovAngleY, aspectRatio, nearZ, farZ);
-
-    // Stocker la matrice de projection dans une variable mProj (par exemple)
-    XMStoreFloat4x4(&mProj, projMatrix);
-
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -140,34 +128,13 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     ///////////////////////////////////////////
 
     //entity->Translate(0.01f,-0.01f,0.02f);
+    if (*mesh_renderer->GetMesh()->GetIndexCount() == 18)
+        entity->Translate(0.0f,-0.0f, -0.01f);
     entity->Rotate(0.0f, 0.01f, 0.0f);
     //entity->Scale(1.01f, 1.01f, 1.01f);
     entity->GetTransform()->UpdateMatrix();
 
-    float dx = 0.0f;
-    float dy = 0.0f;
-
-    mTheta += dx;
-    mPhi += dy;
-
-    // Restrict the angle mPhi.
-    mPhi = MathHelper::Clamp(mPhi, 0.1f, MathHelper::Pi - 0.1f);
-
-    float x = mRadius * sinf(mPhi) * cosf(mTheta);
-    float z = mRadius * sinf(mPhi) * sinf(mTheta);
-    float y = mRadius * cosf(mPhi);
-
-    XMVECTOR pos = XMVectorSet(-10.0f, 3.0f, -1.0f, 1.0f);
-    XMVECTOR target = XMVectorZero();
-    XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-    XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
-    XMStoreFloat4x4(&mView, view);
-
-    XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
-    XMMATRIX proj = XMLoadFloat4x4(&mProj);
-    m_worldViewProjMatrix = world * view * proj;
-
+    UpdateCam(entity);
     ///////////////////////////////////////////
 
 
@@ -227,6 +194,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
 VOID DirectX12Instance::DrawAll() {
+    m_pMainCamera->Translate(0.0f, 0.0f, 0.05f);
     for (int i = 0; i < m_ListEntities.size(); i++) {
         //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
@@ -241,6 +209,23 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
     command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
     command_list->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+};
+
+VOID DirectX12Instance::UpdateCam(Entity* entity) {
+    Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
+    XMFLOAT3 CamPos = m_pMainCamera->GetTransform()->m_VectorPosition;
+
+    XMVECTOR pos = XMVectorSet(CamPos.x, CamPos.y, CamPos.z, 1.0f);
+    XMVECTOR target = *cam->GetTarget();
+    XMVECTOR up = *cam->GetUp();
+
+    XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+    XMStoreFloat4x4(&mView, view);
+
+    XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
+    XMFLOAT4X4 monZob = cam->GetMatrixProj();
+    XMMATRIX proj = XMLoadFloat4x4(&monZob);
+    m_worldViewProjMatrix = world * view * proj;
 };
 
 

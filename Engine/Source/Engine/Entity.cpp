@@ -79,12 +79,18 @@ std::vector<Component*> Entity::GetAllComponents()
 	return m_ListComponent;
 }
 
-Component *Entity::AddComponentByName(std::string componentName)
+Component* Entity::AddComponentByName(std::string componentName)
 {
-	
-	if (std::strcmp(componentName.c_str(), "camera") == 0)
-		;//m_Components.push_back(new Camera());
-	if (std::strcmp(componentName.c_str(), "mesh_renderer") == 0)
+
+	if (std::strcmp(componentName.c_str(), "camera") == 0) {
+		if (GetComponentByName("camera") == nullptr)
+		{
+			Camera* camera = new Camera();
+			m_ListComponent.push_back(camera);
+			return camera;
+		}
+	}
+	else if (std::strcmp(componentName.c_str(), "mesh_renderer") == 0)
 	{
 		if (GetComponentByName("mesh_renderer") == nullptr)
 		{
@@ -92,7 +98,7 @@ Component *Entity::AddComponentByName(std::string componentName)
 			m_ListComponent.push_back(meshRenderer);
 			return meshRenderer;
 		}
-			
+
 	}
 }
 
