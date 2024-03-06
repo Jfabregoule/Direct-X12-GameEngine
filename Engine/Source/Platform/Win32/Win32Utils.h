@@ -3,6 +3,16 @@
 #define DEFAULTWIDTH 1280
 #define DEFAULTHEIGHT 720
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 Win32 Namespace 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Win32 Namespace
+
 namespace Win32 {
 
     enum WindowType : DWORD {
@@ -11,9 +21,27 @@ namespace Win32 {
         POPUP = WS_POPUP
     };
 
+    /*
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |									 Utils Namespace 									|
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
 
+#pragma region Utils Namespace
 
     namespace Utils {
+
+        /*
+        *  -------------------------------------------------------------------------------------
+        * |                                                                                     |
+        * |									 Functions 							        		|
+        * |                                                                                     |
+        *  -------------------------------------------------------------------------------------
+        */
+
+#pragma region Functions
 
         BOOL ENGINE_API AddBitmap(CONST WCHAR* szFileName, HDC hWinDC, INT x = 0, INT y = 0);
 
@@ -63,5 +91,12 @@ namespace Win32 {
             else  ShowWindow(hwnd, SW_MAXIMIZE);
         }
 
+#pragma endregion
+
     }
+
+#pragma endregion
+
 }
+
+#pragma endregion

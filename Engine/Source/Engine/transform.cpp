@@ -5,6 +5,16 @@
 
 #define IDENTITY {1.0f,0.0f,0.0f,0.0f,    0.0f,1.0f,0.0f,0.0f,    0.0f,0.0f,1.0f,0.0f,    0.0f,0.0f,0.0f,1.0f};
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 void Transform::Identity() {
 
     // Scale
@@ -34,6 +44,17 @@ void Transform::Identity() {
     m_Matrix = IDENTITY;
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
 
 void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
 
@@ -49,9 +70,6 @@ void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
     XMStoreFloat4x4(&m_MatrixScale, scalingMatrix);
 }
 
-
-
-// Rotation
 void Transform::Rotate(float yaw, float pitch, float roll) {
 
     // Quaternion
@@ -86,8 +104,6 @@ void Transform::Rotate(float yaw, float pitch, float roll) {
 
 }
 
-
-
 void Transform::Translate(float positionX, float positionY, float positionZ) {
     // Vector
     m_VectorPosition.x += positionX;
@@ -101,10 +117,6 @@ void Transform::Translate(float positionX, float positionY, float positionZ) {
     XMStoreFloat4x4(&m_MatrixPosition, translationMatrix);
 }
 
-
-
-
-// Result
 void Transform::UpdateMatrix() {
 
     XMMATRIX globalMatrix;
@@ -115,3 +127,5 @@ void Transform::UpdateMatrix() {
 
     XMStoreFloat4x4(&m_Matrix, globalMatrix);
 }
+
+#pragma endregion

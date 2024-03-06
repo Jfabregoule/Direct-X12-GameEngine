@@ -5,6 +5,16 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 Entity::Entity(ID3D12Device* device) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
@@ -17,13 +27,17 @@ Entity::~Entity() {
 
 };
 
+#pragma endregion
+
 /*
-* |----------------------------------------------
-* |				   Getters/Setters               |
-* |----------------------------------------------
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Getters/Setters 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
 */
 
-#pragma region Getter/Setter
+#pragma region Getters And Setters
 
 std::string Entity::GetName()
 {
@@ -105,10 +119,14 @@ Component* Entity::AddComponentByName(std::string componentName)
 #pragma endregion
 
 /*
-* |----------------------------------------------
-* |					  Methods		             |
-* |----------------------------------------------
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
 */
+
+#pragma region Methods
 
 void	Entity::Translate(float postionX, float positionY, float positionZ) {
 	m_Transform.Translate(postionX, positionY, positionZ);
@@ -133,22 +151,15 @@ void	Entity::InitObject(string type)
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
 		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
 	}
-}
+	else {
+		return;
+	}
+};
 
-//void Entity::SetMesh(Vertex* vertices) {
-//	if (GetComponentByName("mesh_renderer") != nullptr) {
-//		if (vertices == nullptr) {
-//			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
-//			mesh_renderer->SetMesh(new Mesh());
-//			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice);
-//		}
-//		else {
-//			MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(GetComponentByName("mesh_renderer"));
-//			mesh_renderer->SetMesh(new Mesh());
-//			mesh_renderer->GetMesh()->InitializeMesh(m_pDevice, vertices);
-//		}
-//	}
-//	else {
-//		return;
-//	}
-//};
+void Entity::UpdateEntity() {
+
+	m_Transform.UpdateMatrix();
+
+};
+
+#pragma endregion

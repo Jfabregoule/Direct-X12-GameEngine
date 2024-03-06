@@ -1,9 +1,19 @@
 #include "Engine.h"
 #include "Component.h"
 
-Component::Component(std::string name)
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
+Component::Component()
 {
-	m_Name = name;
+	m_Name = "default";
 }
 
 Component::~Component()
@@ -11,7 +21,21 @@ Component::~Component()
 	std::cout << "Destroying component : " << m_Name;
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Getters/Setters 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Getters And Setters
+
 VOID Component::SetName(const char* name) {
 	m_Name = name;
 
 }
+
+#pragma endregion

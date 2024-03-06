@@ -6,7 +6,28 @@
 
 using namespace DirectX;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 PipeMesh Struct 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region PipeMesh Struct
+
 struct ENGINE_API PipeMesh {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Constructor 									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor
+
 	PipeMesh(UINT nbVertices) {
 		pipe = new Vertex[nbVertices * 2 + 2];
 		pipeVerticesCount = nbVertices * 2 + 2;
@@ -40,12 +61,36 @@ struct ENGINE_API PipeMesh {
 		}
 	};
 
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Attributes 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributes
+
 	UINT pipeVerticesCount; // Taille du tableau pipe
 	Vertex* pipe;
 
 	UINT* pipeIndices; // 102 indices = nbPointsCercle * 4 * 3
 
 	UINT pipeIndicesCount;
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Methods 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
 
 	void GeneratePipe() {
 		float x, z, angle;
@@ -71,4 +116,9 @@ struct ENGINE_API PipeMesh {
 			pipe[i + pipeVerticesCount/2 + 2] = Vertex(XMFLOAT3(x, -1.0f, z), XMFLOAT4(Colors::Yellow));
 		}
 	};
+
+#pragma endregion
+
 };
+
+#pragma endregion

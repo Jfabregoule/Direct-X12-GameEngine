@@ -6,15 +6,70 @@
 #include <Uxtheme.h>
 #pragma comment(lib,"uxtheme.lib")
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									  Win32 Namespace 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Win32 Namespace
+
 namespace Win32 {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									  Window Class 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Window Class
 
 	class ENGINE_API Window : public Win32::SubObject, public Win32::Caption {
 
 	public:
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |								 Constructor/Destructor 								|
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Constructor And Destructor
+
 		Window(std::wstring title, HICON icon, WindowType type = RESIZABLE);
 		~Window();
 
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |									    Initialize 									    |
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Initialize
+
 		virtual VOID Initialize() override;
+
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |									    Methods 									    |
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Methods
 
 		virtual			LRESULT				MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
@@ -36,6 +91,17 @@ namespace Win32 {
 
 		VOID OnPaint();
 
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |									    Attributs 									    |
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Attributs
 
 	protected:
 
@@ -44,6 +110,18 @@ namespace Win32 {
 
 		BOOL			m_Active;
 		BOOL			m_IsRunning = TRUE;
+
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |									  Getters/Setters 									|
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Getters And Setters
 
 	public:
 		SIZE			Size() { return m_Size; }
@@ -56,6 +134,13 @@ namespace Win32 {
 		VOID			Size(INT cx, INT cy) { m_Size.cx = cx; m_Size.cy = cy; }
 		VOID			Active(BOOL active) { m_Active = active; }
 		VOID			IsRunning(BOOL IsRunning) { m_IsRunning = IsRunning; }
+
+#pragma endregion
+
 	};
 
+#pragma endregion
+
 }
+
+#pragma endregion

@@ -6,7 +6,28 @@
 
 using namespace DirectX;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 CubeMesh Struct 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region CubeMesh Struct
+
 struct ENGINE_API CubeMesh {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Attributes 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributes
+
 	Vertex cube[8];
 	UINT cubeVerticesCount = 8; // Taille du tableau cube
 
@@ -38,6 +59,18 @@ struct ENGINE_API CubeMesh {
 	};
 	UINT cubeIndicesCount = sizeof(cubeIndices) / sizeof(UINT);
 
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Methods 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
+
 	void GenerateCube() {
 		cube[0] = Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::White) );
 		cube[1] = Vertex(XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Black) );
@@ -49,4 +82,9 @@ struct ENGINE_API CubeMesh {
 		cube[6] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Cyan) );
 		cube[7] = Vertex(XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Magenta));
 	};
+
+#pragma endregion
+
 };
+
+#pragma endregion

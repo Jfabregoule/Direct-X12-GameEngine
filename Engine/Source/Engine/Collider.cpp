@@ -1,6 +1,16 @@
 #include "Engine.h"
 #include "Collider.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Constructor/Destructor 								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 Collider::Collider() {
 
 };
@@ -9,10 +19,34 @@ Collider::~Collider() {
 	ColliderRelease();
 };
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Initialize 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Initialize
+
 void Collider::InitCollider() {
 	SetName("collider");
 	m_pBox = new CubeMesh();
 };
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
 
 void Collider::ColliderRelease() {
 	m_pBox = nullptr;
@@ -40,3 +74,5 @@ void Collider::IsTrigger(Entity* entity) {
 void Collider::CheckVertex() {
 
 };
+
+#pragma endregion
