@@ -51,7 +51,7 @@ void InputManager::Handle() {
 
     dx12Inst->m_pMainCamera->Rotate(rotationX, rotationY, 0.0f);
 
-    dx12Inst->m_pMainCamComponent->ChangeForward();
+    //SetCursorPos(1280, 720);
 
     UpdateState();
 }
@@ -96,6 +96,4 @@ void InputManager::CheckForMovements() {
         dx12Inst->m_pMainCamera->Translate(0.0f, 0.1f, 0.0f);
     if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, -0.1f, 0.0f);
-
-    dx12Inst->m_pMainCamComponent->ChangePos();
 }
