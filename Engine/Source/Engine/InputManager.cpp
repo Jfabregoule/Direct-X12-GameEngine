@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include <cmath> // Inclure la bibliothèque cmath pour utiliser la fonction radians
 
+#define SPEED 0.1f
 
 InputManager::InputManager(DirectX12Instance* inst) {
     // Initialise tous les états des touches à IDLE
@@ -80,12 +81,14 @@ InputState InputManager::GetPreviousState(int keyCode) {
 }
 
 void InputManager::CheckForMovements() {
+    DirectX::XMFLOAT3 forwardVect;
+    DirectX::XMStoreFloat3(&forwardVect, dx12Inst->m_pMainCamComponent->GetForwardVector());
     if (keys['W'].currentState == PRESSED || keys['W'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
+        dx12Inst->m_pMainCamera->Translate(forwardVect.x * SPEED, forwardVect.y * SPEED, forwardVect.z * SPEED);
     if (keys['Z'].currentState == PRESSED || keys['Z'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
     if (keys['S'].currentState == PRESSED || keys['S'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, -0.1f);
+        dx12Inst->m_pMainCamera->Translate(-forwardVect.x * SPEED, -forwardVect.y * SPEED, -forwardVect.z * SPEED);
     if (keys['A'].currentState == PRESSED || keys['A'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
     if (keys['Q'].currentState == PRESSED || keys['Q'].currentState == HELD)
