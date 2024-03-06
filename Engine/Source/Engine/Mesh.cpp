@@ -12,7 +12,6 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	
 }
 
 void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
@@ -49,7 +48,7 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
         else if (type == "sphere")
         {
             SphereMesh* pSphereMesh = new SphereMesh();
-            pSphereMesh->InitSphereMesh(100);
+            pSphereMesh->InitSphereMesh(10);
             pSphereMesh->GenerateSphere();
             m_Vertices = pSphereMesh->sphere;
             m_Indices = pSphereMesh->sphereIndices;
@@ -77,13 +76,14 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
     CreateIndexBuffer(device);
     CreateVertexBufferView(device);
     CreateIndexBufferView(device);
-
 }
 
-void Mesh::CreateVertexBuffer(ID3D12Device* device) {
+void Mesh::CreateVertexBuffer(ID3D12Device* device) 
+{
     // Créer un tampon de ressources (vertex buffer)
     CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(m_VertexSize * m_VerticesCount);
+
     HRESULT hr = device->CreateCommittedResource(
         &heapProperties,
         D3D12_HEAP_FLAG_NONE,
@@ -92,6 +92,7 @@ void Mesh::CreateVertexBuffer(ID3D12Device* device) {
         nullptr,
         IID_PPV_ARGS(&m_VertexBuffer)
     );
+
     if (FAILED(hr)) {
         // Gérer l'échec de la création de la ressource
         return;
@@ -111,8 +112,8 @@ void Mesh::CreateVertexBuffer(ID3D12Device* device) {
     m_VertexBuffer->Unmap(0, nullptr);
 }
 
-void Mesh::CreateIndexBuffer(ID3D12Device* device) {
-
+void Mesh::CreateIndexBuffer(ID3D12Device* device) 
+{
     // Créer un tampon de ressources (index buffer)
     CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(m_IndexCount * m_IndexSize);
@@ -143,7 +144,6 @@ void Mesh::CreateIndexBuffer(ID3D12Device* device) {
 
 void Mesh::CreateVertexBufferView(ID3D12Device* device) 
 {
- 
     // Remplir la structure D3D12_VERTEX_BUFFER_VIEW
     m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress(); // Adresse virtuelle du vertex buffer
     m_VertexBufferView.SizeInBytes = m_VerticesCount * m_VertexSize; // Taille totale du vertex buffer en octets

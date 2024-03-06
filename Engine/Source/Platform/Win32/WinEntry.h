@@ -1,14 +1,11 @@
 #include "Engine.h"
-
 #include "IApplication.h"
 #include "Common/CmdLineArgs.h"
-
 
 extern Win32::IApplication* EntryApplication();
 
 INT CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
-
 	auto EntryApp = EntryApplication();
 
 	PerGameSettings GameSettings;
@@ -20,11 +17,7 @@ INT CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 
 	EntryApp->PreInitialize();
 
-
-
 	EntryApp->Initialize();
-
-
 
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT)

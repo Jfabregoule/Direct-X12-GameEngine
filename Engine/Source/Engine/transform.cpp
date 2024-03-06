@@ -1,8 +1,6 @@
 #include "Engine.h"
 #include "Transform.h"
 
-//#define IDENTITY {1,0,0,0,    0,1,0,0,    0,0,1,0,    0,0,0,1};
-
 #define IDENTITY {1.0f,0.0f,0.0f,0.0f,    0.0f,1.0f,0.0f,0.0f,    0.0f,0.0f,1.0f,0.0f,    0.0f,0.0f,0.0f,1.0f};
 
 void Transform::Identity() {
@@ -11,7 +9,6 @@ void Transform::Identity() {
     m_VectorScale = { 1.0f,1.0f,1.0f };
 
     m_MatrixScale = IDENTITY;
-
 
     // Rotation
     m_VectorDirection = { 0.0f,0.0f,1.0f };
@@ -24,7 +21,6 @@ void Transform::Identity() {
 
     m_MatrixRotation = IDENTITY;
 
-
     // Position
     m_VectorPosition = { 0.0f,0.0f,0.0f };
 
@@ -34,14 +30,12 @@ void Transform::Identity() {
     m_Matrix = IDENTITY;
 }
 
-
-void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
-
+void Transform::Scale(float scaleX, float scaleY, float scaleZ) 
+{
     // Vector
     m_VectorScale.x *= scaleX;
     m_VectorScale.y *= scaleY;
     m_VectorScale.z *= scaleZ;
-
 
     // Matrix
     XMMATRIX scalingMatrix = XMMatrixScaling(m_VectorScale.x, m_VectorScale.y, m_VectorScale.z);
@@ -49,11 +43,9 @@ void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
     XMStoreFloat4x4(&m_MatrixScale, scalingMatrix);
 }
 
-
-
 // Rotation
-void Transform::Rotate(float yaw, float pitch, float roll) {
-
+void Transform::Rotate(float yaw, float pitch, float roll) 
+{
     // Quaternion
     XMVECTOR quaternion;
     quaternion = XMQuaternionRotationAxis(XMLoadFloat3(&m_VectorDirection), roll);
@@ -83,12 +75,10 @@ void Transform::Rotate(float yaw, float pitch, float roll) {
     m_VectorUp.x = m_MatrixRotation._31;
     m_VectorUp.y = m_MatrixRotation._32;
     m_VectorUp.z = m_MatrixRotation._33;
-
 }
 
-
-
-void Transform::Translate(float positionX, float positionY, float positionZ) {
+void Transform::Translate(float positionX, float positionY, float positionZ) 
+{
     // Vector
     m_VectorPosition.x += positionX;
     m_VectorPosition.y += positionY;
@@ -101,12 +91,9 @@ void Transform::Translate(float positionX, float positionY, float positionZ) {
     XMStoreFloat4x4(&m_MatrixPosition, translationMatrix);
 }
 
-
-
-
 // Result
-void Transform::UpdateMatrix() {
-
+void Transform::UpdateMatrix() 
+{
     XMMATRIX globalMatrix;
 
     globalMatrix = XMLoadFloat4x4(&m_MatrixScale);

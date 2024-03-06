@@ -48,6 +48,14 @@ public:
 		return a + (b-a)*t;
 	}
 
+	static void Normalize(float* x, float* y, float* z)
+	{
+		const float norm = sqrtf(powf(*x, 2) + powf(*y, 2) + powf(*z, 2));
+		*x /= norm;
+		*y /= norm;
+		*z /= norm;
+	}
+
 	template<typename T>
 	static T Clamp(const T& x, const T& low, const T& high)
 	{
@@ -94,7 +102,4 @@ public:
 
 	static const float Infinity;
 	static const float Pi;
-
-
 };
-
