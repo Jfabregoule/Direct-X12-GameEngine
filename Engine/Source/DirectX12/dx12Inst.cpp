@@ -219,24 +219,23 @@ VOID DirectX12Instance::UpdateCam(Entity* entity) {
     XMFLOAT3 CamPos = m_pMainCamera->GetTransform()->m_VectorPosition;
 
     XMVECTOR pos = XMVectorSet(CamPos.x, CamPos.y, CamPos.z, 1.0f);
-    XMVECTOR target = *cam->GetTarget();
+    XMVECTOR forward = cam->GetForwardVector(); // Obtenez le vecteur vers l'avant de la caméra
+    XMVECTOR target = pos + forward; // Calculez le point que la caméra regarde
     XMVECTOR up = *cam->GetUp();
 
     XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
     XMStoreFloat4x4(&mView, view);
 
-    XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
+    // Calcul de la matrice de projection (dans votre cas, cela semble déjà être fait correctement)
     XMFLOAT4X4 monZob = cam->GetMatrixProj();
     XMMATRIX proj = XMLoadFloat4x4(&monZob);
 
-
-   //m_pInputManager->Handle();
-    //m_pInputManager->UpdateState();
-
-   // m_pMainCamera->GetTransform();
+    // Calcul de la matrice world (dans votre cas, cela semble déjà être fait correctement)
+    XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
 
     m_worldViewProjMatrix = world * view * proj;
 };
+
 
 
 #pragma endregion

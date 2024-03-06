@@ -31,25 +31,6 @@ void Camera::Init(float aspectRatio) {
     //m_Target = DirectX::XMVectorZero();
 }
 
-
-
-void Camera::UpdateFront()
-{
-
-    // Direction est un vecteur normalisé, représentant le "devant" de la caméra
-    DirectX::XMVECTOR direction = DirectX::XMVectorSet(0, 0, 1, 0);
-
-    // Appliquer la rotation de la caméra à la direction
-    DirectX::XMMATRIX rotationMatrix = DirectX::XMLoadFloat4x4(&camTransform->m_MatrixRotation);
-    direction = DirectX::XMVector3TransformNormal(direction, rotationMatrix);
-
-    // Normaliser la direction pour s'assurer qu'elle est unitaire
-    direction = DirectX::XMVector3Normalize(direction);
-
-    // Mettre à jour m_Forward avec la direction calculée
-    m_Forward = direction;
-}
-
 void Camera::UpdateMatrix() {
     m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
     DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);

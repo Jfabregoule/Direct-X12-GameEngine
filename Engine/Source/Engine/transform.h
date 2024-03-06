@@ -11,6 +11,7 @@ struct Transform
     XMFLOAT4X4  m_MatrixScale;
 
     // Rotation
+    XMFLOAT3    m_VectorRotation;
     XMFLOAT3    m_VectorDirection;
     XMFLOAT3    m_VectorRight;
     XMFLOAT3    m_VectorUp;
@@ -31,5 +32,8 @@ struct Transform
     void Rotate(float yaw, float pitch, float roll);
     void Translate(float postionX, float positionY, float positionZ);
     void UpdateMatrix();
+
+    void SetRotationVector(DirectX::XMFLOAT3 rotation) { m_VectorRotation = rotation; }
+    DirectX::XMFLOAT3 GetRotationVector() const { return m_VectorRotation; }
 
 };
