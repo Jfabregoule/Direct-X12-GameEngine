@@ -37,7 +37,8 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
         }
         else if (type == "pipe")
         {
-            PipeMesh* pPipeMesh = new PipeMesh(10);
+            PipeMesh* pPipeMesh = new PipeMesh();
+            pPipeMesh->InitPipeMesh(10);
             pPipeMesh->GeneratePipe();
             m_Vertices = pPipeMesh->pipe;
             m_Indices = pPipeMesh->pipeIndices;
