@@ -128,6 +128,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
+    entity->Rotate(0.0f, 0.001f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);

@@ -69,6 +69,36 @@ public:
 		return forward;
 	}
 
+	DirectX::XMVECTOR GetRightVector() {
+		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
+
+		// Définir la direction avant comme l'axe x (1, 0, 0) transformé par la matrice de rotation
+		DirectX::XMVECTOR right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		right = DirectX::XMVector3TransformNormal(right, rotationMatrix);
+
+		// Normaliser le vecteur résultant
+		right = DirectX::XMVector3Normalize(right);
+
+		return right;
+	}
+
+	DirectX::XMVECTOR GetUpVector() {
+		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
+
+		// Définir la direction avant comme l'axe y (0, 1, 0) transformé par la matrice de rotation
+		DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		up = DirectX::XMVector3TransformNormal(up, rotationMatrix);
+
+		// Normaliser le vecteur résultant
+		up = DirectX::XMVector3Normalize(up);
+
+		return up;
+	}
+
 
 	/*
 	|---------------------------------------------------------------
