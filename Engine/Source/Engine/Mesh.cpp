@@ -4,6 +4,16 @@
 #include "Engine/PyramidMesh.h"
 #include "Engine/PipeMesh.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 Mesh::Mesh()
 {
     m_Name = "mesh";
@@ -13,6 +23,18 @@ Mesh::~Mesh()
 {
 	
 }
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Initialize 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Initialize
 
 void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
 {
@@ -150,6 +172,18 @@ void Mesh::CreateIndexBufferView(ID3D12Device* device)
     return;
 };
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Release 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Release
+
 void Mesh::CleanUpMeshResources() {
     // Libérer les ressources du vertex buffer
     if (m_VertexBuffer != nullptr) {
@@ -169,3 +203,5 @@ void Mesh::CleanUpMeshResources() {
     ZeroMemory(&m_VertexBufferView, sizeof(D3D12_VERTEX_BUFFER_VIEW));
     ZeroMemory(&m_IndexBufferView, sizeof(D3D12_INDEX_BUFFER_VIEW));
 }
+
+#pragma endregion

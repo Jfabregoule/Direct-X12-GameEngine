@@ -6,11 +6,43 @@
 
 #include <list>
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 Win32 Namespace 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Win32 Namespace
+
 namespace Win32 {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									 Caption Class	 									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Caption Class
+
 	class Caption
 	{
 
 	public:
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |										Attributs 										|
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Attributs
+
 		struct CaptionButton {
 			std::wstring Text = L"";
 
@@ -32,9 +64,34 @@ namespace Win32 {
 
 		std::list<CaptionButton*> m_CaptionButtons;
 
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |									Getters/Setters										|
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Getters And Setters
+
 	public:
 		BOOL ShowTitle() { return m_ShowTitle; }
 		std::list<CaptionButton*> CaptionButtons() { return m_CaptionButtons; };
+
+#pragma endregion
+
+		/*
+		*  -------------------------------------------------------------------------------------
+		* |                                                                                     |
+		* |										Methods 										|
+		* |                                                                                     |
+		*  -------------------------------------------------------------------------------------
+		*/
+
+#pragma region Methods
+
 	public:
 		VOID ShowTitle(BOOL show) { m_ShowTitle = show; }
 
@@ -42,4 +99,12 @@ namespace Win32 {
 		VOID AddCaptionButton(CaptionButton* button);
 
 	};
+
+#pragma endregion
+
+
+#pragma endregion
+
 }
+
+#pragma endregion

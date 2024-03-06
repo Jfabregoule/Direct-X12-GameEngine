@@ -4,6 +4,16 @@
 
 float speed = 0.1f;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |							    Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 InputManager::InputManager(DirectX12Instance* inst) {
     // Initialise tous les états des touches à IDLE
     for (int i = 0; i < 256; ++i) {
@@ -18,6 +28,18 @@ InputManager::InputManager(DirectX12Instance* inst) {
 }
 
 InputManager::~InputManager() {}
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
 
 void InputManager::Handle() {
     // Boucle à travers toutes les touches pour détecter les états
@@ -112,3 +134,5 @@ void InputManager::CheckForMovements() {
 
     dx12Inst->m_pMainCamComponent->ChangePos();
 }
+
+#pragma endregion

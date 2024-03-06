@@ -4,6 +4,16 @@
 
 namespace Engine {
 
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |								Constructor/Destructor 									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
+
 	Simulation::Simulation()
 		: Win32::Window(L"MainApplication", NULL)
 	{
@@ -13,6 +23,18 @@ namespace Engine {
 	Simulation::~Simulation()
 	{
 	}
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Methods 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
 
 	VOID Simulation::PreInitialize()
 	{
@@ -43,4 +65,7 @@ namespace Engine {
 
 		return Window::MessageHandler(hwnd, message, wParam, lParam);
 	}
+
+#pragma endregion
+
 }

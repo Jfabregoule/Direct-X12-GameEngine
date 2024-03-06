@@ -2,6 +2,16 @@
 #include "Camera.h"
 
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 Camera::Camera(Transform *transform) {
     camTransform = transform;
 };
@@ -9,6 +19,18 @@ Camera::Camera(Transform *transform) {
 Camera::~Camera() {
 
 };
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Initialize 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Initialize
 
 void Camera::Init(float aspectRatio) {
 
@@ -30,6 +52,18 @@ void Camera::Init(float aspectRatio) {
 
     //m_Target = DirectX::XMVectorZero();
 }
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
 
 void Camera::UpdateMatrix() {
     m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
@@ -55,3 +89,5 @@ void Camera::ChangeForward() {
     m_Forward = GetForwardVector();
     Change();
 };
+
+#pragma endregion
