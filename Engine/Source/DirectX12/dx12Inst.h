@@ -88,6 +88,15 @@ public:
     UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
 
 
+    ID3D12Resource* m_constantBufferGPU;
+    // Méthode pour initialiser le tampon de constantes sur le GPU
+    CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+    Camera* m_pMainCamComponent;
+    UINT8* m_pConstantBufferData;
+
+    HRESULT m_hresult;
+
+
     /*
    * |-------------------------------------------------
    * |						Init						|
@@ -230,6 +239,19 @@ public:
         Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
         cam->Init(aspectRatio);
         m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
+
+        m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
+
+        auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(m_worldViewProjMatrix));
+        m_hresult = device->CreateCommittedResource(
+            &test,
+            D3D12_HEAP_FLAG_NONE,
+            &testo,
+            D3D12_RESOURCE_STATE_GENERIC_READ,
+            nullptr,
+            IID_PPV_ARGS(&m_constantBufferGPU));
+        CheckSucceeded(m_hresult);
+
     }
 
     VOID CreateRtvAndDsvDescriptorHeaps()

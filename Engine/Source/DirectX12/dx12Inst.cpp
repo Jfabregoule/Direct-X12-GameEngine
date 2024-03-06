@@ -127,14 +127,10 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    //entity->Translate(0.01f,-0.01f,0.02f);
-    if (*mesh_renderer->GetMesh()->GetIndexCount() == 18)
-        entity->Translate(0.0f,-0.0f, -0.01f);
-    entity->Rotate(0.0f, 0.01f, 0.0f);
-    //entity->Scale(1.01f, 1.01f, 1.01f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);
+
     ///////////////////////////////////////////
 
 
@@ -146,33 +142,17 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-    // Apply camera's view matrix
-    ID3D12Resource* constantBufferGPU;
-    //DirectX::XMFLOAT4X4 temp = MathHelper::Identity4x4();
-    //DirectX::XMStoreFloat4x4(&worldViewProjMatrix , temp); // Données du tampon de constantes
-
-    // Méthode pour initialiser le tampon de constantes sur le GPU
-    auto test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-    auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(m_worldViewProjMatrix));
-    HRESULT hresult = device->CreateCommittedResource(
-        &test,
-        D3D12_HEAP_FLAG_NONE,
-        &testo,
-        D3D12_RESOURCE_STATE_GENERIC_READ,
-        nullptr,
-        IID_PPV_ARGS(&constantBufferGPU));
-    CheckSucceeded(hresult);
 
     // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
-    UINT8* pConstantBufferData;
+    
     CD3DX12_RANGE readRange(0, 0);
-    hresult = constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&pConstantBufferData));
-    CheckSucceeded(hresult);
-    memcpy(pConstantBufferData, &m_worldViewProjMatrix, sizeof(m_worldViewProjMatrix));
-    constantBufferGPU->Unmap(0, nullptr);
+    m_hresult = m_constantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&m_pConstantBufferData));
+    CheckSucceeded(m_hresult);
+    memcpy(m_pConstantBufferData, &m_worldViewProjMatrix, sizeof(m_worldViewProjMatrix));
+    m_constantBufferGPU->Unmap(0, nullptr);
 
     // Définissez la vue de tampon de constantes
-    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = constantBufferGPU->GetGPUVirtualAddress();
+    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = m_constantBufferGPU->GetGPUVirtualAddress();
     command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
     //command_list->SetGraphicsRootConstantBufferView(0, m_pMainCamera->GetComponentByName("Camera").GetViewMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").viewMatrix));
     //command_list->SetGraphicsRootConstantBufferView(1, m_pMainCamera->GetComponentByName("Camera").camera.GetProjectionMatrixGpuAddress(m_pMainCamera->GetComponentByName("Camera").projectionMatrix));
@@ -215,19 +195,13 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
 
 
 VOID DirectX12Instance::UpdateCam(Entity* entity) {
-    Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
-    XMFLOAT3 CamPos = m_pMainCamera->GetTransform()->m_VectorPosition;
-
-    XMVECTOR pos = XMVectorSet(CamPos.x, CamPos.y, CamPos.z, 1.0f);
-    XMVECTOR forward = cam->GetForwardVector(); // Obtenez le vecteur vers l'avant de la caméra
-    XMVECTOR target = pos + forward; // Calculez le point que la caméra regarde
-    XMVECTOR up = *cam->GetUp();
-
-    XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
-    XMStoreFloat4x4(&mView, view);
 
     // Calcul de la matrice de projection (dans votre cas, cela semble déjà être fait correctement)
-    XMFLOAT4X4 monZob = cam->GetMatrixProj();
+    XMFLOAT4X4 viewMatrix = m_pMainCamComponent->GetMatrixView();
+    XMMATRIX view = XMLoadFloat4x4(&viewMatrix);
+
+    // Calcul de la matrice de projection (dans votre cas, cela semble déjà être fait correctement)
+    XMFLOAT4X4 monZob = m_pMainCamComponent->GetMatrixProj();
     XMMATRIX proj = XMLoadFloat4x4(&monZob);
 
     // Calcul de la matrice world (dans votre cas, cela semble déjà être fait correctement)
