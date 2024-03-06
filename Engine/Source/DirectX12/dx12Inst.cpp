@@ -8,11 +8,9 @@ DirectX12Instance* DirectX12Instance::inst;
 
 DirectX12Instance::DirectX12Instance(HWND handle)
 {
-
     inst = this;
 
     m_handle = handle;
-
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -70,10 +68,8 @@ VOID DirectX12Instance::RenderFrame() {
     //D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
 
     // Configurer le registre de racine (root parameter) pour le tampon de constantes
-    //UINT rootParameterIndex = 1; // Supposons que c'est l'index du registre de racine que vous avez configuré dans votre pipeline de rendu
+    //UINT rootParameterIndex = 1; // Supposons que c'est l'index du registre de racine que vous avez configuré dans votre sphereline de rendu
     //command_list->SetGraphicsRootConstantBufferView(rootParameterIndex, gpuAddress);
-
-
 
     /*
     * |----------------------------------------------
@@ -115,7 +111,6 @@ VOID DirectX12Instance::RenderFrame() {
         fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
         WaitForSingleObject(fence_event[frame], INFINITE);
     }
-
 }
 
 VOID DirectX12Instance::Draw(Entity* entity) {
@@ -134,15 +129,12 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-
     command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
     command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
-
 
     UINT frame = m_CurrentBufferIndex;
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
     command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 
     // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
     
@@ -163,8 +155,6 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     command_list->IASetVertexBuffers(0, 1, &vertexbufftemp);
     command_list->IASetIndexBuffer(&Indexbufftemp);
-
-
 
     // Draw the thing
     auto DsvHeap = mDsvHeap->GetCPUDescriptorHandleForHeapStart();
@@ -210,7 +200,5 @@ VOID DirectX12Instance::UpdateCam(Entity* entity) {
 
     m_worldViewProjMatrix = world * view * proj;
 };
-
-
 
 #pragma endregion

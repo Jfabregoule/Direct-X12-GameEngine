@@ -21,8 +21,8 @@ private:
 	#pragma region Attributes
 	ID3D12Device* m_Device;
 
-	ID3D12PipelineState* m_pPipelineState;
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC m_PipelineDesc;
+	ID3D12PipelineState* m_pspherelineState;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC m_spherelineDesc;
 	ID3DBlob* m_VSByteCode = nullptr;
 	ID3DBlob* m_PSByteCode = nullptr;
 	bool m_M4XMsaaState;
@@ -69,7 +69,7 @@ public:
 	};
 
 	ID3D12PipelineState* GetPipelineState(){
-		return m_pPipelineState;
+		return m_pspherelineState;
 	};
 
 	void InitializeShader(ID3D12Device* device);

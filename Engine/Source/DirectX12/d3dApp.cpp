@@ -495,7 +495,7 @@ void D3DApp::CreateCommandObjects()
 		0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		mDirectCmdListAlloc.Get(), // Associated command allocator
-		nullptr,                   // Initial PipelineStateObject
+		nullptr,                   // Initial spherelineStateObject
 		IID_PPV_ARGS(mCommandList.GetAddressOf())));
 
 	// Start off in a closed state.  This is because the first time we refer 

@@ -3,6 +3,7 @@
 #include "Engine/CubeMesh.h"
 #include "Engine/PyramidMesh.h"
 #include "Engine/PipeMesh.h"
+#include "Engine/SphereMesh.h"
 
 Mesh::Mesh()
 {
@@ -38,12 +39,22 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
         else if (type == "pipe")
         {
             PipeMesh* pPipeMesh = new PipeMesh();
-            pPipeMesh->InitPipeMesh(10);
+            pPipeMesh->InitPipeMesh(100);
             pPipeMesh->GeneratePipe();
             m_Vertices = pPipeMesh->pipe;
             m_Indices = pPipeMesh->pipeIndices;
             m_VerticesCount = pPipeMesh->pipeVerticesCount;
             m_IndexCount = pPipeMesh->pipeIndicesCount;
+        }
+        else if (type == "sphere")
+        {
+            SphereMesh* pSphereMesh = new SphereMesh();
+            pSphereMesh->InitSphereMesh(100);
+            pSphereMesh->GenerateSphere();
+            m_Vertices = pSphereMesh->sphere;
+            m_Indices = pSphereMesh->sphereIndices;
+            m_VerticesCount = pSphereMesh->sphereVerticesCount;
+            m_IndexCount = pSphereMesh->sphereIndicesCount;
         }
         else
         {

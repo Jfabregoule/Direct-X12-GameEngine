@@ -157,6 +157,7 @@
     <ClInclude Include="Source\Engine\PyramidMesh.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
+    <ClInclude Include="Source\Engine\SphereMesh.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
     <ClInclude Include="Source\Engine\transform.h" />
     <ClInclude Include="Source\Platform\Win32\d3dx12.h" />

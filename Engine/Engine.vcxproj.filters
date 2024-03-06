@@ -345,5 +345,8 @@
     <ClInclude Include="Source\Engine\InputManager.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\SphereMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

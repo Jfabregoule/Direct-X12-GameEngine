@@ -8,7 +8,7 @@ using namespace DirectX;
 
 struct ENGINE_API PipeMesh
 {
-	UINT pipeVerticesCount; // Taille du tableau pipe
+	UINT pipeVerticesCount; // Taille du tableau Pipe
 
 	Vertex* pipe;
 
@@ -53,12 +53,24 @@ struct ENGINE_API PipeMesh
 		// Side Rectangles
 		for (UINT i = 0; i < m_PartCount; i++) {
 			pipeIndices[index++] = i + 1;
-			pipeIndices[index++] = (i + 1) % m_PartCount + 1;
-			pipeIndices[index++] = m_PartCount - i;
+			if (i == m_PartCount - 1)
+				pipeIndices[index++] = 1;
+			else
+				pipeIndices[index++] = i + 2;
+			pipeIndices[index++] = i + start + 1;
 
-			pipeIndices[index++] = m_PartCount + i;
-			pipeIndices[index++] = m_PartCount - (i + 1) % m_PartCount;
-			pipeIndices[index++] = i + 1;
+			if (i == m_PartCount - 1)
+			{
+				pipeIndices[index++] = 1;
+				pipeIndices[index++] = 1 + start;
+			}
+			else
+			{
+				pipeIndices[index++] = i + 2;
+				pipeIndices[index++] = i + start + 2;
+			}
+			pipeIndices[index++] = i + start + 1;
+
 		}
 	}
 
@@ -76,8 +88,6 @@ struct ENGINE_API PipeMesh
 		{
 			for (float angle = 0.0f; angle < XM_2PI; angle += step, index++)
 			{
-				//for (int i = 0; i < pipeVerticesCount/2; ++i) {
-				//angle = static_cast<float>(i) * 2.0f * XM_PI / static_cast<float>(pipeVerticesCount);
 				x = cos(angle);
 				z = sin(angle);
 				pipe[index] = Vertex(XMFLOAT3(x, disc == 0 ? 1.0f : -1.0f, z), XMFLOAT4(Colors::LightSkyBlue));

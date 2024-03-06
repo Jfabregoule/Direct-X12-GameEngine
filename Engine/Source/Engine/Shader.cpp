@@ -7,8 +7,8 @@ Shader::Shader()
 {
 	m_Device = nullptr;
 	m_HResult = S_OK;
-	m_pPipelineState = nullptr;
-	m_PipelineDesc = {};
+	m_pspherelineState = nullptr;
+	m_spherelineDesc = {};
 	m_M4XMsaaState = false;
 	m_M4XMsaaQuality = 0;
 }
@@ -44,7 +44,7 @@ void Shader::InitializeShader(ID3D12Device* device)
 	
 	if (InitializePipelineState() == false)
 	{
-		OutputDebugString(L"Error Initializing PipelineState");
+		OutputDebugString(L"Error Initializing spherelineState");
 		return;
 	}
 }
@@ -59,45 +59,45 @@ bool Shader::InitializePipelineState()
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
 
-	// Définition de la description de l'état du pipeline
-	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
-	m_PipelineDesc.pRootSignature = m_pRootSignature;
+	// Définition de la description de l'état du sphereline
+	m_spherelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
+	m_spherelineDesc.pRootSignature = m_pRootSignature;
 
 	// Définition des shaders
-	m_PipelineDesc.VS =
+	m_spherelineDesc.VS =
 	{
 		reinterpret_cast<BYTE*>(m_VSByteCode->GetBufferPointer()),
 		m_VSByteCode->GetBufferSize()
 	};
-	m_PipelineDesc.PS =
+	m_spherelineDesc.PS =
 	{
 		reinterpret_cast<BYTE*>(m_PSByteCode->GetBufferPointer()),
 		m_PSByteCode->GetBufferSize()
 	};
 
 	// Définition de l'état de rasterisation, de mélange et de stencil
-	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
-	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	m_spherelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	m_spherelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+	m_spherelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	m_spherelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
 	// Définition du masque d'échantillonage et de la topologie primitive
-	m_PipelineDesc.SampleMask = UINT_MAX;
-	m_PipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	m_spherelineDesc.SampleMask = UINT_MAX;
+	m_spherelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	// Définition de la cible de rendu
-	m_PipelineDesc.NumRenderTargets = 1;
-	m_PipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	m_spherelineDesc.NumRenderTargets = 1;
+	m_spherelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// Initialisation de la description d'échantillonage
-	m_PipelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1;
-	m_PipelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0;
+	m_spherelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1;
+	m_spherelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0;
 
 	// Définition du format de vue de profondeur-stencil
-	m_PipelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	m_spherelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-	// Création de l'état du pipeline
-	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState));
+	// Création de l'état du sphereline
+	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_spherelineDesc, IID_PPV_ARGS(&m_pspherelineState));
 	if (FAILED(hr))
 	{
 		return false;

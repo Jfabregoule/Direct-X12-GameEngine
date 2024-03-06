@@ -2160,7 +2160,7 @@ struct CD3DX12_RT_FORMAT_ARRAY : public D3D12_RT_FORMAT_ARRAY
 };
 
 //------------------------------------------------------------------------------------------------
-// Pipeline State Stream Helpers
+// PIPEline State Stream Helpers
 //------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------
@@ -2209,7 +2209,7 @@ typedef CD3DX12_PIPELINE_STATE_STREAM_SUBOBJECT< CD3DX12_VIEW_INSTANCING_DESC,  
 //------------------------------------------------------------------------------------------------
 // Stream Parser Helpers
 
-struct ID3DX12PipelineParserCallbacks
+struct ID3DX12PIPElineParserCallbacks
 {
     // Subobject Callbacks
     virtual void FlagsCb(D3D12_PIPELINE_STATE_FLAGS) {}
@@ -2241,7 +2241,7 @@ struct ID3DX12PipelineParserCallbacks
     virtual void ErrorDuplicateSubobject(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE /*DuplicateType*/) {}
     virtual void ErrorUnknownSubobject(UINT /*UnknownTypeValue*/) {}
 
-    virtual ~ID3DX12PipelineParserCallbacks() = default;
+    virtual ~ID3DX12PIPElineParserCallbacks() = default;
 };
 
 // CD3DX12_PIPELINE_STATE_STREAM1 Works on RS3+ (where there is a new view instancing subobject).  
@@ -2434,59 +2434,59 @@ struct CD3DX12_PIPELINE_STATE_STREAM
     }
 };
 
-struct CD3DX12_PIPELINE_STATE_STREAM_PARSE_HELPER : public ID3DX12PipelineParserCallbacks
+struct CD3DX12_PIPELINE_STATE_STREAM_PARSE_HELPER : public ID3DX12PIPElineParserCallbacks
 {
-    CD3DX12_PIPELINE_STATE_STREAM1 PipelineStream;
+    CD3DX12_PIPELINE_STATE_STREAM1 PIPElineStream;
     CD3DX12_PIPELINE_STATE_STREAM_PARSE_HELPER() noexcept
         : SeenDSS(false)
     {
         // Adjust defaults to account for absent members.
-        PipelineStream.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PIPElineStream.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
         // Depth disabled if no DSV format specified.
-        static_cast<D3D12_DEPTH_STENCIL_DESC1&>(PipelineStream.DepthStencilState).DepthEnable = false;
+        static_cast<D3D12_DEPTH_STENCIL_DESC1&>(PIPElineStream.DepthStencilState).DepthEnable = false;
     }
 
-    // ID3DX12PipelineParserCallbacks
-    void FlagsCb(D3D12_PIPELINE_STATE_FLAGS Flags) override {PipelineStream.Flags = Flags;}
-    void NodeMaskCb(UINT NodeMask) override {PipelineStream.NodeMask = NodeMask;}
-    void RootSignatureCb(ID3D12RootSignature* pRootSignature) override {PipelineStream.pRootSignature = pRootSignature;}
-    void InputLayoutCb(const D3D12_INPUT_LAYOUT_DESC& InputLayout) override {PipelineStream.InputLayout = InputLayout;}
-    void IBStripCutValueCb(D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue) override {PipelineStream.IBStripCutValue = IBStripCutValue;}
-    void PrimitiveTopologyTypeCb(D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType) override {PipelineStream.PrimitiveTopologyType = PrimitiveTopologyType;}
-    void VSCb(const D3D12_SHADER_BYTECODE& VS) override {PipelineStream.VS = VS;}
-    void GSCb(const D3D12_SHADER_BYTECODE& GS) override {PipelineStream.GS = GS;}
-    void StreamOutputCb(const D3D12_STREAM_OUTPUT_DESC& StreamOutput) override {PipelineStream.StreamOutput = StreamOutput;}
-    void HSCb(const D3D12_SHADER_BYTECODE& HS) override {PipelineStream.HS = HS;}
-    void DSCb(const D3D12_SHADER_BYTECODE& DS) override {PipelineStream.DS = DS;}
-    void PSCb(const D3D12_SHADER_BYTECODE& PS) override {PipelineStream.PS = PS;}
-    void CSCb(const D3D12_SHADER_BYTECODE& CS) override {PipelineStream.CS = CS;}
-    void BlendStateCb(const D3D12_BLEND_DESC& BlendState) override {PipelineStream.BlendState = CD3DX12_BLEND_DESC(BlendState);}
+    // ID3DX12PIPElineParserCallbacks
+    void FlagsCb(D3D12_PIPELINE_STATE_FLAGS Flags) override {PIPElineStream.Flags = Flags;}
+    void NodeMaskCb(UINT NodeMask) override {PIPElineStream.NodeMask = NodeMask;}
+    void RootSignatureCb(ID3D12RootSignature* pRootSignature) override {PIPElineStream.pRootSignature = pRootSignature;}
+    void InputLayoutCb(const D3D12_INPUT_LAYOUT_DESC& InputLayout) override {PIPElineStream.InputLayout = InputLayout;}
+    void IBStripCutValueCb(D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue) override {PIPElineStream.IBStripCutValue = IBStripCutValue;}
+    void PrimitiveTopologyTypeCb(D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType) override {PIPElineStream.PrimitiveTopologyType = PrimitiveTopologyType;}
+    void VSCb(const D3D12_SHADER_BYTECODE& VS) override {PIPElineStream.VS = VS;}
+    void GSCb(const D3D12_SHADER_BYTECODE& GS) override {PIPElineStream.GS = GS;}
+    void StreamOutputCb(const D3D12_STREAM_OUTPUT_DESC& StreamOutput) override {PIPElineStream.StreamOutput = StreamOutput;}
+    void HSCb(const D3D12_SHADER_BYTECODE& HS) override {PIPElineStream.HS = HS;}
+    void DSCb(const D3D12_SHADER_BYTECODE& DS) override {PIPElineStream.DS = DS;}
+    void PSCb(const D3D12_SHADER_BYTECODE& PS) override {PIPElineStream.PS = PS;}
+    void CSCb(const D3D12_SHADER_BYTECODE& CS) override {PIPElineStream.CS = CS;}
+    void BlendStateCb(const D3D12_BLEND_DESC& BlendState) override {PIPElineStream.BlendState = CD3DX12_BLEND_DESC(BlendState);}
     void DepthStencilStateCb(const D3D12_DEPTH_STENCIL_DESC& DepthStencilState) override
     {
-        PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState);
+        PIPElineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState);
         SeenDSS = true;
     }
     void DepthStencilState1Cb(const D3D12_DEPTH_STENCIL_DESC1& DepthStencilState) override
     {
-        PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState);
+        PIPElineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState);
         SeenDSS = true;
     }
     void DSVFormatCb(DXGI_FORMAT DSVFormat) override
     {
-        PipelineStream.DSVFormat = DSVFormat;
+        PIPElineStream.DSVFormat = DSVFormat;
         if (!SeenDSS && DSVFormat != DXGI_FORMAT_UNKNOWN)
         {
             // Re-enable depth for the default state.
-            static_cast<D3D12_DEPTH_STENCIL_DESC1&>(PipelineStream.DepthStencilState).DepthEnable = true;
+            static_cast<D3D12_DEPTH_STENCIL_DESC1&>(PIPElineStream.DepthStencilState).DepthEnable = true;
         }
     }
-    void RasterizerStateCb(const D3D12_RASTERIZER_DESC& RasterizerState) override {PipelineStream.RasterizerState = CD3DX12_RASTERIZER_DESC(RasterizerState);}
-    void RTVFormatsCb(const D3D12_RT_FORMAT_ARRAY& RTVFormats) override {PipelineStream.RTVFormats = RTVFormats;}
-    void SampleDescCb(const DXGI_SAMPLE_DESC& SampleDesc) override {PipelineStream.SampleDesc = SampleDesc;}
-    void SampleMaskCb(UINT SampleMask) override {PipelineStream.SampleMask = SampleMask;}
-    void ViewInstancingCb(const D3D12_VIEW_INSTANCING_DESC& ViewInstancingDesc) override {PipelineStream.ViewInstancingDesc = CD3DX12_VIEW_INSTANCING_DESC(ViewInstancingDesc);}
-    void CachedPSOCb(const D3D12_CACHED_PIPELINE_STATE& CachedPSO) override {PipelineStream.CachedPSO = CachedPSO;}
+    void RasterizerStateCb(const D3D12_RASTERIZER_DESC& RasterizerState) override {PIPElineStream.RasterizerState = CD3DX12_RASTERIZER_DESC(RasterizerState);}
+    void RTVFormatsCb(const D3D12_RT_FORMAT_ARRAY& RTVFormats) override {PIPElineStream.RTVFormats = RTVFormats;}
+    void SampleDescCb(const DXGI_SAMPLE_DESC& SampleDesc) override {PIPElineStream.SampleDesc = SampleDesc;}
+    void SampleMaskCb(UINT SampleMask) override {PIPElineStream.SampleMask = SampleMask;}
+    void ViewInstancingCb(const D3D12_VIEW_INSTANCING_DESC& ViewInstancingDesc) override {PIPElineStream.ViewInstancingDesc = CD3DX12_VIEW_INSTANCING_DESC(ViewInstancingDesc);}
+    void CachedPSOCb(const D3D12_CACHED_PIPELINE_STATE& CachedPSO) override {PIPElineStream.CachedPSO = CachedPSO;}
 
 private:
     bool SeenDSS;
@@ -2503,7 +2503,7 @@ inline D3D12_PIPELINE_STATE_SUBOBJECT_TYPE D3DX12GetBaseSubobjectType(D3D12_PIPE
     }
 }
 
-inline HRESULT D3DX12ParsePipelineStream(const D3D12_PIPELINE_STATE_STREAM_DESC& Desc, ID3DX12PipelineParserCallbacks* pCallbacks)
+inline HRESULT D3DX12ParsePIPElineStream(const D3D12_PIPELINE_STATE_STREAM_DESC& Desc, ID3DX12PIPElineParserCallbacks* pCallbacks)
 {
     if (pCallbacks == nullptr)
     {

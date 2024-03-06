@@ -308,12 +308,12 @@ public:
 
 #pragma region Clean Up
 
-    VOID ReleasePipeline() {
+    VOID Releasesphereline() {
         if (pipeline_state) {
             pipeline_state->Release();
             pipeline_state = nullptr;
         }
-        OutputDebugString(L"Pipeline state released.\n");
+        OutputDebugString(L"pipeline state released.\n");
     }
 
 
