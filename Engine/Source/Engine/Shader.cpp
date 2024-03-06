@@ -56,12 +56,12 @@ bool Shader::InitializePipelineState()
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
 	m_InputLayout.push_back(
-		{ "COLOR", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
 
 	// Définition de la description de l'état du pipeline
 	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
-	m_PipelineDesc.pRootSignature = m_pRootSignature; // safe
+	m_PipelineDesc.pRootSignature = m_pRootSignature;
 
 	// Définition des shaders
 	m_PipelineDesc.VS =
@@ -76,28 +76,28 @@ bool Shader::InitializePipelineState()
 	};
 
 	// Définition de l'état de rasterisation, de mélange et de stencil
-	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT); // safe
+	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
-	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT); // safe
-	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // safe
+	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
 	// Définition du masque d'échantillonage et de la topologie primitive
-	m_PipelineDesc.SampleMask = UINT_MAX; // safe
-	m_PipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; // safe
+	m_PipelineDesc.SampleMask = UINT_MAX;
+	m_PipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	// Définition de la cible de rendu
-	m_PipelineDesc.NumRenderTargets = 1; // safe
-	m_PipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // safe
+	m_PipelineDesc.NumRenderTargets = 1;
+	m_PipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// Initialisation de la description d'échantillonage
-	m_PipelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1; // safe
-	m_PipelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0; // safe
+	m_PipelineDesc.SampleDesc.Count = m_M4XMsaaState ? 4 : 1;
+	m_PipelineDesc.SampleDesc.Quality = m_M4XMsaaState ? (m_M4XMsaaQuality - 1) : 0;
 
 	// Définition du format de vue de profondeur-stencil
-	m_PipelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT; // safe
+	m_PipelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	// Création de l'état du pipeline
-	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState)); // safe
+	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState));
 	if (FAILED(hr))
 	{
 		return false;

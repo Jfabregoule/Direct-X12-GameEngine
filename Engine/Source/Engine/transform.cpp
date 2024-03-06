@@ -20,6 +20,8 @@ void Transform::Identity() {
 
     m_QuaternionRotation = { 0.0f,0.0f,0.0f,1.0f };
 
+    m_VectorRotation = { 0.0f, 0.0f, 0.0f };
+
     m_MatrixRotation = IDENTITY;
 
 
@@ -60,6 +62,10 @@ void Transform::Rotate(float yaw, float pitch, float roll) {
     XMVECTOR qRot = XMLoadFloat4(&m_QuaternionRotation);
     qRot = XMQuaternionMultiply(qRot, quaternion);
     XMStoreFloat4(&m_QuaternionRotation, qRot);
+
+    m_VectorRotation.x += pitch;
+    m_VectorRotation.y += yaw;
+    m_VectorRotation.z += roll;
 
     // Matrix
     XMMATRIX  rotationMatrix = XMMatrixRotationQuaternion(qRot);

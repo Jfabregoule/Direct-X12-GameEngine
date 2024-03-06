@@ -12,30 +12,15 @@ enum InputState {
 class ENGINE_API InputManager {
 
 private:
+    struct KeyState {
+        InputState previousState;
+        InputState currentState;
+        InputState newState;
+    };
 
-    InputState previousStateZ;
-    InputState currentStateZ;
-    InputState newStateZ;
-
-    InputState previousStateQ;
-    InputState currentStateQ;
-    InputState newStateQ;
-
-    InputState previousStateS;
-    InputState currentStateS;
-    InputState newStateS;
-
-    InputState previousStateD;
-    InputState currentStateD;
-    InputState newStateD;
-
-    InputState previousStateW;
-    InputState currentStateW;
-    InputState newStateW;
-
-    InputState previousStateA;
-    InputState currentStateA;
-    InputState newStateA;
+    POINT lastMousePos;
+    POINT mousePos;
+    KeyState keys[256]; // Stocke les états pour chaque touche
 
     DirectX12Instance* dx12Inst;
 
@@ -46,6 +31,7 @@ public:
 
     void Handle();
     void UpdateState();
-    InputState GetCurrentState(char m_Key);
-    InputState GetPreviousState(char m_Key);
+    InputState GetCurrentState(int key);
+    InputState GetPreviousState(int key);
+    void CheckForMovements();
 };

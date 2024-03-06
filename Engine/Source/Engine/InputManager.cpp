@@ -1,307 +1,95 @@
 #include "Engine.h"
 #include "InputManager.h"
+#include <cmath> // Inclure la bibliothèque cmath pour utiliser la fonction radians
 
 
-InputManager::InputManager(DirectX12Instance *inst) {
-    currentStateZ = IDLE;
-    previousStateZ = IDLE;
-
-    currentStateQ = IDLE;
-    previousStateQ = IDLE;
-
-    currentStateS = IDLE;
-    previousStateS = IDLE;
-
-    currentStateD = IDLE;
-    previousStateD = IDLE;
-
-    currentStateW = IDLE;
-    previousStateW = IDLE;
-
-    currentStateA = IDLE;
-    previousStateA = IDLE;
+InputManager::InputManager(DirectX12Instance* inst) {
+    // Initialise tous les états des touches à IDLE
+    for (int i = 0; i < 256; ++i) {
+        keys[i].currentState = IDLE;
+        keys[i].previousState = IDLE;
+    }
     dx12Inst = inst;
+
+    GetCursorPos(&lastMousePos);
+    ScreenToClient(dx12Inst->m_handle, &lastMousePos);
+    mousePos = lastMousePos;
 }
 
-InputManager::~InputManager()
-{
-}
+InputManager::~InputManager() {}
 
 void InputManager::Handle() {
+    // Boucle à travers toutes les touches pour détecter les états
+    for (int i = 0; i < 256; ++i) {
+        if (GetAsyncKeyState(i) & 0x8000) {
+            keys[i].newState = PRESSED;
+        }
+        else {
+            keys[i].newState = RELEASED;
+        }
+    }
 
-    // Key Detection
+    // Obtenez la position actuelle de la souris
+    POINT currentMousePos;
+    GetCursorPos(&currentMousePos);
+    ScreenToClient(dx12Inst->m_handle, &currentMousePos);
 
-#pragma region
-    if (GetAsyncKeyState('Z') & 0x8000) {
-        newStateZ = PRESSED;
-    }
-    else {
-        newStateZ = RELEASED;
-    }
-#pragma endregion Z
+    // Calculez les différences de position de la souris entre les cadres
+    int deltaX = currentMousePos.x - lastMousePos.x;
+    int deltaY = currentMousePos.y - lastMousePos.y;
 
-#pragma region
-    if (GetAsyncKeyState('S') & 0x8000) {
-        newStateS = PRESSED;
-    }
-    else {
-        newStateS = RELEASED;
-    }
-#pragma endregion S
+    // Mise à jour de la position précédente de la souris
+    lastMousePos = currentMousePos;
 
-#pragma region
-    if (GetAsyncKeyState('Q') & 0x8000) {
-        newStateQ = PRESSED;
-    }
-    else {
-        newStateQ = RELEASED;
-    }
-#pragma endregion Q
+    // Ajoutez la rotation de la caméra en fonction des mouvements de la souris
+    // Convertir les valeurs de déplacement en radians et les multiplier par un facteur de sensibilité
+    float sensitivity = 0.001f; // Réglage de la sensibilité de la souris
+    float rotationX = static_cast<float>(deltaY) * sensitivity;
+    float rotationY = static_cast<float>(deltaX) * sensitivity;
 
-#pragma region
-    if (GetAsyncKeyState('D') & 0x8000) {
-        newStateD = PRESSED;
-    }
-    else {
-        newStateD = RELEASED;
-    }
-#pragma endregion D
+    dx12Inst->m_pMainCamera->Rotate(rotationX, rotationY, 0.0f);
 
-#pragma region
-    if (GetAsyncKeyState('W') & 0x8000) {
-        newStateW = PRESSED;
-    }
-    else {
-        newStateW = RELEASED;
-    }
-#pragma endregion W
-
-#pragma region
-    if (GetAsyncKeyState('A') & 0x8000) {
-        newStateA = PRESSED;
-    }
-    else {
-        newStateA = RELEASED;
-    }
-#pragma endregion A
     UpdateState();
 }
 
+
 void InputManager::UpdateState() {
-
-    previousStateZ = currentStateZ;
-    previousStateQ = currentStateQ;
-    previousStateS = currentStateS;
-    previousStateD = currentStateD;
-    previousStateW = currentStateW;
-    previousStateA = currentStateA;
-
-
-
-    // State Machine
-
-
-#pragma region
-// Z
-    if (newStateZ == PRESSED && previousStateZ == IDLE) {
-        currentStateZ = PRESSED;
-        OutputDebugString(L"Z PRESSED \n");
+    // Met à jour les états des touches
+    for (int i = 0; i < 256; ++i) {
+        keys[i].previousState = keys[i].currentState;
+        keys[i].currentState = keys[i].newState;
     }
 
-    else if (newStateZ == PRESSED && previousStateZ == PRESSED) {
-        currentStateZ = HELD;
-        OutputDebugString(L"Z HELD \n");
-    }
+    // Traitement des touches selon l'état
+    // Vous pouvez ajouter votre traitement ici
 
-    else if (newStateZ == RELEASED && previousStateZ == HELD) {
-        currentStateZ = RELEASED;
-        OutputDebugString(L"Z RELEASED \n");
-    }
+    // Gestion des mouvements
+    CheckForMovements();
+}
 
-    else if (newStateZ == RELEASED && previousStateZ == RELEASED) {
-        currentStateZ = IDLE;
-        OutputDebugString(L"Z IDLE \n");
-        OutputDebugString(L"\n");
-    }
-    if (currentStateW == PRESSED || currentStateW == HELD)
-    {
+InputState InputManager::GetCurrentState(int keyCode) {
+    return keys[keyCode].currentState;
+}
+
+InputState InputManager::GetPreviousState(int keyCode) {
+    return keys[keyCode].previousState;
+}
+
+void InputManager::CheckForMovements() {
+    if (keys['W'].currentState == PRESSED || keys['W'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
-    }
-    if (currentStateA == PRESSED || currentStateA == HELD)
-    {
-        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
-    }
-    if (currentStateS == PRESSED || currentStateS == HELD)
-    {
+    if (keys['Z'].currentState == PRESSED || keys['Z'].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
+    if (keys['S'].currentState == PRESSED || keys['S'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, -0.1f);
-    }
-    if (currentStateD == PRESSED || currentStateD == HELD)
-    {
+    if (keys['A'].currentState == PRESSED || keys['A'].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
+    if (keys['Q'].currentState == PRESSED || keys['Q'].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
+    if (keys['D'].currentState == PRESSED || keys['D'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.1f, 0.0f, 0.0f);
-    }
-#pragma endregion Z
-
-#pragma region
-    // Q
-    if (newStateQ == PRESSED && previousStateQ == IDLE) {
-        currentStateQ = PRESSED;
-        OutputDebugString(L"Q PRESSED \n");
-    }
-
-    else if (newStateQ == PRESSED && previousStateQ == PRESSED) {
-        currentStateQ = HELD;
-        OutputDebugString(L"Q HELD \n");
-    }
-
-    else if (newStateQ == RELEASED && previousStateQ == HELD) {
-        currentStateQ = RELEASED;
-        OutputDebugString(L"Q RELEASED \n");
-    }
-
-    else if (newStateQ == RELEASED && previousStateQ == RELEASED) {
-        currentStateQ = IDLE;
-        OutputDebugString(L"Q IDLE \n");
-        OutputDebugString(L"\n");
-    }
-#pragma endregion Q
-
-#pragma region
-    // S
-    if (newStateS == PRESSED && previousStateS == IDLE) {
-        currentStateS = PRESSED;
-        OutputDebugString(L"S PRESSED \n");
-    }
-
-    else if (newStateS == PRESSED && previousStateS == PRESSED) {
-        currentStateS = HELD;
-        OutputDebugString(L"S HELD \n");
-    }
-
-    else if (newStateS == RELEASED && previousStateS == HELD) {
-        currentStateS = RELEASED;
-        OutputDebugString(L"S RELEASED \n");
-    }
-
-    else if (newStateS == RELEASED && previousStateS == RELEASED) {
-        currentStateS = IDLE;
-        OutputDebugString(L"S IDLE \n");
-        OutputDebugString(L"\n");
-    }
-#pragma endregion S
-
-#pragma region
-    // D
-    if (newStateD == PRESSED && previousStateD == IDLE) {
-        currentStateD = PRESSED;
-        OutputDebugString(L"D PRESSED \n");
-    }
-
-    else if (newStateD == PRESSED && previousStateD == PRESSED) {
-        currentStateD = HELD;
-        OutputDebugString(L"D HELD \n");
-    }
-
-    else if (newStateD == RELEASED && previousStateD == HELD) {
-        currentStateD = RELEASED;
-        OutputDebugString(L"D RELEASED \n");
-    }
-
-    else if (newStateD == RELEASED && previousStateD == RELEASED) {
-        currentStateD = IDLE;
-        OutputDebugString(L"D IDLE \n");
-        OutputDebugString(L"\n");
-    }
-#pragma endregion D
-
-#pragma region
-    // W
-    if (newStateW == PRESSED && previousStateW == IDLE) {
-        currentStateW = PRESSED;
-        OutputDebugString(L"W PRESSED \n");
-    }
-
-    else if (newStateW == PRESSED && previousStateW == PRESSED) {
-        currentStateW = HELD;
-        OutputDebugString(L"W HELD \n");
-    }
-
-    else if (newStateW == RELEASED && previousStateW == HELD) {
-        currentStateW = RELEASED;
-        OutputDebugString(L"W RELEASED \n");
-    }
-
-    else if (newStateW == RELEASED && previousStateW == RELEASED) {
-        currentStateW = IDLE;
-        OutputDebugString(L"W IDLE \n");
-        OutputDebugString(L"\n");
-    }
-#pragma endregion W
-
-#pragma region 
-    // A
-    if (newStateA == PRESSED && previousStateA == IDLE) {
-        currentStateA = PRESSED;
-        OutputDebugString(L"A PRESSED \n");
-    }
-
-    else if (newStateA == PRESSED && previousStateA == PRESSED) {
-        currentStateA = HELD;
-        OutputDebugString(L"A HELD \n");
-    }
-
-    else if (newStateA == RELEASED && previousStateA == HELD) {
-        currentStateA = RELEASED;
-        OutputDebugString(L"A RELEASED \n");
-    }
-
-    else if (newStateA == RELEASED && previousStateA == RELEASED) {
-        currentStateA = IDLE;
-        OutputDebugString(L"A IDLE \n");
-        OutputDebugString(L"\n");
-    }
-#pragma endregion A 
-
-    dynamic_cast<Camera*>(dx12Inst->m_pMainCamera->GetComponentByName("camera"))->UpdateFront();
-}
-
-InputState InputManager::GetCurrentState(char m_Key) {
-    if (m_Key == 'Z') {
-        return currentStateZ;
-    }
-    if (m_Key == 'Q') {
-        return currentStateQ;
-    }
-    if (m_Key == 'S') {
-        return currentStateS;
-    }
-    if (m_Key == 'D') {
-        return currentStateD;
-    }
-    if (m_Key == 'W') {
-        return currentStateW;
-    }
-    if (m_Key == 'A') {
-        return currentStateA;
-    }
-}
-
-InputState InputManager::GetPreviousState(char m_Key) {
-    if (m_Key == 'Z') {
-        return previousStateZ;
-    }
-    if (m_Key == 'Q') {
-        return previousStateQ;
-    }
-    if (m_Key == 'S') {
-        return previousStateS;
-    }
-    if (m_Key == 'D') {
-        return previousStateD;
-    }
-    if (m_Key == 'W') {
-        return previousStateW;
-    }
-    if (m_Key == 'A') {
-        return previousStateA;
-    }
+    if (keys[VK_SPACE].currentState == PRESSED || keys[VK_SPACE].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(0.0f, 0.1f, 0.0f);
+    if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(0.0f, -0.1f, 0.0f);
 }
