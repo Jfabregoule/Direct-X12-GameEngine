@@ -6,10 +6,28 @@
 #include "DirectX12/MathHelper.h"
 #include "transform.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Camera Class                                        |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
 
+#pragma region Camera Class
 
 class ENGINE_API Camera : public Component {
 private:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Attributs									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributs
 
 	float m_AspectRatio;
 	float m_FovAngleY;
@@ -30,18 +48,49 @@ private:
 
 	Transform* camTransform;
 
+#pragma endregion
+
 public:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                               Constructor/Destructor                                |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	Camera(Transform *transform);
 	~Camera();
 
-	void Init(float aspectRatio);
+#pragma endregion
 
 	/*
-	|---------------------------------------------------------------
-	|						Getter/Setter							|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Init											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Init
+
+	void Init(float aspectRatio);
+
+#pragma endregion
+
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Getters And Setters
 
 	DirectX::XMFLOAT4X4 GetMatrixProj() { return m_MatrixProj; };
 	void SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
@@ -99,12 +148,18 @@ public:
 		return up;
 	}
 
+#pragma endregion
+
 
 	/*
-	|---------------------------------------------------------------
-	|							Methods								|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										 Methods								        |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Methods
 
 	void ChangePos();
 	void ChangeForward();
@@ -112,4 +167,8 @@ public:
 	void Change();
 	void UpdateMatrix();
 
+#pragma endregion
+
 };
+
+#pragma endregion

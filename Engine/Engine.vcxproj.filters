@@ -285,9 +285,6 @@
     <ClInclude Include="Source\DirectX12\dx12Inst.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\DX12Camera.h">
-      <Filter>Source\DirectX12\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dApp.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>

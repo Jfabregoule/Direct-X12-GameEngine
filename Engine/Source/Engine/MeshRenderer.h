@@ -7,24 +7,61 @@
 class Texture;
 class Shader;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                               MeshRenderer Class	                                |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Mesh Renderer
+
 class ENGINE_API MeshRenderer : public Component {
 private:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Attributs								        |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributs
 
 	Mesh* m_pMesh = nullptr;
 	Texture* m_pTexture = nullptr;
 	Shader* m_pShader = nullptr;
 
+#pragma endregion
+
 public:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                               Constructor/Destructor                                |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	MeshRenderer();
 	~MeshRenderer();
 	
+#pragma endregion
 
 	/*
-	|---------------------------------------------------------------
-	|						Getter/Setter							|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Getters And Setters
 
 	Mesh* GetMesh() { return m_pMesh; };
 	Texture* GetTexture() { return m_pTexture; };
@@ -34,11 +71,22 @@ public:
 	void SetTexture(Texture* texture) { m_pTexture = texture; };
 	void SetShader(Shader* shader) { m_pShader = shader; };
 
+#pragma endregion
+
 	/*
-	|---------------------------------------------------------------
-	|							Methods								|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Methods											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
 
+#pragma region Methods
+
 	void InitMeshRenderer(ID3D12Device* device, string type = "null");
+
+#pragma endregion
+
 };
+
+#pragma endregion
