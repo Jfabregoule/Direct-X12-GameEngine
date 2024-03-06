@@ -44,10 +44,12 @@ void InputManager::Handle() {
     // Ajoutez la rotation de la caméra en fonction des mouvements de la souris
     // Convertir les valeurs de déplacement en radians et les multiplier par un facteur de sensibilité
     float sensitivity = 0.001f; // Réglage de la sensibilité de la souris
-    float rotationX = static_cast<float>(deltaY) * sensitivity;
-    float rotationY = static_cast<float>(deltaX) * sensitivity;
+    float rotationX = static_cast<float>(deltaX) * sensitivity;
+    float rotationY = static_cast<float>(deltaY) * sensitivity;
 
     dx12Inst->m_pMainCamera->Rotate(rotationX, rotationY, 0.0f);
+
+    dx12Inst->m_pMainCamComponent->ChangeForward();
 
     UpdateState();
 }
@@ -92,4 +94,6 @@ void InputManager::CheckForMovements() {
         dx12Inst->m_pMainCamera->Translate(0.0f, 0.1f, 0.0f);
     if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, -0.1f, 0.0f);
+
+    dx12Inst->m_pMainCamComponent->ChangePos();
 }

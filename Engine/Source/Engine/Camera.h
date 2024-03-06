@@ -4,6 +4,7 @@
 
 #include "Engine/Component.h"
 #include "DirectX12/MathHelper.h"
+#include "transform.h"
 
 
 
@@ -16,7 +17,9 @@ private:
 	float m_FarZ;
 
 	DirectX::XMMATRIX m_ProjMatrix;
+	DirectX::XMMATRIX m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_MatrixProj = MathHelper::Identity4x4();
+	DirectX::XMFLOAT4X4 m_MatrixView = MathHelper::Identity4x4();
 
 	DirectX::XMVECTOR m_Target;
 	DirectX::XMVECTOR m_Up;
@@ -25,9 +28,11 @@ private:
 	DirectX::XMVECTOR m_Position;
 	DirectX::XMVECTOR m_Tup;
 
+	Transform* camTransform;
+
 public:
 
-	Camera();
+	Camera(Transform *transform);
 	~Camera();
 
 	void Init(float aspectRatio);
@@ -40,6 +45,8 @@ public:
 
 	DirectX::XMFLOAT4X4 GetMatrixProj() { return m_MatrixProj; };
 	void SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
+
+	DirectX::XMFLOAT4X4 GetMatrixView() { return m_MatrixView; };
 
 	DirectX::XMVECTOR* GetTarget() { return &m_Target; };
 	void SetTarget(DirectX::XMVECTOR vector) { m_Target = vector; };
@@ -69,8 +76,10 @@ public:
 	|---------------------------------------------------------------
 	*/
 
+	void ChangePos();
+	void ChangeForward();
 
-
+	void Change();
 	void UpdateMatrix();
 
 };

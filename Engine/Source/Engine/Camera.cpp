@@ -35,3 +35,23 @@ void Camera::UpdateMatrix() {
     m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
     DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);
 }
+
+void Camera::Change() {
+
+    m_Target = m_Position + m_Forward; // Calculez le point que la caméra regarde
+
+    //Si crash ici, m_Target doit etre différent de 0
+    m_ViewMatrix = XMMatrixLookAtLH(m_Position, m_Target, m_Up);
+    XMStoreFloat4x4(&m_MatrixView, m_ViewMatrix);
+}
+
+//On sépare les infos de change pos et change forward pour appeler seulement la fonction nécessaire
+void Camera::ChangePos() {
+    m_Position = XMVectorSet(camTransform->m_VectorPosition.x, camTransform->m_VectorPosition.y, camTransform->m_VectorPosition.z, 1.0f);
+    Change();
+}
+
+void Camera::ChangeForward() {
+    m_Forward = GetForwardVector();
+    Change();
+};
