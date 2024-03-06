@@ -1,8 +1,7 @@
-
+#include "Engine.h"
 #include "d3dUtil.h"
 #include <comdef.h>
 #include <fstream>
-#include "Engine.h"
 
 using Microsoft::WRL::ComPtr;
 

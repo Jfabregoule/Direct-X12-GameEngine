@@ -8,14 +8,28 @@
 
 class ID3D12Device;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                                   Entity Class		                                |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Entity Class
+
 class ENGINE_API Entity {
 private:
 
 	/*
-	|---------------------------------------------------------------
-	|							Attributs							|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                                   Attributs											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Attributs
 
 	std::string					m_Name;
 	std::vector <Component*>	m_ListComponent;//remplacer les int par la classe component quand elle sera faite
@@ -24,15 +38,34 @@ private:
 	Transform					m_Transform;
 	ID3D12Device*				m_pDevice;
 
-	/*
-	|---------------------------------------------------------------
-	|							Methods								|
-	|---------------------------------------------------------------
-	*/
+#pragma endregion
+
 public:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                               Destructor/Constructor                                |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	Entity(ID3D12Device* device);
 	~Entity();
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										 Methods									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
 
 	std::string				GetName();
 	void					SetName(std::string entityName);
@@ -57,4 +90,9 @@ public:
 	void InitObject(std::string type);
 
 	//void SetMesh(Vertex* vertices = nullptr);
+
+#pragma endregion
+
 };
+
+#pragma endregion
