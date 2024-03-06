@@ -1,24 +1,48 @@
 #pragma once
 
 #pragma region Includes
+
 #include "Engine.h"
 #include "Platform/Win32/d3dx12.h"
 #include "DirectX12/MathHelper.h"
 #include <vector>
+
 #pragma endregion
 
 #pragma region Namespaces
+
 using namespace std;
 using namespace Microsoft::WRL;
 using namespace DirectX;
+
 #pragma endregion 
 
 const int _COUNT = 1;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |										Shader Class									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Shader Class
+
 class ENGINE_API Shader
 {
 private:
-	#pragma region Attributes
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Attributs										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributes
+
 	ID3D12Device* m_Device;
 
 	ID3D12PipelineState* m_pPipelineState;
@@ -35,10 +59,21 @@ private:
 	HRESULT m_HResult;
 
 	vector<D3D12_INPUT_ELEMENT_DESC> m_InputLayout;
-	#pragma endregion
+
+#pragma endregion
 
 public:
-	#pragma region Structs
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Structs											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Structs
+
 	struct ConstantBufferStruct
 	{
 		XMFLOAT4X4 world;
@@ -53,16 +88,51 @@ public:
 		XMFLOAT3 normal;
 		XMFLOAT3 tangent;
 	};
-	#pragma endregion
+
+#pragma endregion
 
 	/*
-	* |----------------------------------------------
-	* |	                    Init                     |
-	* |----------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |								Constructor/Destructor									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Constructor And Destructor
 
 	Shader();
 	~Shader();
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Initialize										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Initialize
+
+	void InitializeShader(ID3D12Device* device);
+
+	bool InitializePipelineState();
+
+	bool InitializeRootSignature();
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Getters And Setters
 
 	ID3D12RootSignature* GetRootSignature() {
 		return m_pRootSignature;
@@ -72,13 +142,24 @@ public:
 		return m_pPipelineState;
 	};
 
-	void InitializeShader(ID3D12Device* device);
+#pragma endregion
 
-	bool InitializePipelineState();
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Methods											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
 
-	bool InitializeRootSignature();
+#pragma region Methods
 
 	void Update();
 
 	HRESULT CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code);
+
+#pragma endregion
+
 };
+
+#pragma endregion

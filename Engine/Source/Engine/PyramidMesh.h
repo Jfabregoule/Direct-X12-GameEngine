@@ -11,8 +11,8 @@ struct ENGINE_API PyramidMesh {
 	UINT pyramidVerticesCount = 5; // Taille du tableau cube
 
 	UINT pyramidIndices[18] = {
-		// front face
 
+		//// front face
 		0, 3, 1,
 		1, 3, 2,
 

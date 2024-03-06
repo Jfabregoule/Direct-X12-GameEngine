@@ -6,10 +6,28 @@
 #include "DirectX12/MathHelper.h"
 #include "transform.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Camera Class                                        |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
 
+#pragma region Camera Class
 
 class ENGINE_API Camera : public Component {
 private:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Attributs									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributs
 
 	float m_AspectRatio;
 	float m_FovAngleY;
@@ -30,18 +48,49 @@ private:
 
 	Transform* camTransform;
 
+#pragma endregion
+
 public:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                               Constructor/Destructor                                |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	Camera(Transform *transform);
 	~Camera();
 
-	void Init(float aspectRatio);
+#pragma endregion
 
 	/*
-	|---------------------------------------------------------------
-	|						Getter/Setter							|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Init											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Init
+
+	void Init(float aspectRatio);
+
+#pragma endregion
+
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Getters And Setters
 
 	DirectX::XMFLOAT4X4 GetMatrixProj() { return m_MatrixProj; };
 	void SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
@@ -69,12 +118,48 @@ public:
 		return forward;
 	}
 
+	DirectX::XMVECTOR GetRightVector() {
+		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
+
+		// Définir la direction avant comme l'axe x (1, 0, 0) transformé par la matrice de rotation
+		DirectX::XMVECTOR right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		right = DirectX::XMVector3TransformNormal(right, rotationMatrix);
+
+		// Normaliser le vecteur résultant
+		right = DirectX::XMVector3Normalize(right);
+
+		return right;
+	}
+
+	DirectX::XMVECTOR GetUpVector() {
+		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
+
+		// Définir la direction avant comme l'axe y (0, 1, 0) transformé par la matrice de rotation
+		DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		up = DirectX::XMVector3TransformNormal(up, rotationMatrix);
+
+		// Normaliser le vecteur résultant
+		up = DirectX::XMVector3Normalize(up);
+
+		return up;
+	}
+
+#pragma endregion
+
 
 	/*
-	|---------------------------------------------------------------
-	|							Methods								|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										 Methods								        |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Methods
 
 	void ChangePos();
 	void ChangeForward();
@@ -82,4 +167,8 @@ public:
 	void Change();
 	void UpdateMatrix();
 
+#pragma endregion
+
 };
+
+#pragma endregion

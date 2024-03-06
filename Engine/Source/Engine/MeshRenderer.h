@@ -7,8 +7,28 @@
 class Texture;
 class Shader;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                               MeshRenderer Class	                                |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Mesh Renderer
+
 class ENGINE_API MeshRenderer : public Component {
 private:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Attributs								        |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributs
 
 	Mesh* m_pMesh = nullptr;
 	Texture* m_pTexture = nullptr;
@@ -20,17 +40,34 @@ private:
 
 	UINT8* m_pConstantBufferData;
 
+#pragma endregion
+
 public:
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |                               Constructor/Destructor                                |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	MeshRenderer();
 	~MeshRenderer();
 	
+#pragma endregion
 
 	/*
-	|---------------------------------------------------------------
-	|						Getter/Setter							|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
+
+#pragma region Getters And Setters
 
 	Mesh* GetMesh() { return m_pMesh; };
 	Texture* GetTexture() { return m_pTexture; };
@@ -44,12 +81,26 @@ public:
 	void SetConstantBufferGPU(ID3D12Resource* constantBufferGPU) { m_pConstantBufferGPU = constantBufferGPU; };
 	void SetConstantBufferData(UINT8* constantBufferData) { m_pConstantBufferData = constantBufferData; };
 
+#pragma endregion
+
 	/*
-	|---------------------------------------------------------------
-	|							Methods								|
-	|---------------------------------------------------------------
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Methods											|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
 	*/
 
+#pragma region Methods
+
 	void InitMeshRenderer(ID3D12Device* device, string type = "null");
+
+#pragma endregion
+
+};
+
+
 	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 };
+
+#pragma endregion

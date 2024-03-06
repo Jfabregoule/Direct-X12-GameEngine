@@ -6,6 +6,16 @@
 
 DirectX12Instance* DirectX12Instance::inst;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                            Constructor/Destructor                                   |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 DirectX12Instance::DirectX12Instance(HWND handle)
 {
 
@@ -19,10 +29,14 @@ DirectX12Instance::~DirectX12Instance()
 {
 }
 
+#pragma endregion
+
 /*
-* |-------------------------------------------------
-* |						Render						|
-* |-------------------------------------------------
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                                   Rendering                                         |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
 */
 
 #pragma region Render
@@ -127,6 +141,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
+    entity->Rotate(0.0f, 0.001f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);
@@ -166,7 +181,6 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     command_list->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 
-
 VOID DirectX12Instance::DrawAll() {
     //m_pMainCamera->Translate(0.05f, 0.05f, 0.05f);
     //m_pMainCamera->Rotate(0.0f, 0.0f, 0.5f);
@@ -187,7 +201,6 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
     command_list->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 };
 
-
 VOID DirectX12Instance::UpdateCam(Entity* entity) {
 
     // Calcul de la matrice de projection (dans votre cas, cela semble déjà être fait correctement)
@@ -204,7 +217,5 @@ VOID DirectX12Instance::UpdateCam(Entity* entity) {
     m_worldViewProjMatrix = world * view * proj;
 
 };
-
-
 
 #pragma endregion

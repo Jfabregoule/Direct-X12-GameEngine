@@ -1,8 +1,9 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
-#include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
+
+#pragma region Classe
 
 class ENGINE_API DirectX12Instance {
 
@@ -17,14 +18,33 @@ private:
 
 public:
 
-    /* - Constructor with Singleton assignment and predefined variables - */
+    /*
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |                               Contructor/Destructor                                 |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
+
+#pragma region Constructor And Destructor
 
     DirectX12Instance(HWND handle);
     ~DirectX12Instance();
 
+#pragma endregion
 
 public:
 
+    /*
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |                                     Attributes                                      |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
+
+#pragma region Attributes
+  
     HWND m_handle;
 
     BOOL GameRunning = TRUE;
@@ -94,12 +114,15 @@ public:
 
     HRESULT m_hresult;
 
+#pragma endregion
 
     /*
-   * |-------------------------------------------------
-   * |						Init						|
-   * |-------------------------------------------------
-   */
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |                                       Inits                                         |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
 
 #pragma region Init
 
@@ -278,10 +301,14 @@ public:
 #pragma endregion
 
     /*
-   * |-------------------------------------------------
-   * |						Methods 					|?
-   * |-------------------------------------------------
-   */
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |                                     Methods                                         |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
+
+#pragma region Methods
 
     VOID RenderFrame();
     VOID Draw(Entity* entity);
@@ -289,12 +316,15 @@ public:
     VOID SetBackground(float r, float g, float b, float a = 0.0f);
     VOID UpdateCam(Entity* entity);
 
+#pragma endregion
 
     /*
-   * |-------------------------------------------------
-   * |						Clean Up 					|
-   * |-------------------------------------------------
-   */
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |                                     Clean Up                                        |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
 
 #pragma region Clean Up
 
@@ -378,3 +408,5 @@ public:
 #pragma endregion
 
 };
+
+#pragma endregion
