@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include <cmath> // Inclure la bibliothèque cmath pour utiliser la fonction radians
 
-#define SPEED 0.1f
+float speed = 0.1f;
 
 InputManager::InputManager(DirectX12Instance* inst) {
     // Initialise tous les états des touches à IDLE
@@ -87,26 +87,28 @@ InputState InputManager::GetPreviousState(int keyCode) {
 void InputManager::CheckForMovements() {
     DirectX::XMFLOAT3 forwardVect;
     DirectX::XMFLOAT3 rightVect;
-    DirectX::XMFLOAT3 upVect;
     DirectX::XMStoreFloat3(&forwardVect, dx12Inst->m_pMainCamComponent->GetForwardVector());
     DirectX::XMStoreFloat3(&rightVect, dx12Inst->m_pMainCamComponent->GetRightVector());
-    DirectX::XMStoreFloat3(&upVect, dx12Inst->m_pMainCamComponent->GetUpVector());
     if (keys['W'].currentState == PRESSED || keys['W'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(forwardVect.x * SPEED, forwardVect.y * SPEED, forwardVect.z * SPEED);
-    if (keys['Z'].currentState == PRESSED || keys['Z'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(forwardVect.x * SPEED, forwardVect.y * SPEED, forwardVect.z * SPEED);
+        dx12Inst->m_pMainCamera->Translate(forwardVect.x * speed, forwardVect.y * speed, forwardVect.z * speed);
+    else if (keys['Z'].currentState == PRESSED || keys['Z'].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(forwardVect.x * speed, forwardVect.y * speed, forwardVect.z * speed);
     if (keys['S'].currentState == PRESSED || keys['S'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(-forwardVect.x * SPEED, -forwardVect.y * SPEED, -forwardVect.z * SPEED);
+        dx12Inst->m_pMainCamera->Translate(-forwardVect.x * speed, -forwardVect.y * speed, -forwardVect.z * speed);
     if (keys['A'].currentState == PRESSED || keys['A'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(-rightVect.x * SPEED, -rightVect.y * SPEED, -rightVect.z * SPEED);
-    if (keys['Q'].currentState == PRESSED || keys['Q'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(-rightVect.x * SPEED, -rightVect.y * SPEED, -rightVect.z * SPEED);
+        dx12Inst->m_pMainCamera->Translate(-rightVect.x * speed, -rightVect.y * speed, -rightVect.z * speed);
+    else if (keys['Q'].currentState == PRESSED || keys['Q'].currentState == HELD)
+        dx12Inst->m_pMainCamera->Translate(-rightVect.x * speed, -rightVect.y * speed, -rightVect.z * speed);
     if (keys['D'].currentState == PRESSED || keys['D'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(rightVect.x * SPEED, rightVect.y * SPEED, rightVect.z * SPEED);
+        dx12Inst->m_pMainCamera->Translate(rightVect.x * speed, rightVect.y * speed, rightVect.z * speed);
     if (keys[VK_SPACE].currentState == PRESSED || keys[VK_SPACE].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, 1.0f * SPEED, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(0.0f, 1.0f * speed, 0.0f);
     if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, -1.0f * SPEED, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(0.0f, -1.0f * speed, 0.0f);
+    if (keys[VK_SHIFT].currentState == PRESSED || keys[VK_LBUTTON].currentState == HELD)
+        speed = 0.2f;
+    else
+        speed = 0.1f;
 
     dx12Inst->m_pMainCamComponent->ChangePos();
 }
