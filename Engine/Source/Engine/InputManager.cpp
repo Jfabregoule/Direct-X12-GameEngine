@@ -34,6 +34,8 @@ void InputManager::Handle() {
     GetCursorPos(&currentMousePos);
     ScreenToClient(dx12Inst->m_handle, &currentMousePos);
 
+    ShowCursor(FALSE);
+
     // Calculez les différences de position de la souris entre les cadres
     int deltaX = currentMousePos.x - lastMousePos.x;
     int deltaY = currentMousePos.y - lastMousePos.y;
