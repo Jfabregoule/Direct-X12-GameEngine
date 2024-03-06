@@ -54,6 +54,10 @@ void InputManager::Handle() {
 
     dx12Inst->m_pMainCamComponent->ChangeForward();
 
+    SetCursorPos(dx12Inst->mClientWidth / 2, dx12Inst->mClientHeight / 2);
+    lastMousePos.x = dx12Inst->mClientWidth / 2;
+    lastMousePos.y = dx12Inst->mClientHeight / 2;
+    ScreenToClient(dx12Inst->m_handle, &lastMousePos);
     UpdateState();
 }
 
@@ -82,23 +86,27 @@ InputState InputManager::GetPreviousState(int keyCode) {
 
 void InputManager::CheckForMovements() {
     DirectX::XMFLOAT3 forwardVect;
+    DirectX::XMFLOAT3 rightVect;
+    DirectX::XMFLOAT3 upVect;
     DirectX::XMStoreFloat3(&forwardVect, dx12Inst->m_pMainCamComponent->GetForwardVector());
+    DirectX::XMStoreFloat3(&rightVect, dx12Inst->m_pMainCamComponent->GetRightVector());
+    DirectX::XMStoreFloat3(&upVect, dx12Inst->m_pMainCamComponent->GetUpVector());
     if (keys['W'].currentState == PRESSED || keys['W'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(forwardVect.x * SPEED, forwardVect.y * SPEED, forwardVect.z * SPEED);
     if (keys['Z'].currentState == PRESSED || keys['Z'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, 0.0f, 0.1f);
+        dx12Inst->m_pMainCamera->Translate(forwardVect.x * SPEED, forwardVect.y * SPEED, forwardVect.z * SPEED);
     if (keys['S'].currentState == PRESSED || keys['S'].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(-forwardVect.x * SPEED, -forwardVect.y * SPEED, -forwardVect.z * SPEED);
     if (keys['A'].currentState == PRESSED || keys['A'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(-rightVect.x * SPEED, -rightVect.y * SPEED, -rightVect.z * SPEED);
     if (keys['Q'].currentState == PRESSED || keys['Q'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(-0.1f, 0.0f, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(-rightVect.x * SPEED, -rightVect.y * SPEED, -rightVect.z * SPEED);
     if (keys['D'].currentState == PRESSED || keys['D'].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.1f, 0.0f, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(rightVect.x * SPEED, rightVect.y * SPEED, rightVect.z * SPEED);
     if (keys[VK_SPACE].currentState == PRESSED || keys[VK_SPACE].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, 0.1f, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(0.0f, 1.0f * SPEED, 0.0f);
     if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
-        dx12Inst->m_pMainCamera->Translate(0.0f, -0.1f, 0.0f);
+        dx12Inst->m_pMainCamera->Translate(0.0f, -1.0f * SPEED, 0.0f);
 
     dx12Inst->m_pMainCamComponent->ChangePos();
 }
