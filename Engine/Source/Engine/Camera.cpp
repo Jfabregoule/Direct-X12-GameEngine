@@ -70,6 +70,10 @@ void Camera::UpdateMatrix() {
     DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);
 }
 
+void Camera::Update()
+{
+}
+
 void Camera::Change() {
 
     m_Target = m_Position + m_Forward; // Calculez le point que la caméra regarde

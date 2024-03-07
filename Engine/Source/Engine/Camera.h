@@ -167,6 +167,8 @@ public:
 	void Change();
 	void UpdateMatrix();
 
+	void Update() override;
+
 #pragma endregion
 
 };

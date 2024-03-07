@@ -38,4 +38,8 @@ VOID Component::SetName(const char* name) {
 
 }
 
+void Component::Update()
+{
+}
+
 #pragma endregion

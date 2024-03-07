@@ -71,6 +71,10 @@ void MeshRenderer::UpdateConstantBuffer(XMMATRIX worldViewProjMatrix) {
 	memcpy(m_pConstantBufferData, &worldViewProjMatrix, sizeof(worldViewProjMatrix));
 	m_pConstantBufferGPU->Unmap(0, nullptr);
 
-};
+}
+
+void MeshRenderer::Update()
+{
+}
 
 #pragma endregion
