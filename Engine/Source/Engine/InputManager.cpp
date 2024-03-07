@@ -127,10 +127,17 @@ void InputManager::CheckForMovements() {
         dx12Inst->m_pMainCamera->Translate(0.0f, 1.0f * speed, 0.0f);
     if (keys[VK_CONTROL].currentState == PRESSED || keys[VK_CONTROL].currentState == HELD)
         dx12Inst->m_pMainCamera->Translate(0.0f, -1.0f * speed, 0.0f);
-    if (keys[VK_SHIFT].currentState == PRESSED || keys[VK_LBUTTON].currentState == HELD)
+    if (keys[VK_SHIFT].currentState == PRESSED || keys[VK_SHIFT].currentState == HELD)
         speed = 0.2f;
     else
         speed = 0.1f;
+    if (keys[VK_ESCAPE].currentState == PRESSED || keys[VK_ESCAPE].currentState == HELD)
+    {
+        ShowCursor(TRUE);
+    }
+    if (keys[VK_LBUTTON].currentState == PRESSED || keys[VK_LBUTTON].currentState == HELD)
+    {
+    }
 
     dx12Inst->m_pMainCamComponent->ChangePos();
 }

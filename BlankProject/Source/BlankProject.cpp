@@ -6,6 +6,7 @@
 #include "Engine/Entity.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/InputManager.h"
+#include "BulletScript.h"
 
 BOOL GameRunning = TRUE;
 
@@ -55,22 +56,13 @@ public:
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
         DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
-        ////DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        ////DX12Inst.m_ListEntities.at(1)->AddComponentByName("mesh_renderer");
-        ////dynamic_cast<MeshRenderer*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("mesh_renderer"))->InitMeshRenderer(DX12Inst.device, "cube");
-        ////DX12Inst.m_ListEntities.at(1)->Translate(2.5f,0.0f,0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
-        //DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
-        //DX12Inst.m_ListEntities.at(2)->Translate(0.0f, 0.0f, 2.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(3)->InitObject("cube");
-        //DX12Inst.m_ListEntities.at(3)->Translate(2.0f, 0.0f, 2.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
-        //DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(3)->InitObject("cube");
+        DX12Inst.m_ListEntities.at(3)->AttachComponent(new BulletScript(DX12Inst.m_ListEntities.at(3)));
+        DirectX::XMFLOAT3 direction;
+        DirectX::XMStoreFloat3(&direction, DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f));
+        dynamic_cast<BulletScript*>(DX12Inst.m_ListEntities.at(3)->GetAllComponents().at(1))->InitBulletScript(0.1, 9, direction, 0.1);
+        DX12Inst.m_ListEntities.at(3)->Translate(3.0f, 0.0f, 0.0f);
 
 
         MSG message;
@@ -82,7 +74,7 @@ public:
 
             // Rendre la frame
             handleInputs.Handle();
-            DX12Inst.RenderFrame();
+            DX12Inst.Update();
 
             GameRunning = window->IsRunning();
         }

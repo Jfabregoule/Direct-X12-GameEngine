@@ -217,6 +217,9 @@
     <ClCompile Include="Source\Engine\Texture.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Script.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -346,6 +349,9 @@
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Texture.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Script.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
   </ItemGroup>

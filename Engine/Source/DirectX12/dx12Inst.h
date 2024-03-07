@@ -167,6 +167,10 @@ public:
 
 #pragma region Methods
 
+
+    VOID Update();
+    VOID LateUpdate();
+
     VOID RenderFrame();
     VOID Draw(Entity* entity);
     VOID DrawAll();

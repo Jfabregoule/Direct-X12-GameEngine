@@ -225,6 +225,29 @@ VOID DirectX12Instance::CreateCamera()
 
 #pragma region Render
 
+VOID DirectX12Instance::LateUpdate()
+{
+    for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        if (m_ListEntities.at(i)->GetDestroyValue() == true)
+        {
+            Entity* DestroyedEntity = m_ListEntities.at(i);
+            m_ListEntities.erase(m_ListEntities.begin() + i);
+            delete DestroyedEntity;
+        }
+    }
+}
+
+VOID DirectX12Instance::Update()
+{
+    for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        m_ListEntities.at(i)->UpdateEntity();
+    }
+    RenderFrame();
+    LateUpdate();
+}
+
 VOID DirectX12Instance::RenderFrame() {
 
     /*
