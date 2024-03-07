@@ -5,6 +5,16 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
+
 Entity::Entity(ID3D12Device* device) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
@@ -17,13 +27,17 @@ Entity::~Entity() {
 
 };
 
+#pragma endregion
+
 /*
-* |----------------------------------------------
-* |				   Getters/Setters               |
-* |----------------------------------------------
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Getters/Setters 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
 */
 
-#pragma region Getter/Setter
+#pragma region Getters And Setters
 
 std::string Entity::GetName()
 {
@@ -105,10 +119,14 @@ Component* Entity::AddComponentByName(std::string componentName)
 #pragma endregion
 
 /*
-* |----------------------------------------------
-* |					  Methods		             |
-* |----------------------------------------------
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
 */
+
+#pragma region Methods
 
 void	Entity::Translate(float postionX, float positionY, float positionZ) {
 	m_Transform.Translate(postionX, positionY, positionZ);
@@ -143,3 +161,5 @@ void Entity::UpdateEntity() {
 	m_Transform.UpdateMatrix();
 
 };
+
+#pragma endregion

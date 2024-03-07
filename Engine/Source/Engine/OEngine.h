@@ -1,6 +1,17 @@
 #pragma once 
 
 class ENGINE_API OEngine;
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                               Namespace Engine                                      |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Namespace Engine
+
 namespace Engine {
 
 	enum  EngineMode : INT {
@@ -11,7 +22,7 @@ namespace Engine {
 		SERVER
 	};
 
-	extern OEngine g_OlympusEngine;
+	extern OEngine g_Engine;
 
 	VOID ENGINE_API SetMode(EngineMode mode);
 	EngineMode ENGINE_API GetMode();
@@ -20,7 +31,20 @@ namespace Engine {
 
 }
 
+#pragma endregion
+
 using namespace Engine;
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                                  OEngine Class                                      |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region OEngine Class
+
 class ENGINE_API OEngine {
 
 public:
@@ -35,3 +59,5 @@ public:
 	VOID SetEngineMode(EngineMode mode);
 
 };
+
+#pragma endregion

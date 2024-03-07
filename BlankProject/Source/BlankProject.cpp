@@ -3,7 +3,6 @@
 #include "Platform/Win32/WinEntry.h"
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/dx12Inst.h"
-#include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
 #include "Engine/MeshRenderer.h"
 
@@ -46,7 +45,7 @@ public:
         Component* addedComponent;
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 10.0f);
+        DX12Inst.m_ListEntities.at(0)->Translate(5000.0f, 0.0f, 10.0f);
         DX12Inst.m_ListEntities.at(0)->Rotate(0.0f, 0.0f, 0.0f);
 
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));

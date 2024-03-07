@@ -211,6 +211,12 @@
     <ClCompile Include="Source\Engine\Camera.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\InputManager.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Texture.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -282,9 +288,6 @@
     <ClInclude Include="Source\DirectX12\dx12Inst.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\DX12Camera.h">
-      <Filter>Source\DirectX12\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dApp.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
@@ -337,6 +340,12 @@
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Camera.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\InputManager.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Texture.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
   </ItemGroup>

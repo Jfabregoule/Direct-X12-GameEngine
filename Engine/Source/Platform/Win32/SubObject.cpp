@@ -1,7 +1,27 @@
 #include "Engine.h"
 #include "SubObject.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Win32 Namespace 								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Win32 Namespace
+
 namespace Win32 {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |								Constructor/Destructor 									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	SubObject::SubObject(std::wstring className, std::wstring classTitle, HICON icon)
 		: m_Class(className), m_Title(classTitle), m_hIcon(icon)
@@ -12,6 +32,17 @@ namespace Win32 {
 	{
 	}
 
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Methods 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
 
 	VOID SubObject::RegisterNewClass()
 	{
@@ -57,7 +88,8 @@ namespace Win32 {
 		return DefWindowProc(hwnd, message, wParam, lParam);
 	}
 
-
 #pragma endregion
 
 }
+
+#pragma endregion

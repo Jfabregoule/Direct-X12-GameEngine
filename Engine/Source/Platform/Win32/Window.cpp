@@ -1,11 +1,29 @@
 ﻿#include "Engine.h"
 #include "Window.h"
 
-
-
 #define DCX_USESTYLE 0x00010000
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 Win32 Namespace 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Win32 Namespace
+
 namespace Win32 {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |								Constructor/Destructor									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Constructor And Destructor
 
 	Window::Window(std::wstring title, HICON icon, WindowType type)
 		: Win32::SubObject(title, title, icon), m_Type(type)
@@ -18,10 +36,20 @@ namespace Win32 {
 	{
 	}
 
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									 Initialize		 									|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Initialize
+
 	VOID Window::Initialize()
 	{
-
-
 		RECT desktop;
 		const HWND hDesktop = GetDesktopWindow();
 		GetWindowRect(hDesktop, &desktop);
@@ -38,6 +66,18 @@ namespace Win32 {
 		UpdateWindow(m_Handle);
 
 	}
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |										Methods 										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
 
 	LRESULT Window::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
@@ -253,7 +293,10 @@ namespace Win32 {
 		DeleteObject(brush);
 
 		EndPaint(Handle(), &ps);
-
 	}
 
+#pragma endregion
+
 }
+
+#pragma endregion

@@ -115,6 +115,7 @@
     <ClCompile Include="Source\Engine\Shader.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
+    <ClCompile Include="Source\Engine\Texture.cpp" />
     <ClCompile Include="Source\Engine\transform.cpp" />
     <ClCompile Include="Source\Platform\WIN32\IApplication.cpp" />
     <ClCompile Include="Source\Platform\Win32\SubObject.cpp" />
@@ -134,7 +135,6 @@
     <ClInclude Include="Source\DirectX12\d3dUtil.h" />
     <ClInclude Include="Source\DirectX12\d3dx12.h" />
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />
-    <ClInclude Include="Source\DirectX12\DX12Camera.h" />
     <ClInclude Include="Source\DirectX12\dx12Inst.h" />
     <ClInclude Include="Source\DirectX12\GameTimer.h" />
     <ClInclude Include="Source\DirectX12\GeometryGenerator.h" />
@@ -156,6 +156,7 @@
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
+    <ClInclude Include="Source\Engine\Texture.h" />
     <ClInclude Include="Source\Engine\transform.h" />
     <ClInclude Include="Source\Platform\Win32\d3dx12.h" />
     <ClInclude Include="Source\Platform\WIN32\IApplication.h" />

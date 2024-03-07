@@ -4,8 +4,29 @@
 
 using namespace DirectX;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Transform Struct 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Transform Struct
+
 struct Transform
 {
+
+    /*
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |									    Attributs 									    |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
+
+#pragma region Attributs
+
     // Scale
     XMFLOAT3    m_VectorScale;
     XMFLOAT4X4  m_MatrixScale;
@@ -24,7 +45,17 @@ struct Transform
     // Result
     XMFLOAT4X4  m_Matrix;
 
+#pragma endregion
 
+    /*
+    *  -------------------------------------------------------------------------------------
+    * |                                                                                     |
+    * |									    Methods 									    |
+    * |                                                                                     |
+    *  -------------------------------------------------------------------------------------
+    */
+
+#pragma region Methods
 
     void Identity();
     void Scale(float scaleX, float scaleY, float scaleZ);
@@ -32,4 +63,11 @@ struct Transform
     void Translate(float postionX, float positionY, float positionZ);
     void UpdateMatrix();
 
+    void SetRotationVector(DirectX::XMFLOAT3 rotation) { m_VectorRotation = rotation; }
+    DirectX::XMFLOAT3 GetRotationVector() const { return m_VectorRotation; }
+
+#pragma endregion
+
 };
+
+#pragma endregion

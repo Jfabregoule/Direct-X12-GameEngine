@@ -6,13 +6,34 @@
 
 using namespace DirectX;
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									 PyramidMesh Struct 								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region PyramidMesh Struct
+
 struct ENGINE_API PyramidMesh {
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									  Attributes 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Attributes
+
 	Vertex pyramid[5];
 	UINT pyramidVerticesCount = 5; // Taille du tableau cube
 
 	UINT pyramidIndices[18] = {
-		// front face
 
+		//// front face
 		0, 3, 1,
 		1, 3, 2,
 
@@ -26,6 +47,18 @@ struct ENGINE_API PyramidMesh {
 	};
 	UINT pyramidIndicesCount = sizeof(pyramidIndices) / sizeof(UINT);
 
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
+	* |									    Methods 									    |
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Methods
+
 	void GeneratePyramid() {
 		pyramid[0] = Vertex(XMFLOAT3(0.5f, 0.0f, -0.5f), XMFLOAT4(Colors::Black));
 		pyramid[1] = Vertex(XMFLOAT3(-0.5f, 0.0f, -0.5f), XMFLOAT4(Colors::White));
@@ -33,4 +66,9 @@ struct ENGINE_API PyramidMesh {
 		pyramid[3] = Vertex(XMFLOAT3(0.5f, 0.0f, 0.5f), XMFLOAT4(Colors::Green));
 		pyramid[4] = Vertex(XMFLOAT3(0.0f, 1.5f, 0.0f), XMFLOAT4(Colors::Magenta));
 	};
+
+#pragma endregion
+
 };
+
+#pragma endregion

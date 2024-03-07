@@ -1,7 +1,16 @@
 #include "Engine.h"
 #include "Engine/Shader.h"
 #include <d3dcompiler.h>
-//#include "Engine/DirectX12Utils.h"
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |								Constructor/Destructor 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
 
 Shader::Shader()
 {
@@ -16,6 +25,18 @@ Shader::Shader()
 Shader::~Shader()
 {
 }
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									  Initialize 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Initialize
 
 void Shader::InitializeShader(ID3D12Device* device)
 {
@@ -139,6 +160,18 @@ bool Shader::InitializeRootSignature()
 	return true;
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
+
 void Shader::Update()
 {
 
@@ -151,3 +184,5 @@ HRESULT Shader::CompileShaderS(const WCHAR* filename, const char* entrypoint, co
 
 	return m_HResult;
 }
+
+#pragma endregion
