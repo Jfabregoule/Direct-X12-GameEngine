@@ -21,6 +21,7 @@ class TextureManager {
 private: 
 
 	std::map <std::string, Texture*>* m_pListTexture;
+	ID3D12Device* m_device;
 
 public: 
 	

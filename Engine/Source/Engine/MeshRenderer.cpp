@@ -40,6 +40,7 @@ void MeshRenderer::InitMeshRenderer(ID3D12Device* device, string type) {
 	m_pShader->InitializeShader(device);
 
 	auto testo = CD3DX12_RESOURCE_DESC::Buffer(64);
+	CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	device->CreateCommittedResource(
 		&test,
 		D3D12_HEAP_FLAG_NONE,

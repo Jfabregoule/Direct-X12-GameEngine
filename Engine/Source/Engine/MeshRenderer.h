@@ -36,7 +36,7 @@ private:
 
 	ID3D12Resource* m_pConstantBufferGPU;
 	// Méthode pour initialiser le tampon de constantes sur le GPU
-	CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	
 
 	UINT8* m_pConstantBufferData;
 
