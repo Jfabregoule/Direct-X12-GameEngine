@@ -72,6 +72,7 @@ void Camera::UpdateMatrix() {
 
 void Camera::Update()
 {
+    ChangePos();
 }
 
 void Camera::Change() {
