@@ -24,7 +24,7 @@ struct ENGINE_API SphereMesh
 	{
 		m_PartCount = partCount;
 		sphereVerticesCount = (partCount + 1) * (partCount + 2) / 2;
-		sphereIndicesCount = partCount * 3 * (partCount + 1);
+		sphereIndicesCount = (partCount - 1) * 2 * partCount + 2 * partCount;
 		sphere = new Vertex[sphereVerticesCount];
 
 		sphereIndices = new UINT[sphereIndicesCount];
