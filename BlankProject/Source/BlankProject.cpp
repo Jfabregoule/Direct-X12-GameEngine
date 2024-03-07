@@ -12,7 +12,8 @@ BOOL GameRunning = TRUE;
 
 POINT lastMousePos;
 
-class BlankProject : public Engine::Simulation {
+class BlankProject : public Engine::Simulation
+{
 
     // Application
 
@@ -35,7 +36,8 @@ public:
 
     /* - Called to Initialize the Application - */
 
-    VOID Initialize() {
+    VOID Initialize() 
+    {
         //Shader shader;
         HWND handle;
         handle = Handle();
@@ -47,16 +49,22 @@ public:
 
         Component* addedComponent;
 
+        for (Atom* atom : DX12Inst.pParticleSystem->m_Atoms)
+        {
+            DX12Inst.m_ListEntities.push_back(atom);
+        }
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
         DX12Inst.m_ListEntities.at(0)->Rotate(0.0f, 0.0f, 0.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(1)->Rotate(0.0f, 0.0f, 0.0f);        
+        DX12Inst.m_ListEntities.at(1)->Rotate(0.0f, 0.0f, 0.0f);      
 
         MSG message;
-        while (GameRunning) {
-            while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
+        while (GameRunning) 
+        {
+            while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) 
+            {
                 TranslateMessage(&message);     
                 DispatchMessage(&message);
             }

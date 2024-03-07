@@ -2,7 +2,7 @@
 #include "Engine/Atom.h"
 #include "DirectX12/MathHelper.h"
 
-Atom::Atom()
+Atom::Atom(ID3D12Device* device) : Entity(device)
 {
 	m_LifeTime = 0.0f;
 	m_Speed = 0.0f;
@@ -19,16 +19,15 @@ void Atom::InitializeAtom(float speed, float lifeTime, float xDir, float yDir, f
 	m_LifeTime = lifeTime;
 	m_Direction = { xDir, yDir, zDir };
 	MathHelper::Normalize(&m_Direction.x, &m_Direction.y, &m_Direction.z);
-	m_Transform = struct Transform();
-	m_Transform.Identity();
+	InitObject("cube");
 }
 
 void Atom::CycleLife(float deltaTime)
 {
-	float newScale = (m_LifeTime - deltaTime) / deltaTime;
+	/*float newScale = (m_LifeTime - deltaTime) / deltaTime;
 
-	m_Transform.Scale(newScale, newScale, newScale);
-	m_Transform.Translate(m_Direction.x * m_Speed, m_Direction.y * m_Speed, m_Direction.z * m_Speed);
+	m_Transform.Scale(newScale, newScale, newScale);*/
+	m_Transform.Translate(m_Direction.x * m_Speed * deltaTime, m_Direction.y * m_Speed * deltaTime, m_Direction.z * m_Speed * deltaTime);
 	m_Transform.UpdateMatrix();
 
 	m_LifeTime -= deltaTime;

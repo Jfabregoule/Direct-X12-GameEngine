@@ -93,19 +93,5 @@ struct ENGINE_API SphereMesh
 				sphere[index++] = Vertex(XMFLOAT3(x, y, z), XMFLOAT4(Colors::LightSkyBlue));
 			}
 		}
-		
-		//for (int slice = 0; slice < slices; ++slice) {
-		//	float theta = static_cast<float>(slice) * XM_PI / static_cast<float>(slices); // Polar angle
-
-		//	for (int stack = 0; stack <= slices; ++stack) {
-		//		float phi = static_cast<float>(stack) * 2.0f * XM_PI / static_cast<float>(slices); // Azimuthal angle
-
-		//		float x = radius * sinf(theta) * cosf(phi);
-		//		float y = radius * cosf(theta);
-		//		float z = radius * sinf(theta) * sinf(phi);
-
-		//		spherePoints.emplace_back(x, y, z);
-		//	}
-		//}
 	};
 };

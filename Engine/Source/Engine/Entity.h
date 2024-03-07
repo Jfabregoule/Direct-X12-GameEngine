@@ -9,7 +9,7 @@
 class ID3D12Device;
 
 class ENGINE_API Entity {
-private:
+protected:
 
 	/*
 	|---------------------------------------------------------------

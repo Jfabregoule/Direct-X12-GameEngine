@@ -11,6 +11,9 @@ DirectX12Instance::DirectX12Instance(HWND handle)
     inst = this;
 
     m_handle = handle;
+
+    pParticleSystem = new ParticleSystem();
+    pParticleSystem->CreateAtomsGroup(device, 10);
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -42,6 +45,8 @@ VOID DirectX12Instance::RenderFrame() {
         // Vous pouvez également appeler une fonction de gestion de retrait de périphérique dédiée
         return;
     }
+
+    pParticleSystem->CycleAtoms(0.001f);
 
     UINT frame = m_CurrentBufferIndex;
 
@@ -122,7 +127,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    entity->Rotate(0.0f, 0.01f, 0.0f);
+    entity->Rotate(0.0f, 0.0f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);
