@@ -22,11 +22,12 @@ struct ENGINE_API SphereMesh
 
 	void InitSphereMesh(UINT partCount)
 	{
-		sphereVerticesCount = pow(partCount,2) + 2;
-		sphere = new Vertex[sphereVerticesCount];
-		sphereIndicesCount = partCount * 18;
-		sphereIndices = new UINT[sphereIndicesCount];
 		m_PartCount = partCount;
+		sphereVerticesCount = (partCount + 1) * (partCount + 2) / 2;
+		sphereIndicesCount = partCount * 3 * (partCount + 1);
+		sphere = new Vertex[sphereVerticesCount];
+
+		sphereIndices = new UINT[sphereIndicesCount];
 
 		int index = 0;
 		int basicIndex = 1;
