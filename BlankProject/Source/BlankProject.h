@@ -13,3 +13,5 @@
 /* - DLL Includes -*/
 
 #include "Core/CoreMinimal.h"
+
+#include "Map.h"

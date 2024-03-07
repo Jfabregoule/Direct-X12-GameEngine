@@ -348,5 +348,8 @@
     <ClInclude Include="Source\Engine\Texture.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Random.h">
+      <Filter>Source\Engine\Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

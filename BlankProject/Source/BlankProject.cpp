@@ -7,6 +7,7 @@
 #include "Engine/MeshRenderer.h"
 #include "Engine/InputManager.h"
 
+
 BOOL GameRunning = TRUE;
 
 POINT lastMousePos;
@@ -28,11 +29,15 @@ public:
 
 public:
 
+    Map m_Map;
+
     /* - Called to Setup our PerGameSettings - */
 
     VOID SetupPerGameSettings();
 
     /* - Called to Initialize the Application - */
+
+   
 
     VOID Initialize() {
         //Shader shader;
@@ -40,13 +45,15 @@ public:
         handle = Handle();
         Window *window = GetWindow();
         DirectX12Instance DX12Inst(handle);
-
+       
         DX12Inst.Init();
         InputManager handleInputs(&DX12Inst);
 
         Component* addedComponent;
 
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        m_Map.GenerateEntities(&DX12Inst); 
+        
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device)); 
         DX12Inst.m_ListEntities.at(0)->InitObject("cube");
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));

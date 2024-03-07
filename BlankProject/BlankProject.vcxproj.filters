@@ -33,6 +33,9 @@
     <ClInclude Include="Source\HandleInputs.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Map.h">
+      <Filter>Source\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -49,6 +52,9 @@
       <Filter>Source\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\HandleInputs.cpp">
+      <Filter>Source\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
   </ItemGroup>
