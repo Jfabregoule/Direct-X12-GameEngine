@@ -35,6 +35,190 @@ DirectX12Instance::~DirectX12Instance()
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
+* |                                      Inits                                          |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Inits
+
+VOID DirectX12Instance::InitGraphics() {
+    // Initialisation du débogueur
+    m_hresult = D3D12GetDebugInterface(IID_PPV_ARGS(&debug_interface));
+    CheckSucceeded(m_hresult);
+    OutputDebugString(L"Debug layer enabled.\n");
+
+    // Initialisation de la fabrique DXGI
+    m_hresult = CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgi_factory)); // Use CreateDXGIFactory2 for IDXGIFactory4
+    CheckSucceeded(m_hresult);
+    OutputDebugString(L"DXGI Factory created.\n");
+
+    // Création du périphérique DirectX 12
+    m_hresult = D3D12CreateDevice(0, D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&device));
+    CheckSucceeded(m_hresult);
+    OutputDebugString(L"DirectX 12 device created.\n");
+
+    // Création de la file de commandes graphiques
+    m_graphics_command_queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+    m_hresult = device->CreateCommandQueue(&m_graphics_command_queue_desc, IID_PPV_ARGS(&graphics_command_queue));
+    CheckSucceeded(m_hresult);
+    OutputDebugString(L"Graphics command queue created.\n");
+};
+
+VOID DirectX12Instance::CreateSwapChain() {
+
+    RECT windowRect;
+    GetClientRect(m_handle, &windowRect);
+    int width = windowRect.right - windowRect.left;
+    int height = windowRect.bottom - windowRect.top;
+
+    // Initialisation de la description de la chaîne d'échange
+
+    m_swap_chain_desc.Width = width;
+    m_swap_chain_desc.Height = height;
+    m_swap_chain_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    m_swap_chain_desc.SampleDesc.Count = 1;
+    m_swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    m_swap_chain_desc.BufferCount = FRAMES;
+    m_swap_chain_desc.Scaling = DXGI_SCALING_STRETCH;
+    m_swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+    m_swap_chain_desc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+    IDXGISwapChain1* tempSwapChain;
+    dxgi_factory->CreateSwapChainForHwnd(graphics_command_queue, m_handle, &m_swap_chain_desc, nullptr, nullptr, &tempSwapChain);
+    
+
+    // Convertir la chaîne d'échange en IDXGISwapChain4
+    tempSwapChain->QueryInterface(IID_PPV_ARGS(&swap_chain));
+    tempSwapChain->Release(); // Libérer la référence temporaire
+
+    OutputDebugString(L"Swap chain created.\n");
+};
+
+VOID DirectX12Instance::CreateViewportScissor() {
+
+    // Initialisation du viewport et de la zone de découpage
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.Width = static_cast<float>(m_swap_chain_desc.Width);
+    viewport.Height = static_cast<float>(m_swap_chain_desc.Height);
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+
+    scissor.right = static_cast<LONG>(m_swap_chain_desc.Width);
+    scissor.bottom = static_cast<LONG>(m_swap_chain_desc.Height);
+    OutputDebugString(L"Viewport and scissor initialized.\n");
+};
+
+VOID DirectX12Instance::CreateRTVDescHeap()
+{
+    // Initialisation du tas de descripteurs de cible de rendu
+    render_target_descriptor_heap_desc.NumDescriptors = FRAMES;
+    render_target_descriptor_heap_desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+    m_hresult = device->CreateDescriptorHeap(&render_target_descriptor_heap_desc, IID_PPV_ARGS(&mRTVheap));
+    CheckSucceeded(m_hresult);
+    OutputDebugString(L"Render target descriptor heap created.\n");
+
+}
+
+VOID DirectX12Instance::CreateRTVBuffers()
+{
+    size_t render_target_descriptor_size = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    D3D12_CPU_DESCRIPTOR_HANDLE render_target_descriptor = mRTVheap->GetCPUDescriptorHandleForHeapStart();
+
+    // Initialisation des buffers de cible de rendu
+    for (UINT frame = 0; frame < FRAMES; frame++) {
+        ID3D12Resource* buffer;
+        swap_chain->GetBuffer(frame, IID_PPV_ARGS(&buffer));
+        render_target_buffers[frame] = buffer;
+        device->CreateRenderTargetView(buffer, 0, render_target_descriptor);
+        render_target_descriptors[frame] = render_target_descriptor;
+        render_target_descriptor.ptr += render_target_descriptor_size;
+        device->CreateCommandAllocator(m_graphics_command_queue_desc.Type, IID_PPV_ARGS(&command_allocators[frame]));
+        
+    }
+    OutputDebugString(L"Render target buffers initialized.\n");
+}
+
+VOID DirectX12Instance::CreateRtvAndDsvDescriptorHeaps()
+{
+    D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
+    dsvHeapDesc.NumDescriptors = 1;
+    dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+    dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+    dsvHeapDesc.NodeMask = 0;
+    device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&mDsvHeap));
+}
+
+VOID DirectX12Instance::CreateDepthStencilView()
+{
+    // Create descriptor to mip level 0 of entire resource using the format of the resource.
+    D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+    dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+    dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+    dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    dsvDesc.Texture2D.MipSlice = 0;
+    device->CreateDepthStencilView(mDepthStencilBuffer, &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
+    
+}
+
+VOID DirectX12Instance::CreateDepthStencilBuffer() {
+    // Create the depth/stencil buffer and view.
+    D3D12_RESOURCE_DESC depthStencilDesc;
+    depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    depthStencilDesc.Alignment = 0;
+    depthStencilDesc.Width = mClientWidth;
+    depthStencilDesc.Height = mClientHeight;
+    depthStencilDesc.DepthOrArraySize = 1;
+    depthStencilDesc.MipLevels = 1;
+    depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+    depthStencilDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+    depthStencilDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+    depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+    depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+    D3D12_CLEAR_VALUE optClear;
+    optClear.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    optClear.DepthStencil.Depth = 1.0f;
+    optClear.DepthStencil.Stencil = 0;
+    CD3DX12_HEAP_PROPERTIES ziziProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+    device->CreateCommittedResource(
+        &ziziProperties,
+        D3D12_HEAP_FLAG_NONE,
+        &depthStencilDesc,
+        D3D12_RESOURCE_STATE_COMMON,
+        &optClear,
+        IID_PPV_ARGS(&mDepthStencilBuffer));
+};
+
+VOID DirectX12Instance::CreateFencesAndEvents() {
+    {
+        for (int i = 0; i < FRAMES; ++i) {
+            device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
+            fence_event[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+            if (fence_event[i] == nullptr) {
+                // Handle event creation failure
+            }
+        }
+        OutputDebugString(L"Fences and events created.\n");
+    }
+}
+
+VOID DirectX12Instance::CreateCamera()
+{
+    float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
+
+    m_pMainCamera = new Entity(device);
+    Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
+    cam->Init(aspectRatio);
+    m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
+
+    m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
+}
+
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
 * |                                   Rendering                                         |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
@@ -66,7 +250,7 @@ VOID DirectX12Instance::RenderFrame() {
     command_allocators[frame]->Reset();//Frame définit l'index du back buffer sur lequel on va dessiners
     command_list.Reset();
 
-    HRESULT hresult = device->CreateCommandList(0, graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
+    HRESULT hresult = device->CreateCommandList(0, m_graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
     CheckSucceeded(hresult);
 
     //Passage du 1er back buffer en mode render target
@@ -78,7 +262,7 @@ VOID DirectX12Instance::RenderFrame() {
     auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
     command_list->ResourceBarrier(1, &transitionToRenderTarget);
 
-    CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
     command_list->ResourceBarrier(1, &barrier);
 
     // Obtenir l'adresse virtuelle GPU après la transition
@@ -110,7 +294,7 @@ VOID DirectX12Instance::RenderFrame() {
     auto transitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
     command_list->ResourceBarrier(1, &transitionToPresent);
 
-    auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBufferq, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
     command_list->ResourceBarrier(1, &DsvTransitionToPresent);
 
     //On close la commandList et on l'envoie dans la commandQueue
@@ -160,13 +344,13 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
 
     // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
-    
+
     mesh_renderer->UpdateConstantBuffer(m_worldViewProjMatrix);
 
     // Définissez la vue de tampon de constantes
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = mesh_renderer->GetConstantBufferGPU()->GetGPUVirtualAddress();
     command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
-    
+
     auto vertexbufftemp = mesh_renderer->GetMesh()->GetVertexBufferView();
     auto Indexbufftemp = mesh_renderer->GetMesh()->GetIndexBufferView();
 
