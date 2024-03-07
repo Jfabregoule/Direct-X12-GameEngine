@@ -211,12 +211,6 @@
     <ClCompile Include="Source\Engine\Camera.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\InputManager.cpp">
-      <Filter>Source\Engine\Entity\Component\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Texture.cpp">
-      <Filter>Source\Engine\Entity\Component\Private</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -340,12 +334,6 @@
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Camera.h">
-      <Filter>Source\Engine\Entity\Component\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\InputManager.h">
-      <Filter>Source\Engine\Entity\Component\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Texture.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
   </ItemGroup>

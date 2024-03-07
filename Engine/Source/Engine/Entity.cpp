@@ -99,7 +99,7 @@ Component* Entity::AddComponentByName(std::string componentName)
 	if (std::strcmp(componentName.c_str(), "camera") == 0) {
 		if (GetComponentByName("camera") == nullptr)
 		{
-			Camera* camera = new Camera();
+			Camera* camera = new Camera(GetTransform());
 			m_ListComponent.push_back(camera);
 			return camera;
 		}

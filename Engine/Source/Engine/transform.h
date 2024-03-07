@@ -32,6 +32,7 @@ struct Transform
     XMFLOAT4X4  m_MatrixScale;
 
     // Rotation
+    XMFLOAT3    m_VectorRotation;
     XMFLOAT3    m_VectorDirection;
     XMFLOAT3    m_VectorRight;
     XMFLOAT3    m_VectorUp;

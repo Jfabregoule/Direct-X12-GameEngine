@@ -12,7 +12,7 @@
 
 #pragma region Constructor And Destructor
 
-Camera::Camera(Transform *transform) {
+Camera::Camera(Transform* transform) {
     camTransform = transform;
 };
 
@@ -50,7 +50,7 @@ void Camera::Init(float aspectRatio) {
 
     m_Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-    m_Target = DirectX::XMVectorZero();
+    //m_Target = DirectX::XMVectorZero();
 }
 
 #pragma endregion
@@ -66,8 +66,13 @@ void Camera::Init(float aspectRatio) {
 #pragma region Methods
 
 void Camera::UpdateMatrix() {
-    // Création de la matrice de projection perspective
     m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
+    DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);
+}
+
+void Camera::Change() {
+
+    m_Target = m_Position + m_Forward; // Calculez le point que la caméra regarde
 
     //Si crash ici, m_Target doit etre différent de 0
     m_ViewMatrix = XMMatrixLookAtLH(m_Position, m_Target, m_Up);

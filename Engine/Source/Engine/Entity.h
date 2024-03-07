@@ -33,10 +33,10 @@ private:
 
 	std::string					m_Name;
 	std::vector <Component*>	m_ListComponent;//remplacer les int par la classe component quand elle sera faite
-	Entity*						m_pParent;
+	Entity* m_pParent;
 	std::vector<Entity*>		m_Children;
 	Transform					m_Transform;
-	ID3D12Device*				m_pDevice;
+	ID3D12Device* m_pDevice;
 
 #pragma endregion
 
@@ -70,14 +70,14 @@ public:
 	std::string				GetName();
 	void					SetName(std::string entityName);
 
-	Entity*					GetParent();
+	Entity* GetParent();
 	void					SetParent(Entity* parentEntity);
 
 	std::vector<Entity*>	GetChildren();
 	void					AddChildren(Entity* childEntity);
 
-	Transform*				GetTransform();
-	DirectX::XMFLOAT4X4*	GetTransformConvert();
+	Transform* GetTransform();
+	DirectX::XMFLOAT4X4* GetTransformConvert();
 
 	std::vector<Component*>	GetAllComponents();
 	Component* AddComponentByName(std::string componentName);

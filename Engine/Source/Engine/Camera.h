@@ -4,6 +4,7 @@
 
 #include "Engine/Component.h"
 #include "DirectX12/MathHelper.h"
+#include "transform.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -34,7 +35,9 @@ private:
 	float m_FarZ;
 
 	DirectX::XMMATRIX m_ProjMatrix;
+	DirectX::XMMATRIX m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_MatrixProj = MathHelper::Identity4x4();
+	DirectX::XMFLOAT4X4 m_MatrixView = MathHelper::Identity4x4();
 
 	DirectX::XMVECTOR m_Target;
 	DirectX::XMVECTOR m_Up;
@@ -59,7 +62,7 @@ public:
 
 #pragma region Constructor And Destructor
 
-	Camera(Transform *transform);
+	Camera(Transform* transform);
 	~Camera();
 
 #pragma endregion
@@ -92,12 +95,25 @@ public:
 	DirectX::XMFLOAT4X4 GetMatrixProj() { return m_MatrixProj; };
 	void SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
 
+	DirectX::XMFLOAT4X4 GetMatrixView() { return m_MatrixView; };
+
 	DirectX::XMVECTOR* GetTarget() { return &m_Target; };
 	void SetTarget(DirectX::XMVECTOR vector) { m_Target = vector; };
 
 	DirectX::XMVECTOR* GetUp() { return &m_Up; };
 	void SetUp(DirectX::XMVECTOR vector) { m_Up = vector; };
 
+	DirectX::XMVECTOR GetForwardVector() {
+		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
+
+		// Définir la direction avant comme l'axe z (0, 0, 1) transformé par la matrice de rotation
+		DirectX::XMVECTOR forward = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+		forward = DirectX::XMVector3TransformNormal(forward, rotationMatrix);
+
+		// Normaliser le vecteur résultant
+		forward = DirectX::XMVector3Normalize(forward);
 
 		return forward;
 	}
