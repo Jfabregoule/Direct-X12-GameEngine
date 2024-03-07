@@ -99,10 +99,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp" />
+    <ClCompile Include="Source\HandleInputs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\BlankProject.h" />
+    <ClInclude Include="Source\HandleInputs.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc" />

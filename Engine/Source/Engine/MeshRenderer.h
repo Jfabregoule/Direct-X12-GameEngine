@@ -86,6 +86,8 @@ public:
 	void InitMeshRenderer(ID3D12Device* device, string type = "null");
 	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 
+	void Update() override;
+
 #pragma endregion
 
 };

@@ -50,6 +50,22 @@ public:
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
+	* |									Getters/Setters										|
+	* |                                                                                     |
+	*  -------------------------------------------------------------------------------------
+	*/
+
+#pragma region Getters And Setters
+
+	std::string GetName() { return m_Name; };
+
+	void SetName(const char* name);
+
+#pragma endregion
+
+	/*
+	*  -------------------------------------------------------------------------------------
+	* |                                                                                     |
 	* |										Methods											|
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
@@ -57,9 +73,7 @@ public:
 
 #pragma region Methods
 
-	std::string GetName() { return m_Name; };
-
-	void SetName(const char* name);
+	virtual void Update();
 
 #pragma endregion
 
