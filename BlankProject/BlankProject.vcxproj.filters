@@ -22,6 +22,30 @@
     <Filter Include="Ressources\Icons">
       <UniqueIdentifier>{f12e2071-eb5c-42ca-bdfa-c9021874c5a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GameObjects">
+      <UniqueIdentifier>{736934ec-e599-4978-abd9-e501bad8ed67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GameObjects\Private">
+      <UniqueIdentifier>{f7ab4295-6273-46ea-8a20-17e9e5719f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GameObjects\Public">
+      <UniqueIdentifier>{f11e41be-1628-4c8b-bd11-e370d076a2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GameObjects\Classes">
+      <UniqueIdentifier>{1f71985d-f894-471c-b636-3cf6e99c223a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{0e8a3863-82f1-4362-856a-9bae39ce9d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Classes">
+      <UniqueIdentifier>{1c2d7b40-a32b-48cf-9082-7053c6240ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Private">
+      <UniqueIdentifier>{8c535611-f83f-4da3-a952-723a31fb7ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Public">
+      <UniqueIdentifier>{e639deb2-d17f-462b-9782-ad6e6620da1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -30,8 +54,11 @@
     <ClInclude Include="Source\BlankProject.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BulletScript.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\HandleInputs.h">
-      <Filter>Source\Public</Filter>
+      <Filter>Source\Common\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,8 +75,11 @@
     <ClCompile Include="Source\BlankProject.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BulletScript.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
+    </ClCompile>
     <ClCompile Include="Source\HandleInputs.cpp">
-      <Filter>Source\Private</Filter>
+      <Filter>Source\Common\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

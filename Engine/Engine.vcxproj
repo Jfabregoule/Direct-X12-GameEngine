@@ -113,6 +113,7 @@
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
+    <ClCompile Include="Source\Engine\Script.cpp" />
     <ClCompile Include="Source\Engine\Shader.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Source\Engine\OEngine.h" />
     <ClInclude Include="Source\Engine\PipeMesh.h" />
     <ClInclude Include="Source\Engine\PyramidMesh.h" />
+    <ClInclude Include="Source\Engine\Script.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />

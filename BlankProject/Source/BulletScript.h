@@ -1,44 +1,39 @@
 #pragma once
-#include <vector>
-#include <string>
-#include "Engine/Component.h"
-#include "Engine/transform.h"
-#include "DirectX12/Vertex.h"
-#include "Engine/Camera.h"
 
-class ID3D12Device;
+#include "Engine/Script.h"
+#include "DirectXMath.h"
+#include "Engine/Entity.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |                                   Entity Class		                                |
+* |									BulletScript Class	                                |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Entity Class
+#pragma region BulletScript Class
 
-class ENGINE_API Entity {
+class BulletScript : public Script {
+
 private:
 
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |                                   Attributs											|
+	* |										Attributs										|
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
 #pragma region Attributs
 
-	std::string					m_Name;
-	std::vector <Component*>	m_ListComponent;//remplacer les int par la classe component quand elle sera faite
-	Entity*						m_pParent;
-	std::vector<Entity*>		m_Children;
-	Transform					m_Transform;
-	ID3D12Device*				m_pDevice;
+	Entity*				m_pEntity;
 
-	bool						m_ToDestroy;
+	float				m_DecreaseLifeSpeed;
+	float				m_LifeTime;
+	float				m_Speed;
+	DirectX::XMFLOAT3	m_Direction;
 
 #pragma endregion
 
@@ -54,48 +49,24 @@ public:
 
 #pragma region Constructor And Destructor
 
-	Entity(ID3D12Device* device);
-	~Entity();
+	BulletScript(Entity *entity);
+	~BulletScript();
 
 #pragma endregion
 
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |										 Methods									    |
+	* |										Methods											|
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
 #pragma region Methods
 
-	std::string				GetName();
-	void					SetName(std::string entityName);
+	void InitBulletScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed);
 
-	Entity*					GetParent();
-	void					SetParent(Entity* parentEntity);
-
-	std::vector<Entity*>	GetChildren();
-	void					AddChildren(Entity* childEntity);
-
-	Transform*				GetTransform();
-	DirectX::XMFLOAT4X4*	GetTransformConvert();
-
-	bool					GetDestroyValue();
-	void					SetDestroyValue(bool destroy);
-
-	std::vector<Component*>	GetAllComponents();
-	Component* AddComponentByName(std::string componentName);
-	void AttachComponent(Component* component);
-	Component* GetComponentByName(std::string name);
-
-	void Translate(float postionX, float positionY, float positionZ);
-	void Rotate(float yaw, float pitch, float roll);
-	void Scale(float scaleX, float scaleY, float scaleZ);
-
-	void InitObject(std::string type);
-
-	//void SetMesh(Vertex* vertices = nullptr);
+	void Update() override;
 
 #pragma endregion
 
