@@ -293,7 +293,7 @@ VOID DirectX12Instance::RenderFrame() {
     auto transitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
     command_list->ResourceBarrier(1, &transitionToPresent);
 
-    auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBufferq, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
     command_list->ResourceBarrier(1, &DsvTransitionToPresent);
 
     //On close la commandList et on l'envoie dans la commandQueue
