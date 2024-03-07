@@ -2,6 +2,7 @@
 #include "Engine/DirectX12Utils.h"
 #include "DirectX12/DX12Camera.h"
 #include "Engine/Entity.h"
+#include "Engine/ParticleSystem.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
 
 class ENGINE_API DirectX12Instance {
@@ -75,6 +76,8 @@ public:
     XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
     XMMATRIX m_worldViewProjMatrix;
+
+    ParticleSystem* pParticleSystem;
 
     int mClientWidth = 1280;
     int mClientHeight = 720;
