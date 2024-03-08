@@ -6,7 +6,7 @@
 
 using namespace DirectX;
 
-class ENGINE_API Atom : public Entity
+class ENGINE_API Atom// : public Entity
 { //Créer un CubeMesh dans l'atom afin de pouvoir le draw ultérieurement
 public:
 	float m_LifeTime;//Life time of the atom

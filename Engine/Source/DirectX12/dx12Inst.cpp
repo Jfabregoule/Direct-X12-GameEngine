@@ -11,9 +11,10 @@ DirectX12Instance::DirectX12Instance(HWND handle)
     inst = this;
 
     m_handle = handle;
+    m_Device = nullptr;
 
-    pParticleSystem = new ParticleSystem();
-    pParticleSystem->CreateAtomsGroup(device, 10);
+   /* pParticleSystem = new ParticleSystem();
+    pParticleSystem->CreateAtomsGroup(device, 10);*/
 }
 
 DirectX12Instance::~DirectX12Instance()
@@ -38,7 +39,8 @@ VOID DirectX12Instance::RenderFrame() {
     * |----------------------------------------------
     */
 
-    HRESULT deviceRemovedReason = device->GetDeviceRemovedReason();
+
+    HRESULT deviceRemovedReason = m_Device->GetDeviceRemovedReason();
     if (deviceRemovedReason != S_OK) {
         // Traitez le retrait du périphérique ici
         // Par exemple, vous pouvez journaliser la raison du retrait ou réinitialiser le périphérique
@@ -46,7 +48,7 @@ VOID DirectX12Instance::RenderFrame() {
         return;
     }
 
-    pParticleSystem->CycleAtoms(0.001f);
+    //pParticleSystem->CycleAtoms(0.001f);
 
     UINT frame = m_CurrentBufferIndex;
 
@@ -54,7 +56,7 @@ VOID DirectX12Instance::RenderFrame() {
     command_allocators[frame]->Reset();//Frame définit l'index du back buffer sur lequel on va dessiners
     command_list.Reset();
 
-    HRESULT hresult = device->CreateCommandList(0, graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
+    HRESULT hresult = m_Device->CreateCommandList(0, graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
     CheckSucceeded(hresult);
 
     //Passage du 1er back buffer en mode render target

@@ -6,9 +6,7 @@
 #include "Engine/MeshRenderer.h"
 
 Entity::Entity(ID3D12Device* device) {
-	m_ListComponent = {};
 	m_pParent = nullptr;
-	m_Transform = struct Transform();
 	m_Transform.Identity();
 	m_pDevice = device;
 };

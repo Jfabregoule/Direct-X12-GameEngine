@@ -45,21 +45,19 @@ public:
         DirectX12Instance DX12Inst(handle);
 
         DX12Inst.InitGraphics();
+        //DX12Inst.InitPqrticleSystem();
         InputManager handleInputs(&DX12Inst);
 
+        // test
         Component* addedComponent;
-
-        for (Atom* atom : DX12Inst.pParticleSystem->m_Atoms)
-        {
-            DX12Inst.m_ListEntities.push_back(atom);
-        }
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+   
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.m_Device));
         DX12Inst.m_ListEntities.at(0)->InitObject("sphere");
         DX12Inst.m_ListEntities.at(0)->Rotate(0.0f, 0.0f, 0.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.m_Device));
         DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
         DX12Inst.m_ListEntities.at(1)->Rotate(0.0f, 0.0f, 0.0f);      
-
+        //
 
         MSG message;
         while (GameRunning) 

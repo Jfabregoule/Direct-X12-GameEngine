@@ -31,7 +31,7 @@ public:
     BOOL GameRunning = TRUE;
 
     ID3D12Debug* debug_interface;
-    ID3D12Device* device;
+    ID3D12Device* m_Device;
     IDXGISwapChain4* swap_chain; // Use IDXGISwapChain4
     IDXGIFactory4* dxgi_factory; // Use IDXGIFactory4
     ID3D12CommandQueue* graphics_command_queue;
@@ -77,7 +77,7 @@ public:
 
     XMMATRIX m_worldViewProjMatrix;
 
-    ParticleSystem* pParticleSystem;
+   // ParticleSystem* pParticleSystem;
 
     int mClientWidth = 1280;
     int mClientHeight = 720;
@@ -96,6 +96,8 @@ public:
     CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
     Camera* m_pMainCamComponent;
     UINT8* m_pConstantBufferData;
+
+
 
     HRESULT m_hresult;
 
@@ -122,13 +124,13 @@ public:
         OutputDebugString(L"DXGI Factory created.\n");
 
         // Création du périphérique DirectX 12
-        hresult = D3D12CreateDevice(0, D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&device));
+        hresult = D3D12CreateDevice(0, D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&m_Device));
         CheckSucceeded(hresult);
         OutputDebugString(L"DirectX 12 device created.\n");
 
         // Création de la file de commandes graphiques
         graphics_command_queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-        hresult = device->CreateCommandQueue(&graphics_command_queue_desc, IID_PPV_ARGS(&graphics_command_queue));
+        hresult = m_Device->CreateCommandQueue(&graphics_command_queue_desc, IID_PPV_ARGS(&graphics_command_queue));
         CheckSucceeded(hresult);
         OutputDebugString(L"Graphics command queue created.\n");
 
@@ -174,11 +176,11 @@ public:
         // Initialisation du tas de descripteurs de cible de rendu
         render_target_descriptor_heap_desc.NumDescriptors = FRAMES;
         render_target_descriptor_heap_desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-        hresult = device->CreateDescriptorHeap(&render_target_descriptor_heap_desc, IID_PPV_ARGS(&render_target_descriptor_heap));
+        hresult = m_Device->CreateDescriptorHeap(&render_target_descriptor_heap_desc, IID_PPV_ARGS(&render_target_descriptor_heap));
         CheckSucceeded(hresult);
         OutputDebugString(L"Render target descriptor heap created.\n");
 
-        size_t render_target_descriptor_size = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+        size_t render_target_descriptor_size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
         D3D12_CPU_DESCRIPTOR_HANDLE render_target_descriptor = render_target_descriptor_heap->GetCPUDescriptorHandleForHeapStart();
 
         // Initialisation des buffers de cible de rendu
@@ -187,10 +189,10 @@ public:
             hresult = swap_chain->GetBuffer(frame, IID_PPV_ARGS(&buffer));
             CheckSucceeded(hresult);
             render_target_buffers[frame] = buffer;
-            device->CreateRenderTargetView(buffer, 0, render_target_descriptor);
+            m_Device->CreateRenderTargetView(buffer, 0, render_target_descriptor);
             render_target_descriptors[frame] = render_target_descriptor;
             render_target_descriptor.ptr += render_target_descriptor_size;
-            hresult = device->CreateCommandAllocator(graphics_command_queue_desc.Type, IID_PPV_ARGS(&command_allocators[frame]));
+            hresult = m_Device->CreateCommandAllocator(graphics_command_queue_desc.Type, IID_PPV_ARGS(&command_allocators[frame]));
             CheckSucceeded(hresult);
         }
         OutputDebugString(L"Render target buffers initialized.\n");
@@ -218,7 +220,7 @@ public:
         optClear.DepthStencil.Depth = 1.0f;
         optClear.DepthStencil.Stencil = 0;
         CD3DX12_HEAP_PROPERTIES ziziProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-        device->CreateCommittedResource(
+        m_Device->CreateCommittedResource(
             &ziziProperties,
             D3D12_HEAP_FLAG_NONE,
             &depthStencilDesc,
@@ -232,13 +234,13 @@ public:
         dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
         dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
         dsvDesc.Texture2D.MipSlice = 0;
-        device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
+        m_Device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
         CreateFencesAndEvents();
 
         float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
 
-        m_pMainCamera = new Entity(device);
+        m_pMainCamera = new Entity(m_Device);
         Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
         cam->Init(aspectRatio);
         m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
@@ -246,7 +248,7 @@ public:
         m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
 
         auto testo = CD3DX12_RESOURCE_DESC::Buffer(sizeof(m_worldViewProjMatrix));
-        m_hresult = device->CreateCommittedResource(
+        m_hresult = m_Device->CreateCommittedResource(
             &test,
             D3D12_HEAP_FLAG_NONE,
             &testo,
@@ -264,7 +266,7 @@ public:
         rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
         rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         rtvHeapDesc.NodeMask = 0;
-        device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(mRtvHeap.GetAddressOf()));
+        m_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(mRtvHeap.GetAddressOf()));
 
 
         D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
@@ -272,13 +274,13 @@ public:
         dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
         dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         dsvHeapDesc.NodeMask = 0;
-        device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf()));
+        m_Device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf()));
     }
 
 
     VOID CreateFencesAndEvents() {
         for (int i = 0; i < FRAMES; ++i) {
-            HRESULT hresult = device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
+            HRESULT hresult = m_Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
             CheckSucceeded(hresult);
             fence_event[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
             if (fence_event[i] == nullptr) {
@@ -367,9 +369,9 @@ public:
             graphics_command_queue->Release();
             graphics_command_queue = nullptr;
         }
-        if (device) {
-            device->Release();
-            device = nullptr;
+        if (m_Device) {
+            m_Device->Release();
+            m_Device = nullptr;
         }
         if (dxgi_factory) { 
             dxgi_factory->Release();

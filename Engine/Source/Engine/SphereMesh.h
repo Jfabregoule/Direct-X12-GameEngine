@@ -22,9 +22,10 @@ struct ENGINE_API SphereMesh
 
 	void InitSphereMesh(UINT partCount)
 	{
+
 		m_PartCount = partCount;
 		sphereVerticesCount = (partCount + 1) * (partCount + 2) / 2;
-		sphereIndicesCount = (partCount - 1) * 2 * partCount + 2 * partCount;
+		sphereIndicesCount = partCount * partCount * 10;
 		sphere = new Vertex[sphereVerticesCount];
 
 		sphereIndices = new UINT[sphereIndicesCount];
@@ -63,6 +64,7 @@ struct ENGINE_API SphereMesh
 			sphereIndices[index++] = basicIndex + j;
 			sphereIndices[index++] = basicIndex + j + 1;
 		}
+		//assert(index == sphereIndicesCount);
 	}
 
 	void GenerateSphere()
@@ -97,3 +99,5 @@ struct ENGINE_API SphereMesh
 		}
 	};
 };
+
+
