@@ -79,6 +79,9 @@ bool Shader::InitializePipelineState()
 	m_InputLayout.push_back(
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	);
+	m_InputLayout.push_back(
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	);	 
 
 	// Définition de la description de l'état du pipeline
 	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
@@ -98,7 +101,7 @@ bool Shader::InitializePipelineState()
 
 	// Définition de l'état de rasterisation, de mélange et de stencil
 	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+	//m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
 	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
@@ -119,6 +122,7 @@ bool Shader::InitializePipelineState()
 
 	// Création de l'état du pipeline
 	HRESULT hr = m_Device->CreateGraphicsPipelineState(&m_PipelineDesc, IID_PPV_ARGS(&m_pPipelineState));
+	
 	if (FAILED(hr))
 	{
 		return false;
@@ -129,10 +133,17 @@ bool Shader::InitializePipelineState()
 
 bool Shader::InitializeRootSignature()
 {
-	CD3DX12_ROOT_PARAMETER rootParams[_COUNT] = {};
-	rootParams[0].InitAsConstantBufferView(0);
 
-	CD3DX12_ROOT_SIGNATURE_DESC desc(_COUNT, rootParams, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	CD3DX12_DESCRIPTOR_RANGE descRange;
+	descRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+	CD3DX12_ROOT_PARAMETER rootParams[2];
+	rootParams[0].InitAsDescriptorTable(1, &descRange, D3D12_SHADER_VISIBILITY_PIXEL);
+
+	rootParams[1].InitAsConstantBufferView(0);
+
+	auto staticSamplers = GetStaticSamplers();
+
+	CD3DX12_ROOT_SIGNATURE_DESC desc(2, rootParams, staticSamplers.size(), staticSamplers.data(), D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	/* Serialize the root signature */
 	m_HResult = D3D12SerializeRootSignature(
@@ -158,6 +169,10 @@ bool Shader::InitializeRootSignature()
 		return false;
 	}
 	return true;
+
+	m_SerializedRootSignature->Release();
+	if (m_ErrorBlob) m_ErrorBlob->Release();
+
 }
 
 #pragma endregion
@@ -183,6 +198,27 @@ HRESULT Shader::CompileShaderS(const WCHAR* filename, const char* entrypoint, co
 	m_HResult = D3DCompileFromFile(filename, 0, 0, entrypoint, profile, D3DCOMPILE_DEBUG, 0, out_code, &error);
 
 	return m_HResult;
+}
+
+std::vector<CD3DX12_STATIC_SAMPLER_DESC> Shader::GetStaticSamplers()
+{
+	std::vector<CD3DX12_STATIC_SAMPLER_DESC> samplers;
+
+	samplers.emplace_back(
+		0,                                  // Register
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR,    // Filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,    // AddressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,    // AddressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,    // AddressW
+		0.0f,                               // MipLODBias
+		8,                                  // MaxAnisotropy
+		D3D12_COMPARISON_FUNC_LESS_EQUAL,   // ComparisonFunc
+		D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE, // BorderColor
+		0.0f,                               // MinLOD
+		D3D12_FLOAT32_MAX,                  // MaxLOD
+		D3D12_SHADER_VISIBILITY_ALL);
+
+	return samplers;
 }
 
 #pragma endregion

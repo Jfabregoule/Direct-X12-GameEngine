@@ -1,8 +1,12 @@
 #pragma once
 #include "Engine/DirectX12Utils.h"
-#include "Engine/Entity.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
-#include "Engine/Texture.h"
+#include <DirectXMath.h>
+#include "DirectX12/MathHelper.h"
+
+class TextureManager;
+class Entity;
+class Camera;
 
 
 #pragma region Classe
@@ -101,18 +105,18 @@ public:
 
     std::vector <Entity*> m_ListEntities;
 
-    XMFLOAT4X4 mWorld = MathHelper::Identity4x4();
-    XMFLOAT4X4 mView = MathHelper::Identity4x4();
-    XMFLOAT4X4 mProj = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 mWorld = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 mView = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
-    XMMATRIX m_worldViewProjMatrix;
+    DirectX::XMMATRIX m_worldViewProjMatrix;
 
     int mClientWidth = 1280;
     int mClientHeight = 720;
 
     float count = 0;
-    float mTheta = 1.5f * XM_PI;
-    float mPhi = XM_PIDIV4;
+    float mTheta = 1.5f * DirectX::XM_PI;
+    float mPhi = DirectX::XM_PIDIV4;
     float mRadius = 5.0f;
 
     bool      m4xMsaaState = false;    // 4X MSAA enabled
@@ -169,6 +173,9 @@ public:
     VOID CreateTextureManager();
     VOID InitializePostCommand();
     VOID InitTextures();
+
+    VOID LateUpdate();
+    VOID Update();
 
 #pragma endregion
 

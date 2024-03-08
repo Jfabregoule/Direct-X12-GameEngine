@@ -95,25 +95,25 @@ struct ENGINE_API PipeMesh {
 	void GeneratePipe() {
 		float x, z, angle;
 		// Top Center Vertex
-		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::White));
+		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::White), XMFLOAT2(0.0f, 0.0f));
 
 		//Top Vertices
 		for (int i = 0; i < pipeVerticesCount; ++i) {
 			angle = static_cast<float>(i) * 2.0f * XM_PI / static_cast<float>(pipeVerticesCount);
 			x = cos(angle);
 			z = sin(angle);
-			pipe[i + 1] = Vertex(XMFLOAT3(x, 1.0f, z), XMFLOAT4(Colors::Yellow));
+			pipe[i + 1] = Vertex(XMFLOAT3(x, 1.0f, z), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 0.0f));
 		}
 
 		// Bottom Center Vertex
-		pipe[pipeVerticesCount + 1] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::White)); // Center vertex
+		pipe[pipeVerticesCount + 1] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::White), XMFLOAT2(0.0f, 0.0f)); // Center vertex
 
 		// Bottom Vertices
 		for (int i = 0; i < pipeVerticesCount; ++i) {
 			angle = static_cast<float>(i) * 2.0f * XM_PI / static_cast<float>(pipeVerticesCount);
 			x = cos(angle);
 			z = sin(angle);
-			pipe[i + pipeVerticesCount/2 + 2] = Vertex(XMFLOAT3(x, -1.0f, z), XMFLOAT4(Colors::Yellow));
+			pipe[i + pipeVerticesCount/2 + 2] = Vertex(XMFLOAT3(x, -1.0f, z), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 0.0f));
 		}
 	};
 

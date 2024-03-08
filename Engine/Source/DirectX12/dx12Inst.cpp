@@ -3,7 +3,11 @@
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/Texture.h"
+#include "Engine/Camera.h"
 
+#include <DirectXMath.h>
+#include "DirectX12/MathHelper.h"
 
 DirectX12Instance* DirectX12Instance::inst;
 
@@ -253,6 +257,7 @@ VOID DirectX12Instance::CreateCamera()
 
 VOID DirectX12Instance::CreateTextureManager() {
     m_pTextureManager = new TextureManager(this);
+    m_pTextureManager->InitDescHeap();
 };
 
 VOID DirectX12Instance::InitializePostCommand()
@@ -260,6 +265,9 @@ VOID DirectX12Instance::InitializePostCommand()
     mCommandList->Reset(command_allocator, nullptr);
 
     InitTextures();
+
+    ID3D12DescriptorHeap* descriptorHeaps[] = { m_pTextureManager->GetSrvHeap()};
+    mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
     mCommandList->Close();
 
@@ -271,7 +279,30 @@ VOID DirectX12Instance::InitializePostCommand()
 
 VOID DirectX12Instance::InitTextures() {
     //Ici ajouter toutes les textures utilisées
-    m_pTextureManager->AddTexture("bark", L"../../BlankProject/Content/Images/bark.dds");
+    m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
+}
+
+VOID DirectX12Instance::LateUpdate()
+{/*
+    for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        if (m_ListEntities.at(i)->GetDestroyValue() == true)
+        {
+            Entity* DestroyedEntity = m_ListEntities.at(i);
+            m_ListEntities.erase(m_ListEntities.begin() + i);
+            delete DestroyedEntity;
+        }
+    }*/
+}
+
+VOID DirectX12Instance::Update()
+{
+    /*for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        m_ListEntities.at(i)->UpdateEntity();
+    }
+    RenderFrame();
+    LateUpdate();*/
 }
 
 #pragma endregion
@@ -384,7 +415,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-
+    //??
     mCommandList->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
     mCommandList->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
@@ -414,6 +445,12 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     auto DsvHeap = mDsvHeap->GetCPUDescriptorHandleForHeapStart();
     mCommandList->OMSetRenderTargets(1, &current_render_target_descriptor, true, &DsvHeap);
 
+    //??
+    CD3DX12_GPU_DESCRIPTOR_HANDLE tex(m_pTextureManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart());
+
+    mCommandList->SetGraphicsRootDescriptorTable(0, tex);
+
+    
     mCommandList->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 

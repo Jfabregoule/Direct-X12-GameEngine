@@ -97,7 +97,6 @@
     <ClCompile Include="Source\Core\CoreDefinitions.cpp" />
     <ClCompile Include="Source\Core\CoreMinimal.cpp" />
     <ClCompile Include="Source\Core\PerGameSettings.cpp" />
-    <ClCompile Include="Source\DirectX12\d3dApp.cpp" />
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
@@ -131,7 +130,6 @@
     <ClInclude Include="Source\Core\CoreDefinitions.h" />
     <ClInclude Include="Source\Core\CoreMinimal.h" />
     <ClInclude Include="Source\Core\PerGameSettings.h" />
-    <ClInclude Include="Source\DirectX12\d3dApp.h" />
     <ClInclude Include="Source\DirectX12\d3dUtil.h" />
     <ClInclude Include="Source\DirectX12\d3dx12.h" />
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />

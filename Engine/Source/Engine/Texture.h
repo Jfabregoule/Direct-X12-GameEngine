@@ -3,8 +3,8 @@
 #include <string>
 #include <d3d12.h>
 #include <wrl/client.h>
-#include "DirectX12/dx12Inst.h"
 
+class DirectX12Instance;
 
 
 struct Texture
@@ -25,10 +25,10 @@ private:
 	std::map <std::string, Texture*> m_pListTexture = {};
 	DirectX12Instance* m_pInst = nullptr;
 
-	D3D12_DESCRIPTOR_HEAP_DESC* m_HeapDesc = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC m_HeapDesc;
 
 	ID3D12DescriptorHeap* m_SrvHeap;
-	D3D12_SHADER_RESOURCE_VIEW_DESC* m_SrvDesc = {};
+	D3D12_SHADER_RESOURCE_VIEW_DESC m_SrvDesc = {};
 
 public: 
 	
@@ -48,6 +48,9 @@ public:
 	*/
 
 	std::map <std::string, Texture*>* GetTextureMap() { return &m_pListTexture; };
+	ID3D12DescriptorHeap* GetSrvHeap() { return m_SrvHeap; };
+	D3D12_DESCRIPTOR_HEAP_DESC* GetHeapDesc() { return &m_HeapDesc; };
+	
 
 	/*
 	* |----------------------------------------------
@@ -57,6 +60,7 @@ public:
 
 	void AddTexture(std::string name, std::wstring path);
 	void InitSRV(Texture* texture);
+	void InitDescHeap();
 };
 
 

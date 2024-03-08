@@ -1,6 +1,9 @@
 #include "Engine.h"
 #include "InputManager.h"
 #include <cmath> // Inclure la bibliothèque cmath pour utiliser la fonction radians
+#include "DirectX12/dx12Inst.h"
+#include "Engine/Camera.h"
+#include "Engine/Entity.h"
 
 float speed = 0.1f;
 

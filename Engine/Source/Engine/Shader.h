@@ -17,8 +17,6 @@ using namespace DirectX;
 
 #pragma endregion 
 
-const int _COUNT = 1;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -157,6 +155,8 @@ public:
 	void Update();
 
 	HRESULT CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code);
+
+	std::vector<CD3DX12_STATIC_SAMPLER_DESC> GetStaticSamplers();
 
 #pragma endregion
 
