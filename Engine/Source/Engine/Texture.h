@@ -3,6 +3,7 @@
 #include <string>
 #include <d3d12.h>
 #include <wrl/client.h>
+#include "DirectX12/dx12Inst.h"
 
 struct Texture
 {
@@ -14,14 +15,16 @@ struct Texture
 	Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
 
+	ID3D12DescriptorHeap* HeapDesc = nullptr;
+
 
 };
 
 class TextureManager {
 private: 
 
-	std::map <std::string, Texture*>* m_pListTexture;
-	ID3D12Device* m_device;
+	std::map <std::string, Texture*> m_pListTexture = {};
+	DirectX12Instance* m_pInst = nullptr;
 
 public: 
 	
@@ -31,7 +34,7 @@ public:
 	* |----------------------------------------------
 	*/
 
-	TextureManager();
+	TextureManager(DirectX12Instance* inst);
 	~TextureManager();
 
 	/*
@@ -40,6 +43,8 @@ public:
 	* |----------------------------------------------
 	*/
 
+	std::map <std::string, Texture*>* GetTextureMap() { return &m_pListTexture; };
+
 	/*
 	* |----------------------------------------------
 	* |	                   Methods                   |
@@ -47,7 +52,7 @@ public:
 	*/
 
 	void AddTexture(std::string name, std::wstring path);
-	void LoadTextures();
+	void InitSRV();
 };
 
 

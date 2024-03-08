@@ -64,6 +64,7 @@ public:
     //Descriptor HeapDesc
     ID3D12DescriptorHeap* mRTVheap;
     ID3D12DescriptorHeap* mDsvHeap;
+    ID3D12DescriptorHeap* mSrvHeap;
 
     //Command List queue allocator
     D3D12_COMMAND_QUEUE_DESC m_graphics_command_queue_desc = {};
@@ -115,6 +116,8 @@ public:
     bool      m4xMsaaState = false;    // 4X MSAA enabled
     UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
 
+    TextureManager* m_pTextureManager;
+
     Camera* m_pMainCamComponent;
 
     HRESULT m_hresult;
@@ -143,8 +146,10 @@ public:
         CreateDepthStencilBuffer();
         CreateDepthStencilView();
         CreateFencesAndEvents();
+        BuildShaderResourceView();
         CreateCamera();
-
+        CreateTextureManager();
+        InitializePostCommand();
     }
 
     VOID InitGraphics();
@@ -157,10 +162,13 @@ public:
     VOID CreateDepthStencilBuffer();
     VOID CreateDepthStencilView();
     VOID CreateFencesAndEvents();
+    VOID BuildShaderResourceView();
     VOID FlushCommandQueue();
+
     VOID CreateCamera();
+    VOID CreateTextureManager();
     VOID InitializePostCommand();
-    VOID LoadTextures();
+    VOID InitTextures();
 
 #pragma endregion
 
