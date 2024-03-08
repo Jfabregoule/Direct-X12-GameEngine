@@ -5,6 +5,7 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
+#include "Engine/Atom.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -133,6 +134,18 @@ Component* Entity::AddComponentByName(std::string componentName)
 		m_ListComponent.push_back(scriptComponent);
 		return scriptComponent;
 
+	}
+	else if (std::strcmp(componentName.c_str(), "particle-system") == 0)
+	{
+		ParticleSystem* particleSystem = new ParticleSystem();
+		m_ListComponent.push_back(particleSystem);
+		return particleSystem;
+	}
+	else if (std::strcmp(componentName.c_str(), "atom") == 0)
+	{
+		Atom* atom = new Atom();
+		m_ListComponent.push_back(atom);
+		return atom;
 	}
 }
 

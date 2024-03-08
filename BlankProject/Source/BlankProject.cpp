@@ -8,6 +8,7 @@
 #include "Engine/InputManager.h"
 #include "HandleInputs.h"
 #include "BulletScript.h"
+#include "Engine/ParticleSystem.h"
 
 BOOL GameRunning = TRUE;
 
@@ -58,6 +59,8 @@ public:
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
         DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+        DX12Inst.m_ListEntities.at(3)->AddComponentByName("particle-system");
 
         MSG message;
         while (GameRunning) {

@@ -53,9 +53,9 @@ void	HandleInputs::UpdateInputs() {
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AttachComponent(new BulletScript(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)));
         dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetAllComponents().at(1))->InitBulletScript(0.1, 50, forwardVect, 0.1);
-        m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(forwardVect.x, forwardVect.y, forwardVect.z);
+        m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.z);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Scale(0.05f, 0.05f, 0.2f);
-        m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Translate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.z);
+        m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Translate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.y - 0.2, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorPosition.z);
     }
 
     m_DX12Instance->m_pMainCamComponent->ChangePos();

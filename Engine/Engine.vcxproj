@@ -105,6 +105,7 @@
     <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Atom.cpp" />
     <ClCompile Include="Source\Engine\Camera.cpp" />
     <ClCompile Include="Source\Engine\Collider.cpp" />
     <ClCompile Include="Source\Engine\Component.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
+    <ClCompile Include="Source\Engine\ParticleSystem.cpp" />
     <ClCompile Include="Source\Engine\Script.cpp" />
     <ClCompile Include="Source\Engine\Shader.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
@@ -144,6 +146,7 @@
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\DirectX12\Vertex.h" />
     <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\Engine\Atom.h" />
     <ClInclude Include="Source\Engine\Camera.h" />
     <ClInclude Include="Source\Engine\Collider.h" />
     <ClInclude Include="Source\Engine\Component.h" />
@@ -154,11 +157,13 @@
     <ClInclude Include="Source\Engine\Mesh.h" />
     <ClInclude Include="Source\Engine\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\OEngine.h" />
+    <ClInclude Include="Source\Engine\ParticleSystem.h" />
     <ClInclude Include="Source\Engine\PipeMesh.h" />
     <ClInclude Include="Source\Engine\PyramidMesh.h" />
     <ClInclude Include="Source\Engine\Script.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
+    <ClInclude Include="Source\Engine\SphereMesh.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
     <ClInclude Include="Source\Engine\Texture.h" />
     <ClInclude Include="Source\Engine\transform.h" />
