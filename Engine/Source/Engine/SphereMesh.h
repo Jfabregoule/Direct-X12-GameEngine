@@ -52,31 +52,34 @@ struct ENGINE_API SphereMesh
 				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack;
 				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stack + 1;
 				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack + 1;
+
+
 			}
 		}
+
 
 		// Bottom semi-circle of second half-sphere
 		for (UINT slice = m_PartCount / 2; slice < m_PartCount; slice++)
 		{
-			for (UINT stack = 0; stack < m_PartCount; stack++)
+			for (UINT stock = 0; stock < m_PartCount; stock++)
 			{
-				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stack;
-				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stack + 1;
-				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack;
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock;
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock + 1;
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock;
 
-				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack;
-				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stack + 1;
-				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack + 1;
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock;
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock + 1;
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock + 1;
 			}
 		}
 
 		// Connect the last row of vertices to the south pole
 		int southPoleIndex = sphereVerticesCount - 1;
 		basicIndex = southPoleIndex - ringVertexCount;
-		for (int j = 0; j < m_PartCount; j++)
+		for (int j = 0; j < m_PartCount ; j++) 
 		{
 			sphereIndices[index++] = southPoleIndex;
-			sphereIndices[index++] = basicIndex + j;
+			sphereIndices[index++] = basicIndex + j ;
 			sphereIndices[index++] = basicIndex + j + 1;
 		}
 	}
@@ -113,12 +116,9 @@ struct ENGINE_API SphereMesh
 		}
 
 		// Deuxième demi-sphère (inverse)
-		for (int slice = 0; slice <= m_PartCount / 2; slice++)
+		for (int slice = 0; slice <= m_PartCount / 2 + 1; slice++)
 		{
 			phi = slice * phiStep; // Polar angle
-
-			// Commence à l'indice correspondant à la base plate de la première demi-sphère
-			int startIndex = (m_PartCount + 1) * (m_PartCount + 1) - (m_PartCount - slice) * (m_PartCount + 1);
 
 			for (int stack = 0; stack <= m_PartCount; stack++)
 			{
@@ -130,7 +130,6 @@ struct ENGINE_API SphereMesh
 				z = radius * cos(phi); // Inversion de z
 
 				sphere[index++] = Vertex(XMFLOAT3(x, y, z), XMFLOAT4(Colors::LightSkyBlue));
-				startIndex++;
 			}
 		}
 	};
