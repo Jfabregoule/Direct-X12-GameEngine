@@ -28,36 +28,56 @@ struct ENGINE_API PipeMesh {
 
 #pragma region Constructor
 
-	PipeMesh(UINT nbVertices) {
-		pipe = new Vertex[nbVertices * 2 + 2];
-		pipeVerticesCount = nbVertices * 2 + 2;
-		pipeIndices = new UINT[nbVertices * 4 * 3];
-		pipeIndicesCount = nbVertices * 4 * 3;
+	PipeMesh(UINT partCount) {
+		pipeVerticesCount = partCount * 2 + 2;
+		pipe = new Vertex[pipeVerticesCount];
+		pipeIndicesCount = partCount * 4 * 3;
+		pipeIndices = new UINT[pipeIndicesCount];
+		m_PartCount = partCount;
 		int index = 0;
 
 		// Top Disk
-		for (UINT i = 0; i < nbVertices; i++) { 
+		for (UINT i = 0; i < m_PartCount; i++) {
 			pipeIndices[index++] = 0;
-			pipeIndices[index++] = index + i + 1;
-			pipeIndices[index++] = index + i;
+			if (i == m_PartCount - 1)
+				pipeIndices[index++] = 1;
+			else
+				pipeIndices[index++] = i + 2;
+			pipeIndices[index++] = i + 1;
 		}
 
 		// Bottom Disk
-		for (UINT i = 0; i < nbVertices; i++) { 
-			pipeIndices[index++] = nbVertices / 2;  
-			pipeIndices[index++] = index + i; 
-			pipeIndices[index++] = index + i + 1; 
+		UINT start = pipeVerticesCount / 2;
+		for (UINT i = start, j = 0; j < m_PartCount; i++, j++) {
+			pipeIndices[index++] = start;
+			pipeIndices[index++] = i + 1;
+			if (j == m_PartCount - 1)
+				pipeIndices[index++] = start + 1;
+			else
+				pipeIndices[index++] = i + 2;
 		}
 
 		// Side Rectangles
-		for (UINT i = 0; i < nbVertices; i++) { 
-			pipeIndices[index++] = i + 1; 
-			pipeIndices[index++] = (i + 1) % nbVertices + 1; 
-			pipeIndices[index++] = nbVertices * 2 - i; 
+		for (UINT i = 0; i < m_PartCount; i++) {
+			pipeIndices[index++] = i + 1;
+			if (i == m_PartCount - 1)
+				pipeIndices[index++] = 1;
+			else
+				pipeIndices[index++] = i + 2;
+			pipeIndices[index++] = i + start + 1;
 
-			pipeIndices[index++] = nbVertices * 2 - i; 
-			pipeIndices[index++] = nbVertices * 2 - (i + 1) % nbVertices; 
-			pipeIndices[index++] = i + 1; 
+			if (i == m_PartCount - 1)
+			{
+				pipeIndices[index++] = 1;
+				pipeIndices[index++] = 1 + start;
+			}
+			else
+			{
+				pipeIndices[index++] = i + 2;
+				pipeIndices[index++] = i + start + 2;
+			}
+			pipeIndices[index++] = i + start + 1;
+
 		}
 	};
 
@@ -80,6 +100,8 @@ struct ENGINE_API PipeMesh {
 
 	UINT pipeIndicesCount;
 
+	UINT m_PartCount;
+
 #pragma endregion
 
 	/*
@@ -94,27 +116,24 @@ struct ENGINE_API PipeMesh {
 
 	void GeneratePipe() {
 		float x, z, angle;
-		// Top Center Vertex
-		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::White));
+		// Center Vertices
+		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::AntiqueWhite));
+		pipe[pipeVerticesCount / 2] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::Red));
 
-		//Top Vertices
-		for (int i = 0; i < pipeVerticesCount; ++i) {
-			angle = static_cast<float>(i) * 2.0f * XM_PI / static_cast<float>(pipeVerticesCount);
-			x = cos(angle);
-			z = sin(angle);
-			pipe[i + 1] = Vertex(XMFLOAT3(x, 1.0f, z), XMFLOAT4(Colors::Yellow));
+		// Disks Vertcies
+		int index = 1;
+		float step = XM_2PI / m_PartCount;
+		for (int disc = 0; disc < 2; disc++)
+		{
+			for (float angle = 0.0f; angle < XM_2PI; angle += step, index++)
+			{
+				x = cos(angle);
+				z = sin(angle);
+				pipe[index] = Vertex(XMFLOAT3(x, disc == 0 ? 1.0f : -1.0f, z), XMFLOAT4(Colors::LightSkyBlue));
+			}
+			index++;
 		}
 
-		// Bottom Center Vertex
-		pipe[pipeVerticesCount + 1] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::White)); // Center vertex
-
-		// Bottom Vertices
-		for (int i = 0; i < pipeVerticesCount; ++i) {
-			angle = static_cast<float>(i) * 2.0f * XM_PI / static_cast<float>(pipeVerticesCount);
-			x = cos(angle);
-			z = sin(angle);
-			pipe[i + pipeVerticesCount/2 + 2] = Vertex(XMFLOAT3(x, -1.0f, z), XMFLOAT4(Colors::Yellow));
-		}
 	};
 
 #pragma endregion

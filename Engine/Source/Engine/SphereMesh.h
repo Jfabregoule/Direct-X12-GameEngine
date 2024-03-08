@@ -22,11 +22,13 @@ struct ENGINE_API SphereMesh
 
 	void InitSphereMesh(UINT partCount)
 	{
-		sphereVerticesCount = partCount * 3 + 2;
-		sphere = new Vertex[sphereVerticesCount];
-		sphereIndicesCount = partCount * 18;
-		sphereIndices = new UINT[sphereIndicesCount];
+
 		m_PartCount = partCount;
+		sphereVerticesCount = (partCount + 1) * (partCount + 2) / 2;
+		sphereIndicesCount = partCount * partCount * 10;
+		sphere = new Vertex[sphereVerticesCount];
+
+		sphereIndices = new UINT[sphereIndicesCount];
 
 		int index = 0;
 		int basicIndex = 1;
@@ -62,6 +64,7 @@ struct ENGINE_API SphereMesh
 			sphereIndices[index++] = basicIndex + j;
 			sphereIndices[index++] = basicIndex + j + 1;
 		}
+		//assert(index == sphereIndicesCount);
 	}
 
 	void GenerateSphere()
@@ -76,22 +79,24 @@ struct ENGINE_API SphereMesh
 		thetaStep = 2.0f * XM_PI / m_PartCount;
 
 		// Disks Vertcies
+		float radius = 1.0f;
 		int index = 1;
 
 		for (int slice = 0; slice < m_PartCount; slice++)
 		{
-			phi = slice + phiStep;//Polar angle
+			phi = slice * phiStep; // Polar angle
 
 			for (int stack = 0; stack <= m_PartCount; stack++)
 			{
-				theta = stack * thetaStep;
+				theta = stack * thetaStep; // Azimuthal angle
 
-				x = sin(phi) * sin(theta);
-				y = -sin(phi);
-				z = cos(phi) * cos(theta);
+				x = radius * sin(phi) * cos(theta);
+				y = radius * sin(phi) * sin(theta);
+				z = radius * cos(phi);
 
 				sphere[index++] = Vertex(XMFLOAT3(x, y, z), XMFLOAT4(Colors::LightSkyBlue));
 			}
 		}
 	};
 };
+
