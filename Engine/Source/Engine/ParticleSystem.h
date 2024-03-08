@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Engine/Atom.h"
 #include "Engine/Component.h"
+#include "DirectX12/d3dUtil.h"
 #include <iostream>
 #include <vector>
 
