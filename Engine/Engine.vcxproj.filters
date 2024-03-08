@@ -178,9 +178,6 @@
     <ClCompile Include="Source\DirectX12\MathHelper.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX12\GameTimer.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
@@ -295,9 +292,6 @@
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\MathHelper.h">

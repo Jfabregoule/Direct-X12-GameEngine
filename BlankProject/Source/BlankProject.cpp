@@ -45,7 +45,6 @@ public:
 
         DX12Inst.Init();
         HandleInputs handleInputs(&DX12Inst);
-        //InputManager handleInputs(&DX12Inst);
 
         Component* addedComponent;
 
