@@ -49,7 +49,7 @@ public:
         Component* addedComponent;
 
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(0)->InitObject("cube");
+        DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(1)->InitObject("cube");
