@@ -155,6 +155,7 @@
     <ClInclude Include="Source\Engine\OEngine.h" />
     <ClInclude Include="Source\Engine\PipeMesh.h" />
     <ClInclude Include="Source\Engine\PyramidMesh.h" />
+    <ClInclude Include="Source\Engine\Random.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
