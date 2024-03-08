@@ -2,10 +2,8 @@
 #include "Engine/Component.h"
 #include "Engine/Mesh.h"
 #include "Engine/Shader.h"
+#include "Engine/Texture.h"
 #include <string>
-
-class Texture;
-class Shader;
 
 /*
 *  -------------------------------------------------------------------------------------

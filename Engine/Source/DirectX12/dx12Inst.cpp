@@ -3,7 +3,7 @@
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
-#include "Engine/Texture.h"
+
 
 DirectX12Instance* DirectX12Instance::inst;
 
@@ -224,35 +224,6 @@ VOID DirectX12Instance::CreateFencesAndEvents() {
     }
 }
 
-VOID DirectX12Instance::BuildShaderResourceView()
-{
-    //
-    // Create the SRV heap.
-    //
-    D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-    srvHeapDesc.NumDescriptors = 1;
-    srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-    srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-    device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&mSrvHeap));
-
-    //
-    // Fill out the heap with actual descriptors.
-    //
-    CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(mSrvHeap->GetCPUDescriptorHandleForHeapStart());
-
-    auto texture = (m_pTextureManager->GetTextureMap()->find("bark")->Resource).Get();
-
-    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-    srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-    srvDesc.Format = texture->GetDesc().Format;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MostDetailedMip = 0;
-    srvDesc.Texture2D.MipLevels = texture->GetDesc().MipLevels;
-    srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-
-    device->CreateShaderResourceView(texture.Get(), &srvDesc, hDescriptor);
-}
-
 VOID DirectX12Instance::FlushCommandQueue()
 {
 
@@ -303,6 +274,7 @@ VOID DirectX12Instance::InitTextures() {
     m_pTextureManager->AddTexture("bark", L"../../BlankProject/Content/Images/bark.dds");
 }
 
+#pragma endregion
 
 /*
 *  -------------------------------------------------------------------------------------

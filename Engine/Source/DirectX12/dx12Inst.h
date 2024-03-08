@@ -2,6 +2,8 @@
 #include "Engine/DirectX12Utils.h"
 #include "Engine/Entity.h"
 #include <dxgi1_4.h> // Include for DXGI interfaces
+#include "Engine/Texture.h"
+
 
 #pragma region Classe
 
@@ -64,7 +66,7 @@ public:
     //Descriptor HeapDesc
     ID3D12DescriptorHeap* mRTVheap;
     ID3D12DescriptorHeap* mDsvHeap;
-    ID3D12DescriptorHeap* mSrvHeap;
+    
 
     //Command List queue allocator
     D3D12_COMMAND_QUEUE_DESC m_graphics_command_queue_desc = {};
@@ -146,7 +148,6 @@ public:
         CreateDepthStencilBuffer();
         CreateDepthStencilView();
         CreateFencesAndEvents();
-        BuildShaderResourceView();
         CreateCamera();
         CreateTextureManager();
         InitializePostCommand();
@@ -162,7 +163,6 @@ public:
     VOID CreateDepthStencilBuffer();
     VOID CreateDepthStencilView();
     VOID CreateFencesAndEvents();
-    VOID BuildShaderResourceView();
     VOID FlushCommandQueue();
 
     VOID CreateCamera();
