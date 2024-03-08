@@ -1,11 +1,13 @@
 #pragma once
 #include "Engine/Component.h"
 #include "Engine/Mesh.h"
-#include "Engine/Shader.h"
+#include <DirectXMath.h>
 #include <string>
+#include "Engine/Texture.h"
+#include "Engine/Shader.h"
 
-class Texture;
-class Shader;
+//class Texture;
+//class Shader;
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -84,7 +86,7 @@ public:
 #pragma region Methods
 
 	void InitMeshRenderer(ID3D12Device* device, string type = "null");
-	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
+	void UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix);
 
 	void Update() override;
 
