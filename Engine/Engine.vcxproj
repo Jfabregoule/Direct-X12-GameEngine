@@ -81,6 +81,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\Engine\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -102,7 +103,6 @@
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Camera.cpp" />
@@ -139,7 +139,6 @@
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />
     <ClInclude Include="Source\DirectX12\dx12Inst.h" />
     <ClInclude Include="Source\DirectX12\GameTimer.h" />
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h" />
     <ClInclude Include="Source\DirectX12\MathHelper.h" />
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\DirectX12\Vertex.h" />
