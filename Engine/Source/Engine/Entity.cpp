@@ -5,8 +5,7 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
-#include "Engine/Collider.h"
-#include "Engine/Tags.h"
+#include "Engine/Atom.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -18,12 +17,12 @@
 
 #pragma region Constructor And Destructor
 
-Entity::Entity(DirectX12Instance* inst) {
+Entity::Entity(ID3D12Device* device) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
 	m_Transform = struct Transform();
 	m_Transform.Identity();
-	m_pInst = inst;
+	m_pDevice = device;
 	m_ToDestroy = false;
 };
 
@@ -94,12 +93,9 @@ void	Entity::SetDestroyValue(bool destroy)
 }
 
 Component* Entity::GetComponentByName(std::string name) {
-	if (m_ListComponent.size() > 0 && m_ListComponent.size() < 5000)
-	{
-		for (int i = 0; i < m_ListComponent.size(); i++) {
-			if (m_ListComponent.at(i)->GetName() == name) {
-				return m_ListComponent.at(i);
-			}
+	for (int i = 0; i < m_ListComponent.size(); i++) {
+		if (m_ListComponent[i]->GetName() == name) {
+			return m_ListComponent[i];
 		}
 	}
 	return nullptr;
@@ -133,23 +129,23 @@ Component* Entity::AddComponentByName(std::string componentName)
 	}
 	else if (std::strcmp(componentName.c_str(), "script") == 0)
 	{
-
+		
 		Script* scriptComponent = new Script();
 		m_ListComponent.push_back(scriptComponent);
 		return scriptComponent;
 
 	}
-	else if (std::strcmp(componentName.c_str(), "collider") == 0)
+	else if (std::strcmp(componentName.c_str(), "particle-system") == 0)
 	{
-		Collider* colliderComponent = new Collider();
-		m_ListComponent.push_back(colliderComponent);
-		return colliderComponent;
+		ParticleSystem* particleSystem = new ParticleSystem();
+		m_ListComponent.push_back(particleSystem);
+		return particleSystem;
 	}
-	else if (std::strcmp(componentName.c_str(), "tags") == 0)
+	else if (std::strcmp(componentName.c_str(), "atom") == 0)
 	{
-		Tags* TagsComponent = new Tags();
-		m_ListComponent.push_back(TagsComponent);
-		return TagsComponent;
+		Atom* atom = new Atom();
+		m_ListComponent.push_back(atom);
+		return atom;
 	}
 }
 
@@ -182,48 +178,16 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
-#pragma region movment 
-
-void Entity::Forward(float speed, float dT) {
-	DirectX::XMFLOAT3 forwardVect;
-	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
-	Translate(forwardVect.x * speed * dT, forwardVect.y * speed * dT, forwardVect.z * speed * dT);
-};
-void Entity::Backward(float speed, float dT) {
-	DirectX::XMFLOAT3 forwardVect;
-	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
-	Translate(-forwardVect.x * speed * dT, -forwardVect.y * speed * dT, -forwardVect.z * speed * dT);
-};
-void Entity::StrafeLeft(float speed, float dT) {
-	DirectX::XMFLOAT3 rightVect;
-	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
-	Translate(-rightVect.x * speed * dT, -rightVect.y * speed * dT, -rightVect.z * speed * dT);
-};
-void Entity::StrafeRight(float speed, float dT) {
-	DirectX::XMFLOAT3 rightVect;
-	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
-	Translate(rightVect.x * speed * dT, rightVect.y * speed * dT, rightVect.z * speed * dT);
-};
-void Entity::Down(float speed, float dT) {
-	Translate(0.0f, -1.0f * speed * dT, 0.0f);
-};
-void Entity::Up(float speed, float dT) {
-	Translate(0.0f, 1.0f * speed * dT, 0.0f);
-};
-
-#pragma endregion
-
-void Entity::InitObject(std::string type, std::string shader_type, std::string texture_name)
+void	Entity::InitObject(string type)
 {
 	if (type == "camera")
 	{
-		AddComponentByName("camera");
-		Translate(0.0f, 3.0f, -10.0f);
+		//
 	}
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type, shader_type,texture_name);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
 	}
 	else {
 		return;
@@ -239,20 +203,5 @@ void Entity::UpdateEntity() {
 	m_Transform.UpdateMatrix();
 
 };
-
-void Entity::SetCollider() {
-	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
-	oue->InitCollider(this, m_pInst->m_ListEntities);
-}
-
-bool Entity::HasTag(std::string tag)
-{
-	Tags* tagComponent = dynamic_cast<Tags*>(GetComponentByName("tags"));
-	if (tagComponent != nullptr)
-	{
-		return tagComponent->HasTag(tag);
-	}
-	return false;
-}
 
 #pragma endregion

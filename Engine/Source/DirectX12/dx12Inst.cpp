@@ -487,6 +487,13 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 VOID DirectX12Instance::DrawAll() {
     for (int i = 0; i < m_ListEntities.size(); i++) {
         Draw(m_ListEntities[i]);
+        if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+            for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
+            {
+                if (j == m_ListEntities.at(i)->GetAllComponents().size())
+                    break;
+                Draw(m_ListEntities.at(i));
+            }
     }
 };
 
