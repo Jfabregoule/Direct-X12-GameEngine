@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Engine/MeshRenderer.h"
-#include "Engine/Shader.h"
+//#include "Engine/Texture.h"
+//#include "Engine/Shader.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -63,7 +64,7 @@ void MeshRenderer::InitMeshRenderer(ID3D12Device* device, string type) {
 
 #pragma region Methods
 
-void MeshRenderer::UpdateConstantBuffer(XMMATRIX worldViewProjMatrix) {
+void MeshRenderer::UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix) {
 
 	CD3DX12_RANGE readRange(0, 0);
 	m_pConstantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&m_pConstantBufferData));
