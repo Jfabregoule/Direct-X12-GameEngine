@@ -300,6 +300,8 @@ VOID DirectX12Instance::InitMesh() {
 VOID DirectX12Instance::InitShader() {
     m_ListShader["default"] = std::move(new Shader());
     m_ListShader.find("default")->second->InitializeShader(device);
+    m_ListShader["textured"] = std::move(new Shader());
+    m_ListShader.find("textured")->second->InitializeShader(device, "textured");
 };
 
 VOID DirectX12Instance::LateUpdate()

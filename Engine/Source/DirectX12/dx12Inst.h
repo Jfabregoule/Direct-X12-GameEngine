@@ -158,8 +158,8 @@ public:
         CreateDepthStencilView();
         CreateFencesAndEvents();
         CreateCamera();
-        //CreateTextureManager();
-        //InitializePostCommand();
+        CreateTextureManager();
+        InitializePostCommand();
         InitMesh();
         InitShader();
     }

@@ -142,7 +142,7 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
-void	Entity::InitObject(string type)
+void	Entity::InitObject(string type, string shader_type)
 {
 	if (type == "camera")
 	{
@@ -151,7 +151,7 @@ void	Entity::InitObject(string type)
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type, shader_type);
 	}
 	else {
 		return;

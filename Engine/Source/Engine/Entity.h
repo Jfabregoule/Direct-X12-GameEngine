@@ -88,7 +88,7 @@ public:
 	void Scale(float scaleX, float scaleY, float scaleZ);
 
 	void UpdateEntity();
-	void InitObject(std::string type);
+	void InitObject(std::string type, std::string shader_type = "default");
 
 	//void SetMesh(Vertex* vertices = nullptr);
 
