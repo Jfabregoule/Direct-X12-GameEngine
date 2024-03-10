@@ -81,6 +81,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\Engine\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -100,7 +101,6 @@
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp" />
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp" />
     <ClCompile Include="Source\DirectX12\GameTimer.cpp" />
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp" />
     <ClCompile Include="Source\DirectX12\MathHelper.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Engine\Camera.cpp" />
@@ -111,6 +111,7 @@
     <ClCompile Include="Source\Engine\Mesh.cpp" />
     <ClCompile Include="Source\Engine\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\OEngine.cpp" />
+    <ClCompile Include="Source\Engine\Script.cpp" />
     <ClCompile Include="Source\Engine\Shader.cpp" />
     <ClCompile Include="Source\Engine\Simulation.cpp" />
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
@@ -135,7 +136,6 @@
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h" />
     <ClInclude Include="Source\DirectX12\dx12Inst.h" />
     <ClInclude Include="Source\DirectX12\GameTimer.h" />
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h" />
     <ClInclude Include="Source\DirectX12\MathHelper.h" />
     <ClInclude Include="Source\DirectX12\UploadBuffer.h" />
     <ClInclude Include="Source\DirectX12\Vertex.h" />
@@ -152,6 +152,7 @@
     <ClInclude Include="Source\Engine\OEngine.h" />
     <ClInclude Include="Source\Engine\PipeMesh.h" />
     <ClInclude Include="Source\Engine\PyramidMesh.h" />
+    <ClInclude Include="Source\Engine\Script.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />

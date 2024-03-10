@@ -38,6 +38,8 @@ private:
 	Transform					m_Transform;
 	DirectX12Instance*			m_pInst;
 
+	bool						m_ToDestroy;
+
 #pragma endregion
 
 public:
@@ -45,7 +47,7 @@ public:
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |                               Destructor/Constructor                                |
+	* |                               Constructor/Destructor                                |
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
@@ -79,8 +81,12 @@ public:
 	Transform*				GetTransform();
 	DirectX::XMFLOAT4X4*	GetTransformConvert();
 
+	bool					GetDestroyValue();
+	void					SetDestroyValue(bool destroy);
+
 	std::vector<Component*>	GetAllComponents();
 	Component* AddComponentByName(std::string componentName);
+	void AttachComponent(Component* component);
 	Component* GetComponentByName(std::string name);
 
 	void Translate(float postionX, float positionY, float positionZ);

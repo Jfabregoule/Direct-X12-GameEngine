@@ -172,9 +172,6 @@
     <ClCompile Include="Source\DirectX12\MathHelper.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX12\GameTimer.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
@@ -209,6 +206,9 @@
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Texture.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Script.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,9 +285,6 @@
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\MathHelper.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Texture.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Script.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
   </ItemGroup>

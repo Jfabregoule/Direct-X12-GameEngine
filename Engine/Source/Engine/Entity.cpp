@@ -4,6 +4,7 @@
 #include "Platform/Win32/d3dx12.h"
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/Script.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Entity::Entity(DirectX12Instance* inst) {
 	m_Transform = struct Transform();
 	m_Transform.Identity();
 	m_pInst = inst;
+	m_ToDestroy = false;
 };
 
 Entity::~Entity() {
@@ -81,6 +83,16 @@ DirectX::XMFLOAT4X4* Entity::GetTransformConvert()
 	return &m_Transform.m_Matrix;
 }
 
+bool	Entity::GetDestroyValue()
+{
+	return m_ToDestroy;
+}
+
+void	Entity::SetDestroyValue(bool destroy)
+{
+	m_ToDestroy = destroy;
+}
+
 Component* Entity::GetComponentByName(std::string name) {
 	for (int i = 0; i < m_ListComponent.size(); i++) {
 		if (m_ListComponent[i]->GetName() == name) {
@@ -116,6 +128,19 @@ Component* Entity::AddComponentByName(std::string componentName)
 		}
 
 	}
+	else if (std::strcmp(componentName.c_str(), "script") == 0)
+	{
+		
+		Script* scriptComponent = new Script();
+		m_ListComponent.push_back(scriptComponent);
+		return scriptComponent;
+
+	}
+}
+
+void Entity::AttachComponent(Component* component)
+{
+	m_ListComponent.push_back(component);
 }
 
 #pragma endregion
@@ -160,6 +185,10 @@ void	Entity::InitObject(string type, string shader_type)
 
 void Entity::UpdateEntity() {
 
+	for (int i = 0; i < m_ListComponent.size(); i++)
+	{
+		m_ListComponent.at(i)->Update();
+	}
 	m_Transform.UpdateMatrix();
 
 };

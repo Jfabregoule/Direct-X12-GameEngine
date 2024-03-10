@@ -339,6 +339,29 @@ VOID DirectX12Instance::Update()
 
 #pragma region Render
 
+VOID DirectX12Instance::LateUpdate()
+{
+    for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        if (m_ListEntities.at(i)->GetDestroyValue() == true)
+        {
+            Entity* DestroyedEntity = m_ListEntities.at(i);
+            m_ListEntities.erase(m_ListEntities.begin() + i);
+            delete DestroyedEntity;
+        }
+    }
+}
+
+VOID DirectX12Instance::Update()
+{
+    for (int i = 0; i < m_ListEntities.size(); i++)
+    {
+        m_ListEntities.at(i)->UpdateEntity();
+    }
+    RenderFrame();
+    LateUpdate();
+}
+
 VOID DirectX12Instance::RenderFrame() {
 
     /*
@@ -474,11 +497,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 };
 
 VOID DirectX12Instance::DrawAll() {
-    //m_pMainCamera->Translate(0.05f, 0.05f, 0.05f);
-    //m_pMainCamera->Rotate(0.0f, 0.0f, 0.5f);
-    //m_pMainCamera->Scale(1.01f, 1.01f, 1.01f);
     for (int i = 0; i < m_ListEntities.size(); i++) {
-        //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
     }
 };

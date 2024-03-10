@@ -8,13 +8,13 @@
 
 struct Texture
 {
-	// Unique material name for lookup.
-	std::string Name;
+    // Unique material name for lookup.
+    std::string Name;
 
-	std::wstring Filename;
+    std::wstring Filename;
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
+    Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
+    Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
 
 };
 
@@ -31,22 +31,27 @@ private:
 	CD3DX12_CPU_DESCRIPTOR_HANDLE m_DescriptorHandleCPU;
 	CD3DX12_GPU_DESCRIPTOR_HANDLE m_DescriptorHandleGPU;
 
-public: 
-	
-	/*
-	* |----------------------------------------------
-	* |	                    Init                     |
-	* |----------------------------------------------
-	*/
+    D3D12_DESCRIPTOR_HEAP_DESC* m_HeapDesc = nullptr;
+
+    ID3D12DescriptorHeap* m_SrvHeap;
+    D3D12_SHADER_RESOURCE_VIEW_DESC* m_SrvDesc = {};
+
+public:
+
+    /*
+    * |----------------------------------------------
+    * |                        Init                     |
+    * |----------------------------------------------
+    */
 
 	TextureManager(DirectX12Instance* inst);
 	~TextureManager();
 
-	/*
-	* |----------------------------------------------
-	* |	             Getters/Setters                 |
-	* |----------------------------------------------
-	*/
+    /*
+    * |----------------------------------------------
+    * |                 Getters/Setters                 |
+    * |----------------------------------------------
+    */
 
 	std::map <std::string, Texture*>* GetTextureMap() { return &m_pListTexture; };
 	ID3D12DescriptorHeap* GetSrvHeap() { return m_SrvHeap; };

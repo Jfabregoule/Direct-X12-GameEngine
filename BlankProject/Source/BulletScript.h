@@ -1,32 +1,39 @@
 #pragma once
-#include <string>
-#include <iostream>
+
+#include "Engine/Script.h"
+#include "DirectXMath.h"
+#include "Engine/Entity.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									Component Class						                |
+* |									BulletScript Class	                                |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Component Class
+#pragma region BulletScript Class
 
-class Component
-{
-protected:
+class BulletScript : public Script {
+
+private:
 
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |										Attributs								        |
+	* |										Attributs										|
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
 #pragma region Attributs
 
-	std::string m_Name;
+	Entity*				m_pEntity;
+
+	float				m_DecreaseLifeSpeed;
+	float				m_LifeTime;
+	float				m_Speed;
+	DirectX::XMFLOAT3	m_Direction;
 
 #pragma endregion
 
@@ -42,24 +49,8 @@ public:
 
 #pragma region Constructor And Destructor
 
-	Component();
-	virtual ~Component();
-
-#pragma endregion
-
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |									Getters/Setters										|
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
-
-#pragma region Getters And Setters
-
-	std::string GetName() { return m_Name; };
-
-	void SetName(const char* name);
+	BulletScript(Entity *entity);
+	~BulletScript();
 
 #pragma endregion
 
@@ -73,7 +64,9 @@ public:
 
 #pragma region Methods
 
-	virtual void Update();
+	void InitBulletScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed);
+
+	void Update() override;
 
 #pragma endregion
 

@@ -1,9 +1,10 @@
 #pragma once
 #include "Engine/Component.h"
 #include "Engine/Mesh.h"
-#include "Engine/Shader.h"
-#include "Engine/Texture.h"
+#include <DirectXMath.h>
 #include <string>
+#include "Engine/Texture.h"
+#include "Engine/Shader.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -93,6 +94,8 @@ public:
 
 	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type = "default");
 	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
+
+	void Update() override;
 
 #pragma endregion
 

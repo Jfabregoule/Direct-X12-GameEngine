@@ -6,6 +6,8 @@
 #include "Engine/Entity.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/InputManager.h"
+#include "HandleInputs.h"
+#include "BulletScript.h"
 
 BOOL GameRunning = TRUE;
 
@@ -42,7 +44,7 @@ public:
         DirectX12Instance DX12Inst(handle);
 
         DX12Inst.Init();
-        InputManager handleInputs(&DX12Inst);
+        HandleInputs handleInputs(&DX12Inst);
 
         Component* addedComponent;
 
@@ -56,7 +58,6 @@ public:
         DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
         DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
 
-
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
@@ -65,8 +66,8 @@ public:
             }
 
             // Rendre la frame
-            handleInputs.Handle();
-            DX12Inst.RenderFrame();
+            handleInputs.UpdateInputs();
+            DX12Inst.Update();
 
             GameRunning = window->IsRunning();
         }
