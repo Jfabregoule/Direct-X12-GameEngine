@@ -26,8 +26,8 @@ Entity::Entity(DirectX12Instance* inst) {
 };
 
 Entity::~Entity() {
-	delete &m_Transform;
-	delete [] &m_ListComponent;
+	//delete &m_Transform;
+	//delete [] m_ListComponent;
 	m_pParent = nullptr;
 };
 

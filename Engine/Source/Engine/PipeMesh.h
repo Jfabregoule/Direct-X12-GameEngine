@@ -3,6 +3,7 @@
 #include "DirectX12/Vertex.h"
 #include <DirectXColors.h>
 #include <vector>
+#include "DirectX12/Vertex.h"
 
 using namespace DirectX;
 
@@ -117,8 +118,8 @@ struct ENGINE_API PipeMesh {
 	void GeneratePipe() {
 		float x, z, angle;
 		// Center Vertices
-		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::AntiqueWhite));
-		pipe[pipeVerticesCount / 2] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::Red));
+		pipe[0] = Vertex(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT4(Colors::AntiqueWhite), XMFLOAT2(0,0));
+		pipe[pipeVerticesCount / 2] = Vertex(XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
 
 		// Disks Vertcies
 		int index = 1;
@@ -129,7 +130,7 @@ struct ENGINE_API PipeMesh {
 			{
 				x = cos(angle);
 				z = sin(angle);
-				pipe[index] = Vertex(XMFLOAT3(x, disc == 0 ? 1.0f : -1.0f, z), XMFLOAT4(Colors::LightSkyBlue));
+				pipe[index] = Vertex(XMFLOAT3(x, disc == 0 ? 1.0f : -1.0f, z), XMFLOAT4(Colors::LightSkyBlue), XMFLOAT2(0, 0));
 			}
 			index++;
 		}
