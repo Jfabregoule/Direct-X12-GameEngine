@@ -206,7 +206,7 @@ VOID DirectX12Instance::CreateCamera()
 {
     float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
-    m_pMainCamera = new Entity(device);
+    m_pMainCamera = new Entity(this);
     Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
     cam->Init(aspectRatio);
     m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);

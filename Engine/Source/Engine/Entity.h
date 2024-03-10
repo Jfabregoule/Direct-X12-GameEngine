@@ -6,7 +6,7 @@
 #include "DirectX12/Vertex.h"
 #include "Engine/Camera.h"
 
-class ID3D12Device;
+class DirectX12Instance;
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ private:
 	Entity*						m_pParent;
 	std::vector<Entity*>		m_Children;
 	Transform					m_Transform;
-	ID3D12Device*				m_pDevice;
+	DirectX12Instance*			m_pInst;
 
 	bool						m_ToDestroy;
 
@@ -54,7 +54,7 @@ public:
 
 #pragma region Constructor And Destructor
 
-	Entity(ID3D12Device* device);
+	Entity(DirectX12Instance* inst);
 	~Entity();
 
 #pragma endregion
@@ -96,7 +96,7 @@ public:
 	void UpdateEntity();
 	void InitObject(std::string type);
 
-	//void SetMesh(Vertex* vertices = nullptr);
+	void SetCollider();
 
 #pragma endregion
 

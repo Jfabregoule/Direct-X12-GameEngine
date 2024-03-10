@@ -1,78 +1,55 @@
 #include "Engine.h"
 #include "Collider.h"
+#include "Entity.h"
+#include "MeshRenderer.h"
 
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									Constructor/Destructor 								|
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
+Collider::Collider()
+{
+	m_Name = "collider";
+}
 
-#pragma region Constructor And Destructor
+Collider::~Collider()
+{
+}
 
-Collider::Collider() {
+void Collider::InitCollider(Entity* self, std::vector<Entity*> listEntity)
+{
+	m_ListEntity = listEntity;
+	m_Self = self;
+	m_CenterPoint = {0.0f, 0.0f, 0.0f};
+}
 
-};
+bool Collider::CheckCollision(Entity* entity)
+{
+	DirectX::XMVECTOR	Centertmp;
+	DirectX::XMVECTOR	Externtmp;
+	float		distance;
+	Collider* entityCollider = dynamic_cast<Collider*>(entity->GetComponentByName("collider"));
+	if (entityCollider == nullptr || entityCollider == this)
+		return false;
+	Centertmp = DirectX::XMLoadFloat3(&m_CenterPoint);
+	Externtmp = DirectX::XMLoadFloat3(&entity->GetTransform()->m_VectorPosition);
+	distance = DirectX::XMVector3Length(XMVectorSubtract(Centertmp, Externtmp)).m128_f32[0];
 
-Collider::~Collider() {
-	ColliderRelease();
-};
+	m_Radius = ((m_Self->GetTransform()->m_VectorScale.x + entity->GetTransform()->m_VectorScale.x) / 2 +
+		(m_Self->GetTransform()->m_VectorScale.y + entity->GetTransform()->m_VectorScale.y) / 2 +
+		(m_Self->GetTransform()->m_VectorScale.z + entity->GetTransform()->m_VectorScale.z) / 2) / 3;
+	if (m_Radius * 2 > distance)
+		return true;
+	return false;
+}
 
-#pragma endregion
-
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									    Initialize 									    |
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
-
-#pragma region Initialize
-
-void Collider::InitCollider() {
-	SetName("collider");
-	m_pBox = new CubeMesh();
-};
-
-#pragma endregion
-
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									    Methods 									    |
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
-
-#pragma region Methods
-
-void Collider::ColliderRelease() {
-	m_pBox = nullptr;
-};
-
-void Collider::IsTrigger(Entity* entity) {
-	if (m_IsTriggering == false) {
-		return;
+void Collider::Update()
+{
+	m_CenterPoint = m_Self->GetTransform()->m_VectorPosition;
+	for (int i = 0; i < m_ListEntity.size(); i++)
+	{
+		if (m_ListEntity.at(i)->GetDestroyValue() == true)
+			m_ListEntity.erase(m_ListEntity.begin() + i);
+		else if (CheckCollision(m_ListEntity.at(i)))
+		{
+			m_IsColliding = true;
+			m_CollidingWith.push_back(m_ListEntity.at(i));
+		}
 	}
-
-	XMFLOAT3 entityPos = entity->GetTransform()->m_VectorPosition;
-
-	Vertex* collideCube = m_pBox->cube;
-
-	if (entityPos.x > collideCube[0].position.x && entityPos.x < collideCube[3].position.x &&
-		entityPos.y > collideCube[0].position.y && entityPos.y < collideCube[1].position.y &&
-		entityPos.z > collideCube[0].position.z && entityPos.z < collideCube[4].position.z) {
-
-
-
-	}
-		
-};
-
-void Collider::CheckVertex() {
-
-};
-
-#pragma endregion
+}

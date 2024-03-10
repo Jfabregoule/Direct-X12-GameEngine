@@ -5,6 +5,7 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
+#include "Engine/Collider.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -16,12 +17,12 @@
 
 #pragma region Constructor And Destructor
 
-Entity::Entity(ID3D12Device* device) {
+Entity::Entity(DirectX12Instance* inst) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
 	m_Transform = struct Transform();
 	m_Transform.Identity();
-	m_pDevice = device;
+	m_pInst = inst;
 	m_ToDestroy = false;
 };
 
@@ -92,9 +93,12 @@ void	Entity::SetDestroyValue(bool destroy)
 }
 
 Component* Entity::GetComponentByName(std::string name) {
-	for (int i = 0; i < m_ListComponent.size(); i++) {
-		if (m_ListComponent[i]->GetName() == name) {
-			return m_ListComponent[i];
+	if (m_ListComponent.size() > 0 && m_ListComponent.size() < 5000)
+	{
+		for (int i = 0; i < m_ListComponent.size(); i++) {
+			if (m_ListComponent.at(i)->GetName() == name) {
+				return m_ListComponent.at(i);
+			}
 		}
 	}
 	return nullptr;
@@ -132,6 +136,14 @@ Component* Entity::AddComponentByName(std::string componentName)
 		Script* scriptComponent = new Script();
 		m_ListComponent.push_back(scriptComponent);
 		return scriptComponent;
+
+	}
+	else if (std::strcmp(componentName.c_str(), "collider") == 0)
+	{
+
+		Collider* colliderComponent = new Collider();
+		m_ListComponent.push_back(colliderComponent);
+		return colliderComponent;
 
 	}
 }
@@ -174,7 +186,7 @@ void	Entity::InitObject(string type)
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst->device, type);
 	}
 	else {
 		return;
@@ -190,5 +202,10 @@ void Entity::UpdateEntity() {
 	m_Transform.UpdateMatrix();
 
 };
+
+void Entity::SetCollider() {
+	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
+	oue->InitCollider(this, m_pInst->m_ListEntities);
+}
 
 #pragma endregion
