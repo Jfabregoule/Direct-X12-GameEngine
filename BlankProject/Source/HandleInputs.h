@@ -15,6 +15,4 @@ public:
 
 	void UpdateInputs();
 
-
-
 };

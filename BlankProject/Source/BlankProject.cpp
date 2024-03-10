@@ -49,17 +49,19 @@ public:
         HandleInputs handleInputs(&DX12Inst);
         HandleCollisions handleCollisions(&DX12Inst);
 
+        Component* addedComponent;
+
        /* DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
         dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(0)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(0), DX12Inst.m_ListEntities);
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);*/
-        DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->InitObject("cube");
-        DX12Inst.m_ListEntities.at(0)->SetCollider();
+        dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(0)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(0), DX12Inst.m_ListEntities);
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 2.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
+        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(1)->SetCollider();
+        dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(1), DX12Inst.m_ListEntities);
         DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
 
         MSG message;

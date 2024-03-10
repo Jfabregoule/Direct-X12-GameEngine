@@ -17,12 +17,12 @@
 
 #pragma region Constructor And Destructor
 
-Entity::Entity(DirectX12Instance* inst) {
+Entity::Entity(ID3D12Device* device) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
 	m_Transform = struct Transform();
 	m_Transform.Identity();
-	m_pInst = inst;
+	m_pDevice = device;
 	m_ToDestroy = false;
 };
 
@@ -186,7 +186,8 @@ void	Entity::InitObject(string type)
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst->device, type);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
+		Component* Collider = AddComponentByName("collider");
 	}
 	else {
 		return;
@@ -202,10 +203,5 @@ void Entity::UpdateEntity() {
 	m_Transform.UpdateMatrix();
 
 };
-
-void Entity::SetCollider() {
-	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
-	oue->InitCollider(this, m_pInst->m_ListEntities);
-}
 
 #pragma endregion
