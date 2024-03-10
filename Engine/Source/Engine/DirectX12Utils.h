@@ -23,6 +23,7 @@
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "dxguid.lib")
 
+
 namespace DX12Utils {
 
     

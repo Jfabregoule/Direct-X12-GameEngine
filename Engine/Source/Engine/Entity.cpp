@@ -15,16 +15,18 @@
 
 #pragma region Constructor And Destructor
 
-Entity::Entity(ID3D12Device* device) {
+Entity::Entity(DirectX12Instance* inst) {
 	m_ListComponent = {};
 	m_pParent = nullptr;
 	m_Transform = struct Transform();
 	m_Transform.Identity();
-	m_pDevice = device;
+	m_pInst = inst;
 };
 
 Entity::~Entity() {
-
+	delete &m_Transform;
+	delete [] &m_ListComponent;
+	m_pParent = nullptr;
 };
 
 #pragma endregion
@@ -149,7 +151,7 @@ void	Entity::InitObject(string type)
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type);
 	}
 	else {
 		return;

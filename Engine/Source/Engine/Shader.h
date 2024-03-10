@@ -51,8 +51,8 @@ private:
 	UINT m_M4XMsaaQuality;
 
 	ID3D12RootSignature* m_pRootSignature;
-	ComPtr<ID3DBlob> m_SerializedRootSignature;
-	ComPtr<ID3DBlob> m_ErrorBlob;
+	ComPtr<ID3DBlob> m_SerializedRootSignature = nullptr;
+	ComPtr<ID3DBlob> m_ErrorBlob = nullptr;
 
 	HRESULT m_HResult;
 
@@ -114,9 +114,15 @@ public:
 
 #pragma region Initialize
 
-	void InitializeShader(ID3D12Device* device);
+	void InitializeShader(ID3D12Device* device, std::string name = "default");
 
 	bool InitializePipelineState();
+
+	void InitializePipelineLayout();
+
+	void InitializePipelineLayoutShader();
+
+	bool InitializeRootSignatureShader();
 
 	bool InitializeRootSignature();
 

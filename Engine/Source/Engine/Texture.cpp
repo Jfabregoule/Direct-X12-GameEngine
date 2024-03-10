@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include "Engine/Texture.h"
-#include "DirectX12/dx12Inst.h"
+
 
 #include "DirectX12/DDSTextureLoader.h"
 
@@ -60,8 +60,7 @@ void TextureManager::InitSRV(Texture* texture) {
     //
     // Fill out the heap with actual descriptors.
     //
-    CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(m_SrvHeap->GetCPUDescriptorHandleForHeapStart());
-
+    m_DescriptorHandleCPU = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_SrvHeap->GetCPUDescriptorHandleForHeapStart());
 
     m_SrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     m_SrvDesc.Format = texture->Resource->GetDesc().Format;
@@ -70,17 +69,23 @@ void TextureManager::InitSRV(Texture* texture) {
     m_SrvDesc.Texture2D.MipLevels = texture->Resource->GetDesc().MipLevels;
     m_SrvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 
-    m_pInst->device->CreateShaderResourceView(texture->Resource.Get(), &m_SrvDesc, hDescriptor);
+    m_pInst->device->CreateShaderResourceView(texture->Resource.Get(), &m_SrvDesc, m_DescriptorHandleCPU);
+
+    m_DescriptorHandleGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(m_SrvHeap->GetGPUDescriptorHandleForHeapStart());
+
 };
 
 void TextureManager::InitDescHeap() {
     //
     // Create the SRV heap.
     //
+    
     m_HeapDesc.NumDescriptors = 1000;
     m_HeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
     m_HeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     m_pInst->device->CreateDescriptorHeap(&m_HeapDesc, IID_PPV_ARGS(&m_SrvHeap));
+
+
 }
 
 

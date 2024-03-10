@@ -3,10 +3,13 @@
 #include <dxgi1_4.h> // Include for DXGI interfaces
 #include <DirectXMath.h>
 #include "DirectX12/MathHelper.h"
+#include <map>
 
 class TextureManager;
 class Entity;
 class Camera;
+class Shader;
+class Mesh;
 
 
 #pragma region Classe
@@ -123,6 +126,8 @@ public:
     UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
 
     TextureManager* m_pTextureManager;
+    std::map <std::string, Shader*> m_ListShader;
+    std::map <std::string, Mesh*> m_ListMesh;
 
     Camera* m_pMainCamComponent;
 
@@ -153,8 +158,10 @@ public:
         CreateDepthStencilView();
         CreateFencesAndEvents();
         CreateCamera();
-        CreateTextureManager();
-        InitializePostCommand();
+        //CreateTextureManager();
+        //InitializePostCommand();
+        InitMesh();
+        InitShader();
     }
 
     VOID InitGraphics();
@@ -173,6 +180,8 @@ public:
     VOID CreateTextureManager();
     VOID InitializePostCommand();
     VOID InitTextures();
+    VOID InitMesh();
+    VOID InitShader();
 
     VOID LateUpdate();
     VOID Update();

@@ -91,7 +91,7 @@ public:
 
 #pragma region Methods
 
-	void InitMeshRenderer(ID3D12Device* device, string type = "null");
+	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type = "default");
 	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 
 #pragma endregion

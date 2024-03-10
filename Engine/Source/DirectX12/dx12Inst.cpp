@@ -9,6 +9,11 @@
 #include <DirectXMath.h>
 #include "DirectX12/MathHelper.h"
 
+#pragma comment(lib,"d3dcompiler.lib")
+#pragma comment(lib, "D3D12.lib")
+#pragma comment(lib, "dxgi.lib")
+
+
 DirectX12Instance* DirectX12Instance::inst;
 
 /*
@@ -247,7 +252,7 @@ VOID DirectX12Instance::CreateCamera()
 {
     float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
-    m_pMainCamera = new Entity(device);
+    m_pMainCamera = new Entity(this);
     Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
     cam->Init(aspectRatio);
     m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
@@ -281,6 +286,21 @@ VOID DirectX12Instance::InitTextures() {
     //Ici ajouter toutes les textures utilisées
     m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
 }
+
+VOID DirectX12Instance::InitMesh() {
+    m_ListMesh["cube"] = std::move(new Mesh());
+    m_ListMesh.find("cube")->second->InitializeMesh(device, "cube");
+    m_ListMesh["pyramid"] = std::move(new Mesh());
+    m_ListMesh.find("pyramid")->second->InitializeMesh(device, "pyramid");
+    //m_ListMesh["pipe"] = std::move(new Mesh());
+    //m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
+    
+};
+
+VOID DirectX12Instance::InitShader() {
+    m_ListShader["default"] = std::move(new Shader());
+    m_ListShader.find("default")->second->InitializeShader(device);
+};
 
 VOID DirectX12Instance::LateUpdate()
 {/*
@@ -446,11 +466,8 @@ VOID DirectX12Instance::Draw(Entity* entity) {
     mCommandList->OMSetRenderTargets(1, &current_render_target_descriptor, true, &DsvHeap);
 
     //??
-    CD3DX12_GPU_DESCRIPTOR_HANDLE tex(m_pTextureManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart());
-
-    mCommandList->SetGraphicsRootDescriptorTable(0, tex);
-
-    
+    //mCommandList->SetGraphicsRootDescriptorTable(0, m_pTextureManager->GetDescriptorHandleGPU());
+        
     mCommandList->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 

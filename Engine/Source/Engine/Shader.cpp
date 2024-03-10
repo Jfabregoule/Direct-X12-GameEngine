@@ -38,31 +38,62 @@ Shader::~Shader()
 
 #pragma region Initialize
 
-void Shader::InitializeShader(ID3D12Device* device)
+void Shader::InitializeShader(ID3D12Device* device, std::string name)
 {
 	m_Device = device;
 	ID3DBlob* error;
 
-	m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
-	if (m_HResult != S_OK)
-	{
-		OutputDebugString(L"Error Compiling Shader");
-		return;
-	}
-
-	m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "ps_main", "ps_5_0", &m_PSByteCode);
-	if (m_HResult != S_OK)
-	{
-		OutputDebugString(L"Error Compiling Shader");
-		return;
-	}
-
-	if (InitializeRootSignature() == false)
-	{
-		OutputDebugString(L"Error Initializing RootSignature");
-		return;
-	}
 	
+
+	//Deux shaders différents
+	if (name == "default") {
+
+		m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
+		if (m_HResult != S_OK)
+		{
+			OutputDebugString(L"Error Compiling Shader");
+			return;
+		}
+
+		m_HResult = CompileShaderS(L".\\Content\\Shaders\\shader.hlsl", "ps_main", "ps_5_0", &m_PSByteCode);
+		if (m_HResult != S_OK)
+		{
+			OutputDebugString(L"Error Compiling Shader");
+			return;
+		}
+
+		if (InitializeRootSignature() == false)
+		{
+			OutputDebugString(L"Error Initializing RootSignature");
+			return;
+		}
+		InitializePipelineLayout();
+	}
+	else if (name == "textured") {
+
+		m_HResult = CompileShaderS(L".\\Content\\Shaders\\shaderTexture.hlsl", "vs_main", "vs_5_0", &m_VSByteCode);
+		if (m_HResult != S_OK)
+		{
+			OutputDebugString(L"Error Compiling Shader");
+			return;
+		}
+
+		m_HResult = CompileShaderS(L".\\Content\\Shaders\\shaderTexture.hlsl", "ps_main", "ps_5_0", &m_PSByteCode);
+		if (m_HResult != S_OK)
+		{
+			OutputDebugString(L"Error Compiling Shader");
+			return;
+		}
+
+		if (InitializeRootSignatureShader() == false)
+		{
+			OutputDebugString(L"Error Initializing RootSignature");
+			return;
+		}
+		InitializePipelineLayoutShader();
+	}
+
+
 	if (InitializePipelineState() == false)
 	{
 		OutputDebugString(L"Error Initializing PipelineState");
@@ -72,16 +103,6 @@ void Shader::InitializeShader(ID3D12Device* device)
 
 bool Shader::InitializePipelineState()
 {
-	// Définition du layout d'entrée
-	m_InputLayout.push_back(
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-	);
-	m_InputLayout.push_back(
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-	);
-	m_InputLayout.push_back(
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-	);	 
 
 	// Définition de la description de l'état du pipeline
 	m_PipelineDesc.InputLayout = { m_InputLayout.data(), (UINT)m_InputLayout.size() };
@@ -101,7 +122,7 @@ bool Shader::InitializePipelineState()
 
 	// Définition de l'état de rasterisation, de mélange et de stencil
 	m_PipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+	m_PipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
 	m_PipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	m_PipelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
@@ -130,20 +151,79 @@ bool Shader::InitializePipelineState()
 	return true;
 }
 
+void Shader::InitializePipelineLayout() {
+	// Définition du layout d'entrée
+	m_InputLayout.push_back(
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	);
+	m_InputLayout.push_back(
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	);
+}
+
+void Shader::InitializePipelineLayoutShader() {
+	// Définition du layout d'entrée
+	m_InputLayout.push_back(
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	);
+	m_InputLayout.push_back(
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	);
+	m_InputLayout.push_back(
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 } //28 ou 24 jsp
+	);
+}
+
+bool Shader::InitializeRootSignatureShader()
+{
+
+	CD3DX12_DESCRIPTOR_RANGE descRange;//Safe
+	descRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);//Safe
+	CD3DX12_ROOT_PARAMETER rootParams[2] = {};//Safe
+	rootParams[0].InitAsDescriptorTable(1, &descRange, D3D12_SHADER_VISIBILITY_PIXEL);//Safe
+	rootParams[1].InitAsConstantBufferView(0);//Safe
+
+	auto staticSamplers = GetStaticSamplers();//Safe
+
+	CD3DX12_ROOT_SIGNATURE_DESC desc(2, rootParams, staticSamplers.size(), staticSamplers.data(), D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);//Safe
+
+	/* Serialize the root signature */
+	m_HResult = D3D12SerializeRootSignature(
+		&desc,
+		D3D_ROOT_SIGNATURE_VERSION_1,
+		m_SerializedRootSignature.GetAddressOf(),
+		m_ErrorBlob.GetAddressOf()
+	);
+	if (m_HResult != S_OK)
+	{
+		return false;
+	}
+
+	/* Creating the Root Signature */
+	m_HResult = m_Device->CreateRootSignature(
+		0,
+		m_SerializedRootSignature->GetBufferPointer(),
+		m_SerializedRootSignature->GetBufferSize(),
+		IID_PPV_ARGS(&m_pRootSignature)
+	);
+	if (m_HResult != S_OK)
+	{
+		return false;
+	}
+	
+	m_SerializedRootSignature->Release();
+	if (m_ErrorBlob) m_ErrorBlob->Release();
+
+	return true;
+
+}
 
 bool Shader::InitializeRootSignature()
 {
+	CD3DX12_ROOT_PARAMETER rootParams[1] = {};
+	rootParams[0].InitAsConstantBufferView(0);
 
-	CD3DX12_DESCRIPTOR_RANGE descRange;
-	descRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-	CD3DX12_ROOT_PARAMETER rootParams[2];
-	rootParams[0].InitAsDescriptorTable(1, &descRange, D3D12_SHADER_VISIBILITY_PIXEL);
-
-	rootParams[1].InitAsConstantBufferView(0);
-
-	auto staticSamplers = GetStaticSamplers();
-
-	CD3DX12_ROOT_SIGNATURE_DESC desc(2, rootParams, staticSamplers.size(), staticSamplers.data(), D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	CD3DX12_ROOT_SIGNATURE_DESC desc(1, rootParams, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	/* Serialize the root signature */
 	m_HResult = D3D12SerializeRootSignature(
@@ -169,10 +249,6 @@ bool Shader::InitializeRootSignature()
 		return false;
 	}
 	return true;
-
-	m_SerializedRootSignature->Release();
-	if (m_ErrorBlob) m_ErrorBlob->Release();
-
 }
 
 #pragma endregion
