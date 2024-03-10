@@ -3,6 +3,7 @@
 
 BulletScript::BulletScript(Entity *entity)
 {
+	m_Name = "script";
 	m_pEntity = entity;
 }
 

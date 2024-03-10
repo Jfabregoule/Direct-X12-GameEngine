@@ -60,6 +60,9 @@
     <ClInclude Include="Source\HandleInputs.h">
       <Filter>Source\Common\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HandleCollisions.h">
+      <Filter>Source\Common\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -79,6 +82,9 @@
       <Filter>Source\GameObjects\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\HandleInputs.cpp">
+      <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HandleCollisions.cpp">
       <Filter>Source\Common\Private</Filter>
     </ClCompile>
   </ItemGroup>

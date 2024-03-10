@@ -1,104 +1,35 @@
 #pragma once
-#include "Engine.h"
 #include "Component.h"
-#include "CubeMesh.h"
-#include "Entity.h"
+#include <vector>
+#include <DirectXMath.h>
 
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |                                  Component Class                                    |
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
+class Entity;
 
-#pragma region Component Class
-
-class Collider : public Component {
-
+class ENGINE_API Collider : public Component
+{
 private:
 
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |                                     Attributes                                      |
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
+	Entity*					m_Self;
+	std::vector<Entity*>	m_ListEntity;
 
-#pragma region Attributes
+	bool					m_IsColliding;
+	std::vector<Entity*>	m_CollidingWith;
 
-	CubeMesh* m_pBox;
-
-	bool m_IsTrigger;
-	bool m_IsTriggering;
-	int (*pf)(int i, int b);
-
-#pragma endregion
+	DirectX::XMFLOAT3		m_CenterPoint = { 0.0f, 0.0f, 0.0f };
+	float					m_Radius;
 
 public:
-
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |								Constructor/Destructor                                  |
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
-
-#pragma region Constructor And Destructor
 
 	Collider();
 	~Collider();
 
-#pragma endregion
+	void					InitCollider(Entity* self, std::vector<Entity*> listEntity);
 
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |                                   Init/Release                                      |
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
+	bool					GetCollidingValue()		{ return m_IsColliding; };
+	std::vector<Entity*>	GetCollidingEntities()	{ return m_CollidingWith; };
 
-#pragma region Init and Release
+	bool					CheckCollision(Entity* entity);
 
-	void InitCollider();
-	void ColliderRelease();
-
-#pragma endregion
-
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |                                Getters/Setters                                      |
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
-
-#pragma region Getters And Setters
-
-	CubeMesh* GetBox() { return m_pBox; };
-	void SetIsTrigger(bool a) { m_IsTrigger = a; };
-	bool GetIsTrigger() { return m_IsTrigger; };
-
-#pragma endregion
-
-	/*
-	*  -------------------------------------------------------------------------------------
-	* |                                                                                     |
-	* |                                    Methods											|
-	* |                                                                                     |
-	*  -------------------------------------------------------------------------------------
-	*/
-
-#pragma region Methods
-
-	void IsTrigger(Entity* entity);
-	void CheckVertex();
-
-#pragma endregion
+	void					Update() override;
 
 };
-
-#pragma endregion
