@@ -8,6 +8,8 @@
 #include "Engine/InputManager.h"
 #include "HandleInputs.h"
 #include "BulletScript.h"
+#include "Engine/Collider.h"
+#include "HandleCollisions.h"
 
 BOOL GameRunning = TRUE;
 
@@ -45,18 +47,22 @@ public:
 
         DX12Inst.Init();
         HandleInputs handleInputs(&DX12Inst);
+        HandleCollisions handleCollisions(&DX12Inst);
 
         Component* addedComponent;
 
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
+       /* DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
         DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
-        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
+        dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(0)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(0), DX12Inst.m_ListEntities);
+        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);*/
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(1)->InitObject("cube");
-        DX12Inst.m_ListEntities.at(1)->Translate(0.0f, 0.0f, 2.0f);
+        DX12Inst.m_ListEntities.at(0)->InitObject("cube");
+        dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(0)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(0), DX12Inst.m_ListEntities);
+        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 2.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
+        DX12Inst.m_ListEntities.at(1)->InitObject("pyramid");
+        dynamic_cast<Collider*>(DX12Inst.m_ListEntities.at(1)->GetComponentByName("collider"))->InitCollider(DX12Inst.m_ListEntities.at(1), DX12Inst.m_ListEntities);
+        DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
 
         MSG message;
         while (GameRunning) {
@@ -67,6 +73,7 @@ public:
 
             // Rendre la frame
             handleInputs.UpdateInputs();
+            handleCollisions.UpdateCollisions();
             DX12Inst.Update();
 
             GameRunning = window->IsRunning();

@@ -5,6 +5,7 @@
 #include "DirectX12/MathHelper.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
+#include "Engine/Collider.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -92,9 +93,12 @@ void	Entity::SetDestroyValue(bool destroy)
 }
 
 Component* Entity::GetComponentByName(std::string name) {
-	for (int i = 0; i < m_ListComponent.size(); i++) {
-		if (m_ListComponent[i]->GetName() == name) {
-			return m_ListComponent[i];
+	if (m_ListComponent.size() > 0 && m_ListComponent.size() < 5000)
+	{
+		for (int i = 0; i < m_ListComponent.size(); i++) {
+			if (m_ListComponent.at(i)->GetName() == name) {
+				return m_ListComponent.at(i);
+			}
 		}
 	}
 	return nullptr;
@@ -132,6 +136,14 @@ Component* Entity::AddComponentByName(std::string componentName)
 		Script* scriptComponent = new Script();
 		m_ListComponent.push_back(scriptComponent);
 		return scriptComponent;
+
+	}
+	else if (std::strcmp(componentName.c_str(), "collider") == 0)
+	{
+
+		Collider* colliderComponent = new Collider();
+		m_ListComponent.push_back(colliderComponent);
+		return colliderComponent;
 
 	}
 }
@@ -175,6 +187,7 @@ void	Entity::InitObject(string type)
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
 		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);
+		Component* Collider = AddComponentByName("collider");
 	}
 	else {
 		return;

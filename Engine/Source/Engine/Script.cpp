@@ -13,6 +13,7 @@
 
 Script::Script()
 {
+	m_Name = "script";
 }
 
 Script::~Script()
