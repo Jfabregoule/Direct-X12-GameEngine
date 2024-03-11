@@ -61,22 +61,9 @@ public:
         //DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
         //DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-<<<<<<< HEAD
         ParticleSystem* atomGroup = dynamic_cast<ParticleSystem*>(DX12Inst.m_ListEntities.at(0)->AddComponentByName("particle-system"));
         DX12Inst.m_ListEntities.at(0)->Translate(2.0f, 0.0f, 10.0f);
         atomGroup->CreateAtomsGroup(DX12Inst.device);
-=======
-        DX12Inst.m_ListEntities.at(0)->InitObject("pipe");
-        DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(1)->InitObject("sphere");
-        DX12Inst.m_ListEntities.at(1)->Translate(0.0f, 0.0f, 2.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(3)->AddComponentByName("particle-system");
->>>>>>> 3d3a4e4ea15fe5db6593c9b8ab5d7c0bf5dd9bdd
 
         MSG message;
         while (GameRunning) {

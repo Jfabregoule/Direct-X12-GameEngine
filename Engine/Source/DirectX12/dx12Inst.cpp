@@ -410,15 +410,7 @@ VOID DirectX12Instance::DrawAll()
         {
             for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
             {
-<<<<<<< HEAD
-                //if (j == m_ListEntities.at(i)->GetAllComponents().size())
-                 //   break;
                 Draw(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j));
-=======
-                if (j == m_ListEntities.at(i)->GetAllComponents().size())
-                    break;
-                Draw(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms[j]);
->>>>>>> 3d3a4e4ea15fe5db6593c9b8ab5d7c0bf5dd9bdd
             }
         }
     }
