@@ -6,6 +6,16 @@
 
 extern Win32::IApplication* EntryApplication();
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |										WinMain 										|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region WinMain
+
 INT CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
 
@@ -41,3 +51,5 @@ INT CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 	}
 	return 0;
 }
+
+#pragma endregion

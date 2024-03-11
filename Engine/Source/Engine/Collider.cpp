@@ -1,88 +1,78 @@
 #include "Engine.h"
+#include "Collider.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									  Engine Namespace 									|
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
-
-#pragma region Engine Namespace
-
-namespace Engine {
-
-	OEngine g_Engine;
-
-	VOID SetMode(EngineMode mode)
-	{
-		g_Engine.SetEngineMode(mode);
-	}
-
-
-	EngineMode GetMode()
-	{
-		return g_Engine.GetEngineMode();
-	}
-
-	std::wstring ENGINE_API EngineModeToString()
-	{
-		switch (Engine::GetMode())
-		{
-		case EngineMode::DEBUG:		return L"Debug";
-		case EngineMode::RELEASE:	return L"Release";
-		case EngineMode::SERVER:	return L"Server";
-		case EngineMode::EDITOR:	return L"Editor";
-		default:     return L"None";
-		}
-	}
-}
-
-#pragma endregion
-
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									Constructor/Destructor								|
+* |									Constructor/Destructor 								|
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
 #pragma region Constructor And Destructor
 
-OEngine::OEngine()
-{
-#ifdef _DEBUG
-	m_EngineMode = EngineMode::DEBUG;
-#else
-	m_EngineMode = EngineMode::RELEASE;
-#endif
-}
+Collider::Collider() {
 
-OEngine::~OEngine()
-{
-}
+};
+
+Collider::~Collider() {
+	ColliderRelease();
+};
 
 #pragma endregion
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									   Getters/Setters 									|
+* |									    Initialize 									    |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Getters And Setters
+#pragma region Initialize
 
-EngineMode OEngine::GetEngineMode()
-{
-	return m_EngineMode;
-}
+void Collider::InitCollider() {
+	SetName("collider");
+	m_pBox = new CubeMesh();
+};
 
-VOID OEngine::SetEngineMode(EngineMode mode)
-{
-	m_EngineMode = mode;
-}
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
+
+void Collider::ColliderRelease() {
+	m_pBox = nullptr;
+};
+
+void Collider::IsTrigger(Entity* entity) {
+	if (m_IsTriggering == false) {
+		return;
+	}
+
+	XMFLOAT3 entityPos = entity->GetTransform()->m_VectorPosition;
+
+	Vertex* collideCube = m_pBox->cube;
+
+	if (entityPos.x > collideCube[0].position.x && entityPos.x < collideCube[3].position.x &&
+		entityPos.y > collideCube[0].position.y && entityPos.y < collideCube[1].position.y &&
+		entityPos.z > collideCube[0].position.z && entityPos.z < collideCube[4].position.z) {
+
+
+
+	}
+		
+};
+
+void Collider::CheckVertex() {
+
+};
 
 #pragma endregion

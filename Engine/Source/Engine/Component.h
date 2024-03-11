@@ -1,51 +1,32 @@
 #pragma once
-
-#include "Platform/Win32/Window.h"
-
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									SplashScreen Namespace 								|
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
-
-#pragma region SplashScreen Namespace
-
-namespace SplashScreen {
-
-	VOID ENGINE_API Open();
-	VOID ENGINE_API Close();
-	VOID ENGINE_API AddMessage(CONST WCHAR* message);
-
-}
-
-#pragma endregion
+#include <string>
+#include <iostream>
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									SplashWindow Class 									|
+* |									Component Class						                |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region SplashWindow Class
+#pragma region Component Class
 
-class ENGINE_API SplashWindow : public Win32::Window {
-private:
+class Component
+{
+protected:
 
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |									    Attributs 									    |
+	* |										Attributs								        |
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
-#pragma region Attributes
+#pragma region Attributs
 
-	WCHAR m_outputMessage[MAX_NAME_STRING];
+	std::string m_Name;
 
 #pragma endregion
 
@@ -54,29 +35,31 @@ public:
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |								Constructor/Destructor 									|
+	* |                               Constructor/Destructor                                |
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
 #pragma region Constructor And Destructor
 
-	SplashWindow();
-	~SplashWindow();
+	Component();
+	virtual ~Component();
 
 #pragma endregion
 
 	/*
 	*  -------------------------------------------------------------------------------------
 	* |                                                                                     |
-	* |									    Methods 									    |
+	* |										Methods											|
 	* |                                                                                     |
 	*  -------------------------------------------------------------------------------------
 	*/
 
 #pragma region Methods
 
-	virtual			LRESULT				MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+	std::string GetName() { return m_Name; };
+
+	void SetName(const char* name);
 
 #pragma endregion
 

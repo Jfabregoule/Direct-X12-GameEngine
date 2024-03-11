@@ -66,6 +66,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -99,10 +100,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp" />
+    <ClCompile Include="Source\Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\BlankProject.h" />
+    <ClInclude Include="Source\Map.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc" />

@@ -1,63 +1,46 @@
-#pragma once 
-
-class ENGINE_API OEngine;
+#include "Engine.h"
+#include "Engine/Texture.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |                               Namespace Engine                                      |
+* |									Constructor/Destructor 								|
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Namespace Engine
+#pragma region Constructor And Destructor
 
-namespace Engine {
+TextureManager::TextureManager() {
 
-	enum  EngineMode : INT {
-		NONE,
-		DEBUG,
-		RELEASE,
-		EDITOR,
-		SERVER
-	};
+};
 
-	extern OEngine g_Engine;
-
-	VOID ENGINE_API SetMode(EngineMode mode);
-	EngineMode ENGINE_API GetMode();
-
-	std::wstring ENGINE_API EngineModeToString();
+TextureManager::~TextureManager() {
 
 }
 
 #pragma endregion
 
-using namespace Engine;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |                                  OEngine Class                                      |
+* |									    Methods 									    |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region OEngine Class
+#pragma region Methods
 
-class ENGINE_API OEngine {
+void TextureManager::AddTexture(std::string name, std::wstring path) {
 
-public:
-	OEngine();
-	~OEngine();
+	//m_pListTexture->insert(std::make_pair(name, new Texture()));
 
-private:
-	EngineMode m_EngineMode;
 
-public:
-	EngineMode GetEngineMode();
-	VOID SetEngineMode(EngineMode mode);
+}
 
-};
+void TextureManager::LoadTextures()
+{
+}
 
 #pragma endregion
+

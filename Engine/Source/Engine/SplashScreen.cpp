@@ -3,6 +3,16 @@
 
 #include "Platform/Win32/Win32Utils.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									SplashScreen Namespace 								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region SplashScreen Namespace
+
 namespace SplashScreen {
 
 #define WM_OUTPUTMESSAGE (WM_USER + 0x0001)
@@ -27,6 +37,17 @@ namespace SplashScreen {
 	}
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Constructor/Destructor 								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
 
 SplashWindow::SplashWindow()
 	: Win32::Window(L"SplashScreen", NULL, Win32::WindowType::POPUP)
@@ -41,6 +62,18 @@ SplashWindow::SplashWindow()
 SplashWindow::~SplashWindow()
 {
 }
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
 
 LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -84,3 +117,5 @@ LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPA
 
 	return Window::MessageHandler(hwnd, message, wParam, lParam);
 }
+
+#pragma endregion

@@ -1,4 +1,15 @@
 #pragma once
+#include "Engine/Shader.h"
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |                                   Engine Namespace                                  |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Engine Namespace
 
 namespace Engine {
 
@@ -15,4 +26,6 @@ namespace Engine {
 
 	};
 }
+
+#pragma endregion
 

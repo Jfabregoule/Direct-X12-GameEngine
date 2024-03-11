@@ -74,6 +74,45 @@
     <Filter Include="Source\DirectX12\Classes">
       <UniqueIdentifier>{82925e2f-cd27-4b5b-97d8-09ccaf27879a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\DirectX12\Bin">
+      <UniqueIdentifier>{eac2131b-5368-403c-8ad5-d463e1b4cc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity">
+      <UniqueIdentifier>{7b4faad2-7e13-42db-8de7-3fd8e8bdc2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Mesh">
+      <UniqueIdentifier>{bcfdae68-4955-4ca9-a338-dd871d36f3ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Mesh\Classes">
+      <UniqueIdentifier>{86de4065-eb00-4483-827c-884ae26b4291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Mesh\Private">
+      <UniqueIdentifier>{35420915-c697-40cd-86f8-a5b704352cfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Mesh\Public">
+      <UniqueIdentifier>{08b8ca56-8c15-4787-a4a2-1dfad86b878d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Component">
+      <UniqueIdentifier>{7ccf9739-62ba-4682-b5bc-9e7a47f280c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Component\Classes">
+      <UniqueIdentifier>{34bdda81-76ba-4933-9415-a3ecde93b0b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Component\Private">
+      <UniqueIdentifier>{2583861a-9464-473d-9250-1cfa244a837f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Component\Public">
+      <UniqueIdentifier>{ddc26591-6039-47a3-bd03-ec7b73d122fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Classes">
+      <UniqueIdentifier>{7f562266-5e7b-4256-9515-aaea56e87264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Public">
+      <UniqueIdentifier>{b22fc2ad-a011-4b7e-baf1-7f96787b277a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entity\Private">
+      <UniqueIdentifier>{b7f7ab4e-2eb1-4004-ae04-e2a385046532}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine.cpp">
@@ -124,29 +163,59 @@
     <ClCompile Include="Source\Platform\Win32\w32Caption.cpp">
       <Filter>Source\Platform\Win32\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\d3dApp.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX12\d3dUtil.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\GameTimer.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\MathHelper.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\Camera.cpp">
       <Filter>Source\DirectX12\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\d3dApp.cpp">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\MathHelper.cpp">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX12\GameTimer.cpp">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Mesh.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\MeshRenderer.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Shader.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\transform.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entity.cpp">
+      <Filter>Source\Engine\Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Collider.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Camera.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\InputManager.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Texture.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,28 +276,10 @@
     <ClInclude Include="Source\Engine\DirectX12Utils.h">
       <Filter>Source\Engine\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\Camera.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dApp.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dUtil.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dx12.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GameTimer.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\MathHelper.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\UploadBuffer.h">
@@ -237,8 +288,68 @@
     <ClInclude Include="Source\DirectX12\dx12Inst.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\DX12Camera.h">
+    <ClInclude Include="Source\DirectX12\d3dApp.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\MathHelper.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\GameTimer.h">
+      <Filter>Source\DirectX12\Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX12\Vertex.h">
       <Filter>Source\DirectX12\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\MeshRenderer.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\CubeMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\MeshRenderer.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Component.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Mesh.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Shader.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\transform.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entity.h">
+      <Filter>Source\Engine\Entity\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\PyramidMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Collider.h">
+      <Filter>Source\Engine\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\PipeMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Camera.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\InputManager.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Texture.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Random.h">
+      <Filter>Source\Engine\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,88 +1,76 @@
 #include "Engine.h"
+#include "Engine/MeshRenderer.h"
+#include "Engine/Shader.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									  Engine Namespace 									|
-* |                                                                                     |
-*  -------------------------------------------------------------------------------------
-*/
-
-#pragma region Engine Namespace
-
-namespace Engine {
-
-	OEngine g_Engine;
-
-	VOID SetMode(EngineMode mode)
-	{
-		g_Engine.SetEngineMode(mode);
-	}
-
-
-	EngineMode GetMode()
-	{
-		return g_Engine.GetEngineMode();
-	}
-
-	std::wstring ENGINE_API EngineModeToString()
-	{
-		switch (Engine::GetMode())
-		{
-		case EngineMode::DEBUG:		return L"Debug";
-		case EngineMode::RELEASE:	return L"Release";
-		case EngineMode::SERVER:	return L"Server";
-		case EngineMode::EDITOR:	return L"Editor";
-		default:     return L"None";
-		}
-	}
-}
-
-#pragma endregion
-
-/*
-*  -------------------------------------------------------------------------------------
-* |                                                                                     |
-* |									Constructor/Destructor								|
+* |								Constructor/Destructor 									|
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
 #pragma region Constructor And Destructor
 
-OEngine::OEngine()
-{
-#ifdef _DEBUG
-	m_EngineMode = EngineMode::DEBUG;
-#else
-	m_EngineMode = EngineMode::RELEASE;
-#endif
-}
+MeshRenderer::MeshRenderer() {
+		
+};
 
-OEngine::~OEngine()
-{
-}
+MeshRenderer::~MeshRenderer() {
+
+};
 
 #pragma endregion
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									   Getters/Setters 									|
+* |									   Initialize 									    |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Getters And Setters
+#pragma region Initialize
 
-EngineMode OEngine::GetEngineMode()
-{
-	return m_EngineMode;
-}
+void MeshRenderer::InitMeshRenderer(ID3D12Device* device, string type) {
+	SetName("mesh_renderer");
+	m_pMesh = new Mesh();
+	m_pMesh->InitializeMesh(device, type);
+	m_pShader = new Shader();
+	m_pShader->InitializeShader(device);
 
-VOID OEngine::SetEngineMode(EngineMode mode)
-{
-	m_EngineMode = mode;
-}
+	auto testo = CD3DX12_RESOURCE_DESC::Buffer(64);
+	device->CreateCommittedResource(
+		&test,
+		D3D12_HEAP_FLAG_NONE,
+		&testo,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&m_pConstantBufferGPU));
+	
+
+};
+
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									    Methods 									    |
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Methods
+
+void MeshRenderer::UpdateConstantBuffer(XMMATRIX worldViewProjMatrix) {
+
+	CD3DX12_RANGE readRange(0, 0);
+	m_pConstantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&m_pConstantBufferData));
+
+	memcpy(m_pConstantBufferData, &worldViewProjMatrix, sizeof(worldViewProjMatrix));
+	m_pConstantBufferGPU->Unmap(0, nullptr);
+
+};
 
 #pragma endregion

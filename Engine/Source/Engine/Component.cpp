@@ -1,63 +1,41 @@
-#pragma once 
-
-class ENGINE_API OEngine;
+#include "Engine.h"
+#include "Component.h"
 
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |                               Namespace Engine                                      |
+* |								Constructor/Destructor 									|
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region Namespace Engine
+#pragma region Constructor And Destructor
 
-namespace Engine {
+Component::Component()
+{
+	m_Name = "default";
+}
 
-	enum  EngineMode : INT {
-		NONE,
-		DEBUG,
-		RELEASE,
-		EDITOR,
-		SERVER
-	};
-
-	extern OEngine g_Engine;
-
-	VOID ENGINE_API SetMode(EngineMode mode);
-	EngineMode ENGINE_API GetMode();
-
-	std::wstring ENGINE_API EngineModeToString();
-
+Component::~Component()
+{
+	std::cout << "Destroying component : " << m_Name;
 }
 
 #pragma endregion
 
-using namespace Engine;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |                                  OEngine Class                                      |
+* |									Getters/Setters 									|
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
 
-#pragma region OEngine Class
+#pragma region Getters And Setters
 
-class ENGINE_API OEngine {
+VOID Component::SetName(const char* name) {
+	m_Name = name;
 
-public:
-	OEngine();
-	~OEngine();
-
-private:
-	EngineMode m_EngineMode;
-
-public:
-	EngineMode GetEngineMode();
-	VOID SetEngineMode(EngineMode mode);
-
-};
+}
 
 #pragma endregion
