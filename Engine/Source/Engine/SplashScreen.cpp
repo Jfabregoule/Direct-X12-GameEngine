@@ -28,6 +28,11 @@ namespace SplashScreen {
 
 	VOID Close()
 	{
+		if (m_SplashWindow != nullptr)
+    {
+        delete m_SplashWindow;
+        m_SplashWindow = nullptr;
+    }
 		return VOID ENGINE_API();
 	}
 

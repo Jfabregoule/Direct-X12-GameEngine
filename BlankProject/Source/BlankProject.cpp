@@ -37,6 +37,9 @@ public:
 
     VOID SetupPerGameSettings();
 
+     
+
+
     /* - Called to Initialize the Application - */
 
     VOID Initialize() {
@@ -55,6 +58,7 @@ public:
         HandleInputs handleInputs(&DX12Inst, gameManager);
         HandleCollisions handleCollisions(&DX12Inst);
 
+        //test des formes 
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
         DX12Inst.m_ListEntities.at(0)->InitObject("cube");
         DX12Inst.m_ListEntities.at(0)->SetCollider();
@@ -64,6 +68,7 @@ public:
         DX12Inst.m_ListEntities.at(1)->SetCollider();
         DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
 
+        //Boucle principale 
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {

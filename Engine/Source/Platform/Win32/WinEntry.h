@@ -2,6 +2,7 @@
 
 #include "IApplication.h"
 #include "Common/CmdLineArgs.h"
+#include "Engine/SplashScreen.h"
 
 
 extern Win32::IApplication* EntryApplication();
@@ -24,17 +25,22 @@ INT CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 	PerGameSettings GameSettings;
 	EntryApp->SetupPerGameSettings();
 
+
+
 	CmdLineArgs::ReadArguments();
 
 	Logger logger;
 
 	EntryApp->PreInitialize();
 
+	SplashScreen::Open(); 
 
+
+	Sleep(3000);
+	
+	SplashScreen::Close();
 
 	EntryApp->Initialize();
-
-
 
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT)
