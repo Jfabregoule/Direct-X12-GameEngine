@@ -1,5 +1,6 @@
 #include "BlankProject.h"
 #include "HandleCollisions.h"
+#include "Engine/Entity.h"
 
 HandleCollisions::HandleCollisions(DirectX12Instance* inst)
 {

@@ -17,8 +17,6 @@ using namespace DirectX;
 
 #pragma endregion 
 
-const int _COUNT = 1;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -53,12 +51,15 @@ private:
 	UINT m_M4XMsaaQuality;
 
 	ID3D12RootSignature* m_pRootSignature;
-	ComPtr<ID3DBlob> m_SerializedRootSignature;
-	ComPtr<ID3DBlob> m_ErrorBlob;
+	ComPtr<ID3DBlob> m_SerializedRootSignature = nullptr;
+	ComPtr<ID3DBlob> m_ErrorBlob = nullptr;
 
 	HRESULT m_HResult;
 
 	vector<D3D12_INPUT_ELEMENT_DESC> m_InputLayout;
+
+	int m_rootParamSize; 
+	int m_isDescTable;
 
 #pragma endregion
 
@@ -116,9 +117,15 @@ public:
 
 #pragma region Initialize
 
-	void InitializeShader(ID3D12Device* device);
+	void InitializeShader(ID3D12Device* device, std::string name = "default");
 
 	bool InitializePipelineState();
+
+	void InitializePipelineLayout();
+
+	void InitializePipelineLayoutShader();
+
+	bool InitializeRootSignatureShader();
 
 	bool InitializeRootSignature();
 
@@ -138,9 +145,12 @@ public:
 		return m_pRootSignature;
 	};
 
-	ID3D12PipelineState* GetPipelineState(){
+	ID3D12PipelineState* GetPipelineState() {
 		return m_pPipelineState;
 	};
+
+	int GetRootParamSize() { return m_rootParamSize; };
+	int GetIsDescTable() { return m_isDescTable; };
 
 #pragma endregion
 
@@ -157,6 +167,8 @@ public:
 	void Update();
 
 	HRESULT CompileShaderS(const WCHAR* filename, const char* entrypoint, const char* profile, ID3DBlob** out_code);
+
+	std::vector<CD3DX12_STATIC_SAMPLER_DESC> GetStaticSamplers();
 
 #pragma endregion
 

@@ -6,9 +6,6 @@
 #include "Engine/Texture.h"
 #include "Engine/Shader.h"
 
-//class Texture;
-//class Shader;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -38,7 +35,7 @@ private:
 
 	ID3D12Resource* m_pConstantBufferGPU;
 	// Méthode pour initialiser le tampon de constantes sur le GPU
-	CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
 
 	UINT8* m_pConstantBufferData;
 
@@ -58,7 +55,7 @@ public:
 
 	MeshRenderer();
 	~MeshRenderer();
-	
+
 #pragma endregion
 
 	/*
@@ -74,7 +71,7 @@ public:
 	Mesh* GetMesh() { return m_pMesh; };
 	Texture* GetTexture() { return m_pTexture; };
 	Shader* GetShader() { return m_pShader; };
-	ID3D12Resource* GetConstantBufferGPU() { return m_pConstantBufferGPU;  };
+	ID3D12Resource* GetConstantBufferGPU() { return m_pConstantBufferGPU; };
 	UINT8* GetConstantBufferData() { return m_pConstantBufferData; };
 
 	void SetMesh(Mesh* mesh) { m_pMesh = mesh; };
@@ -95,8 +92,8 @@ public:
 
 #pragma region Methods
 
-	void InitMeshRenderer(ID3D12Device* device, string type = "null");
-	void UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix);
+	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type, std::string texture_name);
+	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 
 	void Update() override;
 

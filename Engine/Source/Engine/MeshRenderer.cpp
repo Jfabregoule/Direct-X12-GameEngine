@@ -18,7 +18,10 @@ MeshRenderer::MeshRenderer() {
 };
 
 MeshRenderer::~MeshRenderer() {
-
+	m_pMesh = nullptr;
+	m_pShader = nullptr;
+	delete m_pConstantBufferData;
+	delete m_pConstantBufferGPU;
 };
 
 #pragma endregion
@@ -33,15 +36,15 @@ MeshRenderer::~MeshRenderer() {
 
 #pragma region Initialize
 
-void MeshRenderer::InitMeshRenderer(ID3D12Device* device, string type) {
+void MeshRenderer::InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type, std::string texture_name) {
 	SetName("mesh_renderer");
-	m_pMesh = new Mesh();
-	m_pMesh->InitializeMesh(device, type);
-	m_pShader = new Shader();
-	m_pShader->InitializeShader(device);
+	m_pMesh = inst->m_ListMesh.find(type)->second;
+	m_pShader = inst->m_ListShader.find(shader_type)->second;
+	m_pTexture = inst->m_pTextureManager->GetTextureMap()->find(texture_name)->second;
 
 	auto testo = CD3DX12_RESOURCE_DESC::Buffer(64);
-	device->CreateCommittedResource(
+	CD3DX12_HEAP_PROPERTIES test = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	inst->device->CreateCommittedResource(
 		&test,
 		D3D12_HEAP_FLAG_NONE,
 		&testo,
