@@ -13,6 +13,7 @@
 #pragma region Constructor And Destructor
 
 Camera::Camera(Transform *transform) {
+    m_Name = "camera";
     camTransform = transform;
 };
 

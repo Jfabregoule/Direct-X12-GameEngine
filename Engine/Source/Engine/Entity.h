@@ -85,17 +85,19 @@ public:
 	void					SetDestroyValue(bool destroy);
 
 	std::vector<Component*>	GetAllComponents();
-	Component* AddComponentByName(std::string componentName);
-	void AttachComponent(Component* component);
-	Component* GetComponentByName(std::string name);
+	Component*				AddComponentByName(std::string componentName);
+	void					AttachComponent(Component* component);
+	Component*				GetComponentByName(std::string name);
 
-	void Translate(float postionX, float positionY, float positionZ);
-	void Rotate(float yaw, float pitch, float roll);
-	void Scale(float scaleX, float scaleY, float scaleZ);
+	void					Translate(float postionX, float positionY, float positionZ);
+	void					Rotate(float yaw, float pitch, float roll);
+	void					Scale(float scaleX, float scaleY, float scaleZ);
 
-	void InitObject(std::string type);
+	void					UpdateEntity();
+	void					InitObject(std::string type);
 
-	void SetCollider();
+	void					SetCollider();
+	bool					HasTag(std::string tag);
 
 #pragma endregion
 
