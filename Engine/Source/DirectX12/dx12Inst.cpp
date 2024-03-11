@@ -206,19 +206,14 @@ VOID DirectX12Instance::SetEntityAsMainCamera(Entity* entity) {
 
     float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
-    if (entity == nullptr) {
+    if (entity == nullptr)
         m_pMainCamera = new Entity(this);
-    }
-    else {
+    else
         m_pMainCamera = entity;
-    }
 
-    Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
-    cam->Init(aspectRatio);
-    m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
-
+    m_pMainCamera->InitObject("camera");
     m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
-
+    m_pMainCamComponent->Init(aspectRatio);
 };
 
 
@@ -354,8 +349,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
         return; // Vérifie si le mesh renderer est valide
 
     ///////////////////////////////////////////
-
-    entity->Rotate(0.0f, 0.001f, 0.0f);
+    entity->Rotate(0.0f, 1.0f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);

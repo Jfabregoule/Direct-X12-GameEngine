@@ -6,6 +6,7 @@
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
 #include "Engine/Collider.h"
+#include "Engine/Tags.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -140,11 +141,15 @@ Component* Entity::AddComponentByName(std::string componentName)
 	}
 	else if (std::strcmp(componentName.c_str(), "collider") == 0)
 	{
-
 		Collider* colliderComponent = new Collider();
 		m_ListComponent.push_back(colliderComponent);
 		return colliderComponent;
-
+	}
+	else if (std::strcmp(componentName.c_str(), "tags") == 0)
+	{
+		Tags* TagsComponent = new Tags();
+		m_ListComponent.push_back(TagsComponent);
+		return TagsComponent;
 	}
 }
 
@@ -181,7 +186,8 @@ void	Entity::InitObject(string type)
 {
 	if (type == "camera")
 	{
-		//
+		AddComponentByName("camera");
+		Translate(0.0f, 3.0f, -10.0f);
 	}
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
@@ -206,6 +212,16 @@ void Entity::UpdateEntity() {
 void Entity::SetCollider() {
 	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
 	oue->InitCollider(this, m_pInst->m_ListEntities);
+}
+
+bool Entity::HasTag(std::string tag)
+{
+	Tags* tagComponent = dynamic_cast<Tags*>(GetComponentByName("tags"));
+	if (tagComponent != nullptr)
+	{
+		return tagComponent->HasTag(tag);
+	}
+	return false;
 }
 
 #pragma endregion
