@@ -2,6 +2,7 @@
 
 
 class DirectX12Instance;
+class GameManager;
 
 class HandleInputs {
 
@@ -9,10 +10,11 @@ private:
 
 	InputManager*		m_InputManager;
 	DirectX12Instance*	m_DX12Instance;
+	GameManager*		m_GameManager;
 
 public:
 
-	HandleInputs(DirectX12Instance *inst);
+	HandleInputs(DirectX12Instance* inst, GameManager* gameManager);
 	~HandleInputs();
 
 	void UpdateInputs();
