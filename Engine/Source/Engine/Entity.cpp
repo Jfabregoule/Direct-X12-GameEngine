@@ -133,7 +133,7 @@ Component* Entity::AddComponentByName(std::string componentName)
 	}
 	else if (std::strcmp(componentName.c_str(), "script") == 0)
 	{
-		
+
 		Script* scriptComponent = new Script();
 		m_ListComponent.push_back(scriptComponent);
 		return scriptComponent;
@@ -197,7 +197,7 @@ void Entity::Backward(float speed, float dT) {
 void Entity::StrafeLeft(float speed, float dT) {
 	DirectX::XMFLOAT3 rightVect;
 	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
-	Translate(-rightVect.x * speed * dT, -rightVect.y * speed * dT,-rightVect.z * speed * dT);
+	Translate(-rightVect.x * speed * dT, -rightVect.y * speed * dT, -rightVect.z * speed * dT);
 };
 void Entity::StrafeRight(float speed, float dT) {
 	DirectX::XMFLOAT3 rightVect;
@@ -213,7 +213,7 @@ void Entity::Up(float speed, float dT) {
 
 #pragma endregion
 
-void	Entity::InitObject(string type)
+void Entity::InitObject(std::string type, std::string shader_type, std::string texture_name)
 {
 	if (type == "camera")
 	{
@@ -223,7 +223,7 @@ void	Entity::InitObject(string type)
 	else if (type == "cube" || type == "pyramid" || type == "pipe")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
-		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst->device, type);
+		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type, shader_type,texture_name);
 	}
 	else {
 		return;

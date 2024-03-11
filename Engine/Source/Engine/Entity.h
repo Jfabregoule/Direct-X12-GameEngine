@@ -33,10 +33,10 @@ private:
 
 	std::string					m_Name;
 	std::vector <Component*>	m_ListComponent;//remplacer les int par la classe component quand elle sera faite
-	Entity*						m_pParent;
+	Entity* m_pParent;
 	std::vector<Entity*>		m_Children;
 	Transform					m_Transform;
-	DirectX12Instance*			m_pInst;
+	DirectX12Instance* m_pInst;
 
 	bool						m_ToDestroy;
 	bool						m_isSlide;
@@ -73,14 +73,14 @@ public:
 	std::string				GetName();
 	void					SetName(std::string entityName);
 
-	Entity*					GetParent();
+	Entity* GetParent();
 	void					SetParent(Entity* parentEntity);
 
 	std::vector<Entity*>	GetChildren();
 	void					AddChildren(Entity* childEntity);
 
-	Transform*				GetTransform();
-	DirectX::XMFLOAT4X4*	GetTransformConvert();
+	Transform* GetTransform();
+	DirectX::XMFLOAT4X4* GetTransformConvert();
 
 	bool					GetDestroyValue();
 	void					SetDestroyValue(bool destroy);
@@ -105,7 +105,7 @@ public:
 	void					Up(float speed, float dT = 1);
 
 	void					UpdateEntity();
-	void					InitObject(std::string type);
+	void					InitObject(std::string type, std::string shader_type = "default", std::string texture_name = "bark");
 
 	void					SetCollider();
 	bool					HasTag(std::string tag);

@@ -28,34 +28,34 @@ struct ENGINE_API CubeMesh {
 
 #pragma region Attributes
 
-	Vertex cube[8];
-	UINT cubeVerticesCount = 8; // Taille du tableau cube
+	Vertex cube[24];
+	UINT cubeVerticesCount = 24; // Taille du tableau cube
 
 	UINT cubeIndices[36] = {
 		// front face
-		
+
 		0, 1, 2,
-		0, 2, 3,
+		 2, 3, 0,
 
-		//// back face
-		4, 6, 5,
-		4, 7, 6,
+		 //// left face
+		 6, 5, 4,
+		 4, 7, 6,
 
-		//// left face
-		4, 5, 1,
-		4, 1, 0,
+		 //// back face
+		 9, 10, 11,
+		 11, 8, 9,
 
-		//// right face
-		3, 2, 6,
-		3, 6, 7,
+		 //////// right face
+		 14, 13, 12,
+		 12, 15, 14,
 
-		//// top face
-		1, 5, 6,
-		1, 6, 2,
+		 //////// top face
+		 18, 17, 16,
+		 16, 19, 18,
 
-		//// bottom face
-		4, 0, 3,
-		4, 3, 7
+		 //////// bottom face
+		 20, 21, 22,
+		 22, 23, 20,
 	};
 	UINT cubeIndicesCount = sizeof(cubeIndices) / sizeof(UINT);
 
@@ -72,15 +72,35 @@ struct ENGINE_API CubeMesh {
 #pragma region Methods
 
 	void GenerateCube() {
-		cube[0] = Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::White) );
-		cube[1] = Vertex(XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Black) );
-		cube[2] = Vertex(XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Red) );
-		cube[3] = Vertex(XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Green) );
+		cube[0] = Vertex(XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(0.0f, 0.0f));
+		cube[1] = Vertex(XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(1.0f, 0.0f));
+		cube[2] = Vertex(XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Red), XMFLOAT2(1.0f, 1.0f));
+		cube[3] = Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 1.0f));
 
-		cube[4] = Vertex(XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Blue) );
-		cube[5] = Vertex(XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Yellow) );
-		cube[6] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Cyan) );
-		cube[7] = Vertex(XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Magenta));
+		cube[4] = Vertex(XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(0.0f, 0.0f));
+		cube[5] = Vertex(XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::White), XMFLOAT2(1.0f, 0.0f));
+		cube[6] = Vertex(XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(1.0f, 1.0f));
+		cube[7] = Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 1.0f));
+
+		cube[8] = Vertex(XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(0.0f, 0.0f));
+		cube[9] = Vertex(XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(1.0f, 0.0f));
+		cube[10] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(1.0f, 1.0f));
+		cube[11] = Vertex(XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::White), XMFLOAT2(0.0f, 1.0f));
+
+		cube[12] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 0.0f));
+		cube[13] = Vertex(XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(1.0f, 0.0f));
+		cube[14] = Vertex(XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Red), XMFLOAT2(1.0f, 1.0f));
+		cube[15] = Vertex(XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(0.0f, 1.0f));
+
+		cube[16] = Vertex(XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::White), XMFLOAT2(0.0f, 0.0f));
+		cube[17] = Vertex(XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(1.0f, 0.0f));
+		cube[18] = Vertex(XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(1.0f, 1.0f));
+		cube[19] = Vertex(XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(0.0f, 1.0f));
+
+		cube[20] = Vertex(XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Cyan), XMFLOAT2(0.0f, 0.0f));
+		cube[21] = Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Yellow), XMFLOAT2(1.0f, 0.0f));
+		cube[22] = Vertex(XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Red), XMFLOAT2(1.0f, 1.0f));
+		cube[23] = Vertex(XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(Colors::Magenta), XMFLOAT2(0.0f, 1.0f));
 	};
 
 #pragma endregion

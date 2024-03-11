@@ -6,9 +6,6 @@
 #include "Engine/Texture.h"
 #include "Engine/Shader.h"
 
-//class Texture;
-//class Shader;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -36,6 +33,12 @@ private:
 	Texture* m_pTexture = nullptr;
 	Shader* m_pShader = nullptr;
 
+	ID3D12Resource* m_pConstantBufferGPU;
+	// Méthode pour initialiser le tampon de constantes sur le GPU
+
+
+	UINT8* m_pConstantBufferData;
+
 #pragma endregion
 
 public:
@@ -52,7 +55,7 @@ public:
 
 	MeshRenderer();
 	~MeshRenderer();
-	
+
 #pragma endregion
 
 	/*
@@ -68,10 +71,14 @@ public:
 	Mesh* GetMesh() { return m_pMesh; };
 	Texture* GetTexture() { return m_pTexture; };
 	Shader* GetShader() { return m_pShader; };
+	ID3D12Resource* GetConstantBufferGPU() { return m_pConstantBufferGPU; };
+	UINT8* GetConstantBufferData() { return m_pConstantBufferData; };
 
 	void SetMesh(Mesh* mesh) { m_pMesh = mesh; };
 	void SetTexture(Texture* texture) { m_pTexture = texture; };
 	void SetShader(Shader* shader) { m_pShader = shader; };
+	void SetConstantBufferGPU(ID3D12Resource* constantBufferGPU) { m_pConstantBufferGPU = constantBufferGPU; };
+	void SetConstantBufferData(UINT8* constantBufferData) { m_pConstantBufferData = constantBufferData; };
 
 #pragma endregion
 
@@ -85,8 +92,8 @@ public:
 
 #pragma region Methods
 
-	void InitMeshRenderer(ID3D12Device* device, string type = "null");
-	void UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix);
+	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type, std::string texture_name);
+	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 
 	void Update() override;
 
