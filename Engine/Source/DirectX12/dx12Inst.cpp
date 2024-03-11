@@ -235,6 +235,18 @@ VOID DirectX12Instance::LateUpdate()
             m_ListEntities.erase(m_ListEntities.begin() + i);
             delete DestroyedEntity;
         }
+        if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+        {
+            for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
+            {
+                if (dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j)->GetDestroyValue() == true)
+                {
+                    Entity* DestroyedEntity = dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j);
+                    dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.erase(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.begin() + j);
+                    delete DestroyedEntity;
+                }
+            }
+        }
     }
 }
 
@@ -348,7 +360,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    entity->Rotate(0.0f, 0.001f, 0.0f);
+    //entity->Rotate(0.0f, 0.001f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);
@@ -396,12 +408,14 @@ VOID DirectX12Instance::DrawAll() {
         //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
         if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+        {
             for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
             {
-                if (j == m_ListEntities.at(i)->GetAllComponents().size())
-                    break;
-                Draw(m_ListEntities.at(i));
+                //if (j == m_ListEntities.at(i)->GetAllComponents().size())
+                 //   break;
+                Draw(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j));
             }
+        }
     }
 };
 
