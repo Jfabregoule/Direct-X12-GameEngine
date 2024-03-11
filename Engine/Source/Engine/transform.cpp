@@ -65,29 +65,29 @@ void Transform::Scale(float scaleX, float scaleY, float scaleZ) {
 
 
     // Matrix
-    XMMATRIX scalingMatrix = XMMatrixScaling(m_VectorScale.x, m_VectorScale.y, m_VectorScale.z);
+    DirectX::XMMATRIX scalingMatrix = DirectX::XMMatrixScaling(m_VectorScale.x, m_VectorScale.y, m_VectorScale.z);
 
-    XMStoreFloat4x4(&m_MatrixScale, scalingMatrix);
+    DirectX::XMStoreFloat4x4(&m_MatrixScale, scalingMatrix);
 }
 
 void Transform::Rotate(float yaw, float pitch, float roll) {
 
     // Quaternion
-    XMVECTOR quaternion;
-    quaternion = XMQuaternionRotationAxis(XMLoadFloat3(&m_VectorDirection), roll);
-    quaternion = XMQuaternionMultiply(quaternion, XMQuaternionRotationAxis(XMLoadFloat3(&m_VectorRight), pitch));
-    quaternion = XMQuaternionMultiply(quaternion, XMQuaternionRotationAxis(XMLoadFloat3(&m_VectorUp), yaw));
-    XMVECTOR qRot = XMLoadFloat4(&m_QuaternionRotation);
-    qRot = XMQuaternionMultiply(qRot, quaternion);
-    XMStoreFloat4(&m_QuaternionRotation, qRot);
+    DirectX::XMVECTOR quaternion;
+    quaternion = DirectX::XMQuaternionRotationAxis(XMLoadFloat3(&m_VectorDirection), roll);
+    quaternion = DirectX::XMQuaternionMultiply(quaternion, DirectX::XMQuaternionRotationAxis(DirectX::XMLoadFloat3(&m_VectorRight), pitch));
+    quaternion = DirectX::XMQuaternionMultiply(quaternion, DirectX::XMQuaternionRotationAxis(DirectX::XMLoadFloat3(&m_VectorUp), yaw));
+    DirectX::XMVECTOR qRot = DirectX::XMLoadFloat4(&m_QuaternionRotation);
+    qRot = DirectX::XMQuaternionMultiply(qRot, quaternion);
+    DirectX::XMStoreFloat4(&m_QuaternionRotation, qRot);
 
     m_VectorRotation.x += pitch;
     m_VectorRotation.y += yaw;
     m_VectorRotation.z += roll;
 
     // Matrix
-    XMMATRIX  rotationMatrix = XMMatrixRotationQuaternion(qRot);
-    XMStoreFloat4x4(&m_MatrixRotation, rotationMatrix);
+    DirectX::XMMATRIX  rotationMatrix = DirectX::XMMatrixRotationQuaternion(qRot);
+    DirectX::XMStoreFloat4x4(&m_MatrixRotation, rotationMatrix);
 
     // Axis
     m_VectorDirection.x = m_MatrixRotation._11;
@@ -112,20 +112,65 @@ void Transform::Translate(float positionX, float positionY, float positionZ) {
 
 
     // Matrix
-    XMMATRIX translationMatrix = XMMatrixTranslation(m_VectorPosition.x, m_VectorPosition.y, m_VectorPosition.z);
+    DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(m_VectorPosition.x, m_VectorPosition.y, m_VectorPosition.z);
 
-    XMStoreFloat4x4(&m_MatrixPosition, translationMatrix);
+    DirectX::XMStoreFloat4x4(&m_MatrixPosition, translationMatrix);
 }
 
 void Transform::UpdateMatrix() {
 
-    XMMATRIX globalMatrix;
+    DirectX::XMMATRIX globalMatrix;
 
-    globalMatrix = XMLoadFloat4x4(&m_MatrixScale);
-    globalMatrix = XMMatrixMultiply(globalMatrix, XMLoadFloat4x4(&m_MatrixRotation));
-    globalMatrix = XMMatrixMultiply(globalMatrix, XMLoadFloat4x4(&m_MatrixPosition));
+    globalMatrix = DirectX::XMLoadFloat4x4(&m_MatrixScale);
+    globalMatrix = DirectX::XMMatrixMultiply(globalMatrix, DirectX::XMLoadFloat4x4(&m_MatrixRotation));
+    globalMatrix = DirectX::XMMatrixMultiply(globalMatrix, DirectX::XMLoadFloat4x4(&m_MatrixPosition));
 
-    XMStoreFloat4x4(&m_Matrix, globalMatrix);
+    DirectX::XMStoreFloat4x4(&m_Matrix, globalMatrix);
+}
+
+DirectX::XMVECTOR Transform::GetForwardVector() {
+    // Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+    DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&m_VectorRotation));
+
+    // Définir la direction avant comme l'axe z (0, 0, 1) transformé par la matrice de rotation
+    DirectX::XMVECTOR forward = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+    forward = DirectX::XMVector3TransformNormal(forward, rotationMatrix);
+
+    // Normaliser le vecteur résultant
+    forward = DirectX::XMVector3Normalize(forward);
+
+    return forward;
+}
+
+DirectX::XMVECTOR Transform::GetRightVector() {
+    // Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+    DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&m_VectorRotation));
+
+    // Définir la direction avant comme l'axe x (1, 0, 0) transformé par la matrice de rotation
+    DirectX::XMVECTOR right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+    right = DirectX::XMVector3TransformNormal(right, rotationMatrix);
+
+    // Normaliser le vecteur résultant
+    right = DirectX::XMVector3Normalize(right);
+
+    return right;
+}
+
+DirectX::XMVECTOR Transform::GetUpVector() {
+    // Construire une matrice de rotation à partir des angles d'Euler de la caméra
+
+    DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&m_VectorRotation));
+
+    // Définir la direction avant comme l'axe y (0, 1, 0) transformé par la matrice de rotation
+    DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+    up = DirectX::XMVector3TransformNormal(up, rotationMatrix);
+
+    // Normaliser le vecteur résultant
+    up = DirectX::XMVector3Normalize(up);
+
+    return up;
 }
 
 #pragma endregion

@@ -39,6 +39,7 @@ private:
 	DirectX12Instance*			m_pInst;
 
 	bool						m_ToDestroy;
+	bool						m_isSlide;
 
 #pragma endregion
 
@@ -84,6 +85,9 @@ public:
 	bool					GetDestroyValue();
 	void					SetDestroyValue(bool destroy);
 
+	bool					GetSlide() { return m_isSlide; };
+	void					SetSlide(bool slide) { m_isSlide = slide; };
+
 	std::vector<Component*>	GetAllComponents();
 	Component*				AddComponentByName(std::string componentName);
 	void					AttachComponent(Component* component);
@@ -92,6 +96,13 @@ public:
 	void					Translate(float postionX, float positionY, float positionZ);
 	void					Rotate(float yaw, float pitch, float roll);
 	void					Scale(float scaleX, float scaleY, float scaleZ);
+
+	void					Forward(float speed, float dT = 1);
+	void					Backward(float speed, float dT = 1);
+	void					StrafeLeft(float speed, float dT = 1);
+	void					StrafeRight(float speed, float dT = 1);
+	void					Down(float speed, float dT = 1);
+	void					Up(float speed, float dT = 1);
 
 	void					UpdateEntity();
 	void					InitObject(std::string type);

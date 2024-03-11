@@ -1,7 +1,7 @@
 #pragma once
-#include "../../Engine/Source/DirectX12/dx12Inst.h"
+#include "DirectX12/dx12Inst.h"
+#include "Engine/Entity.h"
 
-class Entity;
 
 class GameManager {
 private:

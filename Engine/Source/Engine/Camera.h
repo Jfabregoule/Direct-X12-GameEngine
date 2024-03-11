@@ -34,8 +34,6 @@ private:
 	float				m_NearZ;
 	float				m_FarZ;
 
-	bool				m_isSlide;
-
 	DirectX::XMMATRIX	m_ProjMatrix;
 	DirectX::XMMATRIX	m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_MatrixProj = MathHelper::Identity4x4();
@@ -105,53 +103,9 @@ public:
 	DirectX::XMVECTOR* GetUp() { return &m_Up; };
 	void SetUp(DirectX::XMVECTOR vector) { m_Up = vector; };
 
-	bool GetSlide() { return m_isSlide; };
-	void SetSlide(bool slide) { m_isSlide = slide; };
+	Transform* GetTransform() { return camTransform; };
 
-	DirectX::XMVECTOR GetForwardVector() {
-		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
-
-		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
-
-		// Définir la direction avant comme l'axe z (0, 0, 1) transformé par la matrice de rotation
-		DirectX::XMVECTOR forward = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-		forward = DirectX::XMVector3TransformNormal(forward, rotationMatrix);
-
-		// Normaliser le vecteur résultant
-		forward = DirectX::XMVector3Normalize(forward);
-
-		return forward;
-	}
-
-	DirectX::XMVECTOR GetRightVector() {
-		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
-
-		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
-
-		// Définir la direction avant comme l'axe x (1, 0, 0) transformé par la matrice de rotation
-		DirectX::XMVECTOR right = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-		right = DirectX::XMVector3TransformNormal(right, rotationMatrix);
-
-		// Normaliser le vecteur résultant
-		right = DirectX::XMVector3Normalize(right);
-
-		return right;
-	}
-
-	DirectX::XMVECTOR GetUpVector() {
-		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
-
-		DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&camTransform->m_VectorRotation));
-
-		// Définir la direction avant comme l'axe y (0, 1, 0) transformé par la matrice de rotation
-		DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-		up = DirectX::XMVector3TransformNormal(up, rotationMatrix);
-
-		// Normaliser le vecteur résultant
-		up = DirectX::XMVector3Normalize(up);
-
-		return up;
-	}
+	
 
 #pragma endregion
 

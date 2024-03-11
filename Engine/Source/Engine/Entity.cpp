@@ -182,6 +182,37 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
+#pragma region movment 
+
+void Entity::Forward(float speed, float dT) {
+	DirectX::XMFLOAT3 forwardVect;
+	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
+	Translate(forwardVect.x * speed * dT, forwardVect.y * speed * dT, forwardVect.z * speed * dT);
+};
+void Entity::Backward(float speed, float dT) {
+	DirectX::XMFLOAT3 forwardVect;
+	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
+	Translate(-forwardVect.x * speed * dT, -forwardVect.y * speed * dT, -forwardVect.z * speed * dT);
+};
+void Entity::StrafeLeft(float speed, float dT) {
+	DirectX::XMFLOAT3 rightVect;
+	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
+	Translate(-rightVect.x * speed * dT, -rightVect.y * speed * dT,-rightVect.z * speed * dT);
+};
+void Entity::StrafeRight(float speed, float dT) {
+	DirectX::XMFLOAT3 rightVect;
+	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
+	Translate(rightVect.x * speed * dT, rightVect.y * speed * dT, rightVect.z * speed * dT);
+};
+void Entity::Down(float speed, float dT) {
+	Translate(0.0f, -1.0f * speed * dT, 0.0f);
+};
+void Entity::Up(float speed, float dT) {
+	Translate(0.0f, 1.0f * speed * dT, 0.0f);
+};
+
+#pragma endregion
+
 void	Entity::InitObject(string type)
 {
 	if (type == "camera")
