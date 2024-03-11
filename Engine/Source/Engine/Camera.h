@@ -29,24 +29,26 @@ private:
 
 #pragma region Attributs
 
-	float m_AspectRatio;
-	float m_FovAngleY;
-	float m_NearZ;
-	float m_FarZ;
+	float				m_AspectRatio;
+	float				m_FovAngleY;
+	float				m_NearZ;
+	float				m_FarZ;
 
-	DirectX::XMMATRIX m_ProjMatrix;
-	DirectX::XMMATRIX m_ViewMatrix;
+	bool				m_isSlide;
+
+	DirectX::XMMATRIX	m_ProjMatrix;
+	DirectX::XMMATRIX	m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_MatrixProj = MathHelper::Identity4x4();
 	DirectX::XMFLOAT4X4 m_MatrixView = MathHelper::Identity4x4();
 
-	DirectX::XMVECTOR m_Target;
-	DirectX::XMVECTOR m_Up;
+	DirectX::XMVECTOR	m_Target;
+	DirectX::XMVECTOR	m_Up;
 
-	DirectX::XMVECTOR m_Forward;
-	DirectX::XMVECTOR m_Position;
-	DirectX::XMVECTOR m_Tup;
+	DirectX::XMVECTOR	m_Forward;
+	DirectX::XMVECTOR	m_Position;
+	DirectX::XMVECTOR	m_Tup;
 
-	Transform* camTransform;
+	Transform*			camTransform;
 
 #pragma endregion
 
@@ -102,6 +104,9 @@ public:
 
 	DirectX::XMVECTOR* GetUp() { return &m_Up; };
 	void SetUp(DirectX::XMVECTOR vector) { m_Up = vector; };
+
+	bool GetSlide() { return m_isSlide; };
+	void SetSlide(bool slide) { m_isSlide = slide; };
 
 	DirectX::XMVECTOR GetForwardVector() {
 		// Construire une matrice de rotation à partir des angles d'Euler de la caméra
