@@ -360,5 +360,11 @@
     <ClInclude Include="Source\Engine\ParticleSystem.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Random.h">
+      <Filter>Source\Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\SphereMesh.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
