@@ -140,7 +140,7 @@ public:
         CreateDepthStencilBuffer();
         CreateDepthStencilView();
         CreateFencesAndEvents();
-        CreateCamera();
+        SetEntityAsMainCamera();
 
     }
 
@@ -153,7 +153,7 @@ public:
     VOID CreateDepthStencilBuffer();
     VOID CreateDepthStencilView();
     VOID CreateFencesAndEvents();
-    VOID CreateCamera();
+    VOID SetEntityAsMainCamera(Entity* entity = nullptr);
 
 #pragma endregion
 

@@ -202,17 +202,24 @@ VOID DirectX12Instance::CreateFencesAndEvents() {
     }
 }
 
-VOID DirectX12Instance::CreateCamera()
-{
+VOID DirectX12Instance::SetEntityAsMainCamera(Entity* entity) {
+
     float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
-    m_pMainCamera = new Entity(this);
+    if (entity == nullptr) {
+        m_pMainCamera = new Entity(this);
+    }
+    else {
+        m_pMainCamera = entity;
+    }
+
     Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
     cam->Init(aspectRatio);
     m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
 
     m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
-}
+
+};
 
 
 /*
