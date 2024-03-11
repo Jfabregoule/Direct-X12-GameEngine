@@ -11,7 +11,7 @@
 
 #pragma region Transform Struct
 
-struct Transform
+struct ENGINE_API Transform
 {
 
     /*
