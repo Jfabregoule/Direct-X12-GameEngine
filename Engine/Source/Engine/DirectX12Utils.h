@@ -22,6 +22,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "winmm.lib")
 
 namespace DX12Utils {
 

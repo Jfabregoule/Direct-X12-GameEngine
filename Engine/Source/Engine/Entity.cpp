@@ -143,7 +143,7 @@ Component* Entity::AddComponentByName(std::string componentName)
 	}
 	else if (std::strcmp(componentName.c_str(), "atom") == 0)
 	{
-		Atom* atom = new Atom();
+		Atom* atom = new Atom(this);
 		m_ListComponent.push_back(atom);
 		return atom;
 	}

@@ -2,9 +2,10 @@
 #include "Engine.h"
 #include "Engine/Atom.h"
 #include "Engine/Component.h"
-#include "Engine/Entity.h"
 #include <iostream>
 #include <vector>
+
+class Entity;
 
 class ENGINE_API ParticleSystem : public Component
 {
