@@ -1,9 +1,13 @@
 #include "BlankProject.h"
+#include "DirectX12/dx12Inst.h"
 #include "HandleInputs.h"
-#include "DirectXMath.h"
+#include <DirectXMath.h>
 #include "BulletScript.h"
 #include "Engine/Collider.h"
 #include "Engine/Tags.h"
+#include "Engine/transform.h"
+#include "Engine/Camera.h"
+#include "Engine/Entity.h"
 
 float speed = 0.1f;
 float lButtonCD = 0.0f;
@@ -19,34 +23,34 @@ HandleInputs::~HandleInputs()
 {
 }
 
-void	HandleInputs::UpdateInputs() {
+void HandleInputs::UpdateInputs() {
 
     m_InputManager->Handle();
     DirectX::XMFLOAT3 forwardVect;
     DirectX::XMFLOAT3 rightVect;
     DirectX::XMFLOAT3 upVect;
     DirectX::XMFLOAT3 rotateVect;
-    DirectX::XMStoreFloat3(&forwardVect, m_DX12Instance->m_pMainCamComponent->GetForwardVector());
-    DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetRightVector());
-    DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetUpVector());
+    DirectX::XMStoreFloat3(&forwardVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetForwardVector());
+    DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetRightVector());
+    DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetUpVector());
     if (m_InputManager->GetCurrentState('W') == PRESSED || m_InputManager->GetCurrentState('W') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(forwardVect.x * speed, forwardVect.y * speed, forwardVect.z * speed);
+        m_DX12Instance->m_pMainCamera->Forward(speed);
     else if (m_InputManager->GetCurrentState('Z') == PRESSED || m_InputManager->GetCurrentState('Z') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(forwardVect.x * speed, forwardVect.y * speed, forwardVect.z * speed);
+        m_DX12Instance->m_pMainCamera->Forward(speed);
     if (m_InputManager->GetCurrentState('S') == PRESSED || m_InputManager->GetCurrentState('S') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(-forwardVect.x * speed, -forwardVect.y * speed, -forwardVect.z * speed);
+        m_DX12Instance->m_pMainCamera->Backward(speed);
     if (m_InputManager->GetCurrentState('A') == PRESSED || m_InputManager->GetCurrentState('A') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(-rightVect.x * speed, -rightVect.y * speed, -rightVect.z * speed);
+        m_DX12Instance->m_pMainCamera->StrafeLeft(speed);
     else if (m_InputManager->GetCurrentState('Q') == PRESSED || m_InputManager->GetCurrentState('Q') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(-rightVect.x * speed, -rightVect.y * speed, -rightVect.z * speed);
+        m_DX12Instance->m_pMainCamera->StrafeLeft(speed);
     if (m_InputManager->GetCurrentState('D') == PRESSED || m_InputManager->GetCurrentState('D') == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(rightVect.x * speed, rightVect.y * speed, rightVect.z * speed);
+        m_DX12Instance->m_pMainCamera->StrafeRight(speed);
     if (m_InputManager->GetCurrentState(VK_SPACE) == PRESSED || m_InputManager->GetCurrentState(VK_SPACE) == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(0.0f, 1.0f * speed, 0.0f);
+        m_DX12Instance->m_pMainCamera->Up(speed);
     if (m_InputManager->GetCurrentState(VK_CONTROL) == PRESSED || m_InputManager->GetCurrentState(VK_CONTROL) == HELD)
-        m_DX12Instance->m_pMainCamera->Translate(0.0f, -1.0f * speed, 0.0f);
+        m_DX12Instance->m_pMainCamera->Down(speed);
     if (m_InputManager->GetCurrentState(VK_SHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_SHIFT) == HELD)
-        speed = 0.2f;
+        speed = 0.15f;
     else
         speed = 0.1f;
     if (m_InputManager->GetCurrentState(VK_ESCAPE) == PRESSED || m_InputManager->GetCurrentState(VK_ESCAPE) == HELD)

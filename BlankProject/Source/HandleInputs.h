@@ -1,5 +1,7 @@
 #include "Engine/InputManager.h"
-#include "DirectX12/dx12Inst.h"
+
+
+class DirectX12Instance;
 
 class HandleInputs {
 

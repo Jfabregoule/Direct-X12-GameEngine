@@ -50,8 +50,8 @@ public:
         HandleInputs handleInputs(&DX12Inst);
         HandleCollisions handleCollisions(&DX12Inst);
 
-        /*GameManager* gameManager = new GameManager();
-        gameManager->SetAsMainCamera(new Entity(&DX12Inst), &DX12Inst);*/
+        GameManager* gameManager = new GameManager();
+        gameManager->SetAsMainCamera(new Entity(&DX12Inst), &DX12Inst);
 
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
         DX12Inst.m_ListEntities.at(0)->InitObject("cube");

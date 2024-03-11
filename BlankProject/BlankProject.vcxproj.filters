@@ -63,6 +63,9 @@
     <ClInclude Include="Source\HandleCollisions.h">
       <Filter>Source\Common\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameManager.h">
+      <Filter>Source\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="Source\HandleCollisions.cpp">
       <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameManager.cpp">
+      <Filter>Source\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -349,7 +349,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
         return; // Vérifie si le mesh renderer est valide
 
     ///////////////////////////////////////////
-    entity->Rotate(0.0f, 1.0f, 0.0f);
+    entity->Rotate(0.0f, 0.0f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);

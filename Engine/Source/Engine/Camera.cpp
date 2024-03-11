@@ -78,21 +78,21 @@ void Camera::Update()
 
 void Camera::Change() {
 
-    m_Target = m_Position + m_Forward; // Calculez le point que la caméra regarde
+    m_Target = DirectX::XMVectorAdd(m_Position,m_Forward); // Calculez le point que la caméra regarde
 
     //Si crash ici, m_Target doit etre différent de 0
-    m_ViewMatrix = XMMatrixLookAtLH(m_Position, m_Target, m_Up);
-    XMStoreFloat4x4(&m_MatrixView, m_ViewMatrix);
+    m_ViewMatrix = DirectX::XMMatrixLookAtLH(m_Position, m_Target, m_Up);
+    DirectX::XMStoreFloat4x4(&m_MatrixView, m_ViewMatrix);
 }
 
 //On sépare les infos de change pos et change forward pour appeler seulement la fonction nécessaire
 void Camera::ChangePos() {
-    m_Position = XMVectorSet(camTransform->m_VectorPosition.x, camTransform->m_VectorPosition.y, camTransform->m_VectorPosition.z, 1.0f);
+    m_Position = DirectX::XMVectorSet(camTransform->m_VectorPosition.x, camTransform->m_VectorPosition.y, camTransform->m_VectorPosition.z, 1.0f);
     Change();
 }
 
 void Camera::ChangeForward() {
-    m_Forward = GetForwardVector();
+    m_Forward = camTransform->GetForwardVector();
     Change();
 };
 
