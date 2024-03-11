@@ -16,7 +16,7 @@ public:
 
 
 	Entity* GetMainCamera() { return m_pMainCamera; };
-	VOID SetAsMainCamera(Entity* entity, DirectX12Instance* inst) { m_pMainCamera = entity; inst->m_pMainCamera = entity; };
+	VOID SetAsMainCamera(Entity* entity, DirectX12Instance* inst) { m_pMainCamera = entity; inst->SetEntityAsMainCamera(entity); };
 
 
 };

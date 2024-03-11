@@ -8,14 +8,16 @@
 #include "Engine/transform.h"
 #include "Engine/Camera.h"
 #include "Engine/Entity.h"
+#include "../../BlankProject/Source/GameManager.h"
 
 float speed = 0.1f;
 float lButtonCD = 0.0f;
 
-HandleInputs::HandleInputs(DirectX12Instance* inst)
+HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
 {
 	m_DX12Instance = inst;
 	m_InputManager = new InputManager(m_DX12Instance);
+    m_GameManager = gameManager;
 
 }
 
@@ -34,21 +36,21 @@ void HandleInputs::UpdateInputs() {
     DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetRightVector());
     DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetUpVector());
     if (m_InputManager->GetCurrentState('W') == PRESSED || m_InputManager->GetCurrentState('W') == HELD)
-        m_DX12Instance->m_pMainCamera->Forward(speed);
+        m_GameManager->GetMainCamera()->Forward(speed);
     else if (m_InputManager->GetCurrentState('Z') == PRESSED || m_InputManager->GetCurrentState('Z') == HELD)
-        m_DX12Instance->m_pMainCamera->Forward(speed);
+        m_GameManager->GetMainCamera()->Forward(speed);
     if (m_InputManager->GetCurrentState('S') == PRESSED || m_InputManager->GetCurrentState('S') == HELD)
-        m_DX12Instance->m_pMainCamera->Backward(speed);
+        m_GameManager->GetMainCamera()->Backward(speed);
     if (m_InputManager->GetCurrentState('A') == PRESSED || m_InputManager->GetCurrentState('A') == HELD)
-        m_DX12Instance->m_pMainCamera->StrafeLeft(speed);
+        m_GameManager->GetMainCamera()->StrafeLeft(speed);
     else if (m_InputManager->GetCurrentState('Q') == PRESSED || m_InputManager->GetCurrentState('Q') == HELD)
-        m_DX12Instance->m_pMainCamera->StrafeLeft(speed);
+        m_GameManager->GetMainCamera()->StrafeLeft(speed);
     if (m_InputManager->GetCurrentState('D') == PRESSED || m_InputManager->GetCurrentState('D') == HELD)
-        m_DX12Instance->m_pMainCamera->StrafeRight(speed);
+        m_GameManager->GetMainCamera()->StrafeRight(speed);
     if (m_InputManager->GetCurrentState(VK_SPACE) == PRESSED || m_InputManager->GetCurrentState(VK_SPACE) == HELD)
-        m_DX12Instance->m_pMainCamera->Up(speed);
+        m_GameManager->GetMainCamera()->Up(speed);
     if (m_InputManager->GetCurrentState(VK_CONTROL) == PRESSED || m_InputManager->GetCurrentState(VK_CONTROL) == HELD)
-        m_DX12Instance->m_pMainCamera->Down(speed);
+        m_GameManager->GetMainCamera()->Down(speed);
     if (m_InputManager->GetCurrentState(VK_SHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_SHIFT) == HELD)
         speed = 0.15f;
     else
@@ -63,7 +65,7 @@ void HandleInputs::UpdateInputs() {
         m_DX12Instance->m_ListEntities.push_back(new Entity(m_DX12Instance));
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AttachComponent(new BulletScript(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)));
-        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 50, {0,0,0}, 0.1);
+        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 50, forwardVect, 0.1);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->SetCollider();
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.z);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Scale(0.02f, 0.02f, 0.2f);
@@ -74,7 +76,7 @@ void HandleInputs::UpdateInputs() {
         m_DX12Instance->m_ListEntities.push_back(new Entity(m_DX12Instance));
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AttachComponent(new BulletScript(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)));
-        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 50, { 0,0,0 }, 0.1);
+        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 50, forwardVect, 0.1);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->SetCollider();
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.z);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Scale(0.02f, 0.02f, 0.2f);

@@ -46,12 +46,14 @@ public:
         Window *window = GetWindow();
         DirectX12Instance DX12Inst(handle);
 
+        
         DX12Inst.Init();
-        HandleInputs handleInputs(&DX12Inst);
-        HandleCollisions handleCollisions(&DX12Inst);
 
         GameManager* gameManager = new GameManager();
         gameManager->SetAsMainCamera(new Entity(&DX12Inst), &DX12Inst);
+
+        HandleInputs handleInputs(&DX12Inst, gameManager);
+        HandleCollisions handleCollisions(&DX12Inst);
 
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
         DX12Inst.m_ListEntities.at(0)->InitObject("cube");
