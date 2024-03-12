@@ -5,6 +5,7 @@
 
 Atom::Atom(Entity* self) : Component()
 {
+	m_Self = self;
 	m_Transform = self->GetTransform();
 	m_Name = "atom";
 }
@@ -20,18 +21,21 @@ void Atom::InitializeAtom(float speed, float lifeTime, float xDir, float yDir, f
 	m_LifeTime = lifeTime;
 	m_Direction = { xDir, yDir, zDir };
 	MathHelper::Normalize(&m_Direction.x, &m_Direction.y, &m_Direction.z);
+	m_Transform->Scale(0.2f, 0.2f, 0.2f);
 }
 
 void Atom::Update()
 {
 	float deltaTime = 0.002f;
-	m_LifeTime -= deltaTime;
+	m_LifeTime -= deltaTime * 20.0f;
 
 	if (m_LifeTime <= 0)
-		return;
+	{
+		m_Self->SetDestroyValue(true);
+	}
 
 	XMFLOAT3 currentScale = m_Transform->GetScaleVector();
-	XMFLOAT3 newScale = { 1.0f - deltaTime, 1.0f - deltaTime, 1.0f - deltaTime };
+	XMFLOAT3 newScale = { 1.0f - deltaTime * 10, 1.0f - deltaTime * 10, 1.0f - deltaTime * 10 };
 
 	m_Transform->Scale(newScale.x * m_StartingLifeTime / 5.0f, newScale.y * m_StartingLifeTime / 5.0f, newScale.z * m_StartingLifeTime / 5.0f);
 	m_Transform->Translate(m_Direction.x * m_Speed * deltaTime * 10.0f, m_Direction.y * m_Speed * deltaTime * 10.0f, m_Direction.z * m_Speed * deltaTime * 10.0f);

@@ -41,7 +41,7 @@ void Camera::Init(float aspectRatio) {
     m_AspectRatio = aspectRatio;
     m_FovAngleY = DirectX::XMConvertToRadians(90.0f);
     m_NearZ = 0.1f;
-    m_FarZ = 1000.0f;
+    m_FarZ = 10000.0f;
 
     // Création de la matrice de projection perspective
     m_ProjMatrix = DirectX::XMMatrixPerspectiveFovLH(m_FovAngleY, m_AspectRatio, m_NearZ, m_FarZ);
