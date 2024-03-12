@@ -40,6 +40,8 @@ public:
         GameManager* gameManager = new GameManager();
         gameManager->Initialize(handle);
 
+        
+
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
