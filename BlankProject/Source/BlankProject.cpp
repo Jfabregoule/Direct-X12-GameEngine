@@ -1,13 +1,7 @@
 #include "BlankProject.h"
 #include "Engine/Simulation.h"
 #include "Platform/Win32/WinEntry.h"
-#include "Engine/DirectX12Utils.h"
-#include "DirectX12/dx12Inst.h"
-#include "Engine/Entity.h"
-#include "Engine/MeshRenderer.h"
-#include "Engine/InputManager.h"
-#include "HandleInputs.h"
-#include "BulletScript.h"
+#include "GameManager.h"
 #include "Engine/ParticleSystem.h"
 
 BOOL GameRunning = TRUE;
@@ -42,32 +36,9 @@ public:
         HWND handle;
         handle = Handle();
         Window *window = GetWindow();
-        DirectX12Instance DX12Inst(handle);
 
-        DX12Inst.Init();
-        HandleInputs handleInputs(&DX12Inst);
-        //InputManager handleInputs(&DX12Inst);
-
-        Component* addedComponent;
-
-        srand(timeGetTime());
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(0)->InitObject("cube");
-        //DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 0.0f);
-        //DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        //DX12Inst.m_ListEntities.at(1)->InitObject("cube");
-        //DX12Inst.m_ListEntities.at(1)->Translate(0.0f, 0.0f, 2.0f);
-
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        ParticleSystem* atomGroup = dynamic_cast<ParticleSystem*>(DX12Inst.m_ListEntities.at(0)->AddComponentByName("particle-system"));
-        DX12Inst.m_ListEntities.at(0)->Translate(2.0f, 0.0f, 10.0f);
-        atomGroup->CreateAtomsGroup(DX12Inst.device);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device));
-        DX12Inst.m_ListEntities.at(1)->InitObject("skybox");
-        DX12Inst.m_ListEntities.at(1)->Translate(2.0f, 0.0f, 1.0f);
-        DX12Inst.m_ListEntities.push_back(new Entity(DX12Inst.device)); 
-        DX12Inst.m_ListEntities.at(2)->InitObject("pyramid");
-        DX12Inst.m_ListEntities.at(2)->Translate(2.0f, 0.0f, 10.0f);
+        GameManager* gameManager = new GameManager();
+        gameManager->Initialize(handle);
 
         MSG message;
         while (GameRunning) {
@@ -77,13 +48,10 @@ public:
             }
 
             // Rendre la frame
-            handleInputs.UpdateInputs();
-            DX12Inst.Update();
+            gameManager->Update();
 
             GameRunning = window->IsRunning();
         }
-        DX12Inst.ReleaseFrame();
-        DX12Inst.Cleanup();
     };
 
 

@@ -43,6 +43,10 @@ VOID	GameManager::Initialize(HWND handle) {
     m_pDX12Inst->m_ListEntities.at(2)->InitObject("cube", "textured", "victor");
     m_pDX12Inst->m_ListEntities.at(2)->SetCollider();
     m_pDX12Inst->m_ListEntities.at(2)->Translate(10.0f, 0.0f, 2.0f);
+    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
+    //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
+    m_pDX12Inst->m_ListEntities.at(3)->Translate(0.0f, 0.0f, 0.0f);
 
 
 }

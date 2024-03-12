@@ -236,7 +236,7 @@ VOID DirectX12Instance::LateUpdate()
             m_ListEntities.erase(m_ListEntities.begin() + i);
             delete DestroyedEntity;
         }
-        if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+        else if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
         {
             for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
             {
