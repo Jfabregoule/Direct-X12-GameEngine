@@ -31,8 +31,6 @@ public:
 public:
 
 
-    Map m_Map;
-
     /* - Called to Setup our PerGameSettings - */
 
     VOID SetupPerGameSettings();

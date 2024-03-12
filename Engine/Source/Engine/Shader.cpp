@@ -78,6 +78,7 @@ bool Shader::InitializePipelineState()
 	// Définition de l'état de rasterisation, de mélange et de stencil
 	m_spherelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	m_spherelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+	//m_spherelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	m_spherelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	m_spherelineDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 

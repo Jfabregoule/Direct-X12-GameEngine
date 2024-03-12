@@ -23,8 +23,8 @@ struct ENGINE_API SphereMesh
 	void InitSphereMesh(UINT partCount)
 	{
 		m_PartCount = partCount;
-		sphereVerticesCount = (m_PartCount + 1) * (m_PartCount + 1);
-		sphereIndicesCount = partCount * partCount * 10;
+		sphereVerticesCount = (m_PartCount + 2) * (m_PartCount + 2);
+		sphereIndicesCount = partCount * partCount * 6  ;
 		sphere = new Vertex[sphereVerticesCount];
 
 		sphereIndices = new UINT[sphereIndicesCount];
@@ -33,12 +33,6 @@ struct ENGINE_API SphereMesh
 		int basicIndex = 1;
 		int ringVertexCount = m_PartCount + 1;
 
-		for (int i = 1; i <= m_PartCount; i++)
-		{
-			sphereIndices[index++] = 0;
-			sphereIndices[index++] = i + 1;
-			sphereIndices[index++] = i;
-		}
 
 		// Top semi-circle of first half-sphere
 		for (UINT slice = 0; slice < m_PartCount / 2; slice++)
@@ -72,16 +66,8 @@ struct ENGINE_API SphereMesh
 				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock + 1;
 			}
 		}
-
-		// Connect the last row of vertices to the south pole
-		int southPoleIndex = sphereVerticesCount - 1;
-		basicIndex = southPoleIndex - ringVertexCount;
-		for (int j = 0; j < m_PartCount ; j++) 
-		{
-			sphereIndices[index++] = southPoleIndex;
-			sphereIndices[index++] = basicIndex + j ;
-			sphereIndices[index++] = basicIndex + j + 1;
-		}
+		
+		assert(index = sphereIndicesCount);
 	}
 
 	void GenerateSphere()
@@ -132,6 +118,7 @@ struct ENGINE_API SphereMesh
 				sphere[index++] = Vertex(XMFLOAT3(x, y, z), XMFLOAT4(Colors::LightSkyBlue));
 			}
 		}
-	};
+		assert(index = sphereVerticesCount); 
+	} 
 };
 
