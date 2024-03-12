@@ -12,8 +12,9 @@ ParticleSystem::~ParticleSystem()
 {
 }
 
-void ParticleSystem::InitializeParticleSystem()
+void ParticleSystem::InitializeParticleSystem(Entity* particlesystem)
 {
+	m_SelfEntity = particlesystem;
 	SetName("particle-system");
 }
 
@@ -26,7 +27,9 @@ void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 	DWORD old = timeGetTime();
 	for (int i = 0; i < m_AtomsNumber; i++)
 	{
+		XMFLOAT3	position = m_SelfEntity->GetTransform()->m_VectorPosition;
 		atom = new Entity(inst);
+		atom->Translate(position.x, position.y, position.z);
 		atom->InitObject("cube");
 		Atom* atomComponent = dynamic_cast<Atom*>(atom->AddComponentByName("atom"));
 		atomComponent->InitializeAtom(-5.0f + rand() % 5, 1.0f + rand() % 5, -5.0f + rand() % 10, -5.0f + rand() % 10, -5.0f + rand() % 10);

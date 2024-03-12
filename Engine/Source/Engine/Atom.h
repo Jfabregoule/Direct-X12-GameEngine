@@ -11,6 +11,8 @@ class Entity;
 class ENGINE_API Atom : public Component
 { //Créer un CubeMesh dans l'atom afin de pouvoir le draw ultérieurement
 public:
+
+	Entity* m_Self;
 	float m_StartingLifeTime;
 	float m_LifeTime;//Life time of the atom
 	float m_Speed;//Movement speed of the atom

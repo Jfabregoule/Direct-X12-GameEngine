@@ -11,14 +11,15 @@ class DirectX12Instance;
 class ENGINE_API ParticleSystem : public Component
 {
 public:
-	std::vector<Entity*> m_Atoms;
-	int m_AtomsNumber;
-	float m_DeltaTime;
+	std::vector<Entity*>	m_Atoms;
+	int						m_AtomsNumber;
+	float					m_DeltaTime;
+	Entity*					m_SelfEntity;
 
 	ParticleSystem();
 	~ParticleSystem();
 
-	void InitializeParticleSystem();
+	void InitializeParticleSystem(Entity* particlesystem);
 
 	void CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber = 50 + rand() % 100);
 
