@@ -3,6 +3,8 @@
 #include "Engine/CubeMesh.h"
 #include "Engine/PyramidMesh.h"
 #include "Engine/PipeMesh.h"
+#include "Engine/SphereMesh.h"
+#include "Engine/Skybox.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -65,6 +67,25 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
             m_Indices = pPipeMesh->pipeIndices;
             m_VerticesCount = pPipeMesh->pipeVerticesCount;
             m_IndexCount = pPipeMesh->pipeIndicesCount;
+        }
+        else if (type == "sphere")
+        {
+            SphereMesh* pSphereMesh = new SphereMesh();
+            pSphereMesh->GenerateSphere();
+            pSphereMesh->InitSphereMesh(10);
+            m_Vertices = pSphereMesh->sphere;
+            m_Indices = pSphereMesh->sphereIndices;
+            m_VerticesCount = pSphereMesh->sphereVerticesCount;
+            m_IndexCount = pSphereMesh->sphereIndicesCount;
+        }
+        else if (type == "skybox")
+        {
+            SkyBox* pSkyBox = new SkyBox();
+            pSkyBox->GenerateSkybox();
+            m_Vertices = pSkyBox->skybox;
+            m_Indices = pSkyBox->skyboxIndices;
+            m_VerticesCount = pSkyBox->skyboxVerticesCount;
+            m_IndexCount = pSkyBox->skyboxIndicesCount;
         }
         else
         {

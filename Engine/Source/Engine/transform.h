@@ -63,6 +63,7 @@ struct ENGINE_API Transform
 
     void SetRotationVector(DirectX::XMFLOAT3 rotation) { m_VectorRotation = rotation; }
     DirectX::XMFLOAT3 GetRotationVector() const { return m_VectorRotation; }
+    DirectX::XMFLOAT3 GetScaleVector() const { return m_VectorScale; }
 
     DirectX::XMVECTOR GetForwardVector();
     DirectX::XMVECTOR GetRightVector();

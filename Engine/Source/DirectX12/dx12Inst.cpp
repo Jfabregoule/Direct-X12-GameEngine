@@ -191,7 +191,8 @@ VOID DirectX12Instance::CreateDepthStencilView()
 
 }
 
-VOID DirectX12Instance::CreateDepthStencilBuffer() {
+VOID DirectX12Instance::CreateDepthStencilBuffer()
+{
     // Create the depth/stencil buffer and view.
     D3D12_RESOURCE_DESC depthStencilDesc;
     depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -220,8 +221,8 @@ VOID DirectX12Instance::CreateDepthStencilBuffer() {
         IID_PPV_ARGS(&mDepthStencilBuffer));
 };
 
-VOID DirectX12Instance::CreateFencesAndEvents() {
-    {
+VOID DirectX12Instance::CreateFencesAndEvents() 
+{    {
         for (int i = 0; i < FRAMES; ++i) {
             device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence[i]));
             fence_event[i] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -286,8 +287,11 @@ VOID DirectX12Instance::InitializePostCommand()
 
 VOID DirectX12Instance::InitTextures() {
     //Ici ajouter toutes les textures utilisées
+    
     m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
     m_pTextureManager->AddTexture("victor", L"Content/Images/image.dds");
+    m_pTextureManager->AddTexture("sky", L"Content/Images/sky.dds");
+    
 }
 
 
@@ -296,8 +300,13 @@ VOID DirectX12Instance::InitMesh() {
     m_ListMesh.find("cube")->second->InitializeMesh(device, "cube");
     m_ListMesh["pyramid"] = std::move(new Mesh());
     m_ListMesh.find("pyramid")->second->InitializeMesh(device, "pyramid");
-    //m_ListMesh["pipe"] = std::move(new Mesh());
-    //m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
+    m_ListMesh["pipe"] = std::move(new Mesh());
+    m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
+    /*m_ListMesh["sphere"] = std::move(new Mesh());
+    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");*/
+    m_ListMesh["skybox"] = std::move(new Mesh());
+    m_ListMesh.find("skybox")->second->InitializeMesh(device, "skybox");
+
 
 };
 
@@ -330,6 +339,18 @@ VOID DirectX12Instance::LateUpdate()
             m_ListEntities.erase(m_ListEntities.begin() + i);
             delete DestroyedEntity;
         }
+        if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+        {
+            for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
+            {
+                if (dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j)->GetDestroyValue() == true)
+                {
+                    Entity* DestroyedEntity = dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j);
+                    dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.erase(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.begin() + j);
+                    delete DestroyedEntity;
+                }
+            }
+        }
     }
 }
 
@@ -343,8 +364,8 @@ VOID DirectX12Instance::Update()
     LateUpdate();
 }
 
-VOID DirectX12Instance::RenderFrame() {
-
+VOID DirectX12Instance::RenderFrame() 
+{
     /*
     * |----------------------------------------------
     * |	INIT de la render frame: swap chain, PSO,    |
@@ -428,8 +449,8 @@ VOID DirectX12Instance::RenderFrame() {
 
 }
 
-VOID DirectX12Instance::Draw(Entity* entity) {
-
+VOID DirectX12Instance::Draw(Entity* entity) 
+{
     MeshRenderer* mesh_renderer = dynamic_cast<MeshRenderer*>(entity->GetComponentByName("mesh_renderer"));
 
     if (mesh_renderer == nullptr)
@@ -437,7 +458,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     ///////////////////////////////////////////
 
-    entity->Rotate(0.0f, 0.0f, 0.0f);
+    //entity->Rotate(0.0f, 0.001f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);
@@ -476,7 +497,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     //??
     if(mesh_renderer->GetShader()->GetIsDescTable() == 1)
-        mCommandList->SetGraphicsRootDescriptorTable(0, m_pTextureManager->GetDescriptorHandleGPU());
+        mCommandList->SetGraphicsRootDescriptorTable(0, mesh_renderer->GetTexture()->m_DescriptorHandleGPU);
 
     mCommandList->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
@@ -484,11 +505,18 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 VOID DirectX12Instance::DrawAll() {
     for (int i = 0; i < m_ListEntities.size(); i++) {
         Draw(m_ListEntities[i]);
+        if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
+        {
+            for (int j = 0; j < dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.size(); j++)
+            {
+                Draw(dynamic_cast<ParticleSystem*>(m_ListEntities.at(i)->GetComponentByName("particle-system"))->m_Atoms.at(j));
+            }
+        }
     }
 };
 
-VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
-
+VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) 
+{
     UINT frame = m_CurrentBufferIndex;
     float clear_color[4] = { r, g, b, a };
 
@@ -497,8 +525,8 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a) {
     mCommandList->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 };
 
-VOID DirectX12Instance::UpdateCam(Entity* entity) {
-
+VOID DirectX12Instance::UpdateCam(Entity* entity) 
+{
     // Calcul de la matrice de projection (dans votre cas, cela semble déjà être fait correctement)
     XMFLOAT4X4 viewMatrix = m_pMainCamComponent->GetMatrixView();
     XMMATRIX view = XMLoadFloat4x4(&viewMatrix);

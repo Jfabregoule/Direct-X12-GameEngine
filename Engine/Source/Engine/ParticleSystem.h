@@ -1,0 +1,26 @@
+#pragma once
+#include "Engine.h"
+#include "Engine/Atom.h"
+#include "Engine/Component.h"
+#include <iostream>
+#include <vector>
+
+class Entity;
+class DirectX12Instance;
+
+class ENGINE_API ParticleSystem : public Component
+{
+public:
+	std::vector<Entity*> m_Atoms;
+	int m_AtomsNumber;
+	float m_DeltaTime;
+
+	ParticleSystem();
+	~ParticleSystem();
+
+	void InitializeParticleSystem();
+
+	void CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber = 50 + rand() % 100);
+
+	void Update() override;
+};
