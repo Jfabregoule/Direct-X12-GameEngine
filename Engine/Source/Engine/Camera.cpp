@@ -78,7 +78,10 @@ void Camera::Update(float dt)
 
 void Camera::Change() {
 
-    m_Target = DirectX::XMVectorAdd(m_Position,m_Forward); // Calculez le point que la caméra regarde
+
+    DirectX::XMVECTOR temp = DirectX::XMLoadFloat3(&m_Forward);
+
+    m_Target = DirectX::XMVectorAdd(m_Position, temp); // Calculez le point que la caméra regarde
 
     //Si crash ici, m_Target doit etre différent de 0
     m_ViewMatrix = DirectX::XMMatrixLookAtLH(m_Position, m_Target, m_Up);

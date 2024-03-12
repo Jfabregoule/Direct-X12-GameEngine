@@ -47,6 +47,7 @@ public:
 	GameState* GetGameState() { return &m_State; };
 	VOID		SetGameState(GameState state) { m_State = state; };
 
+	DirectX12Instance* GetInst() { return m_pDX12Inst; };
 
 };
 	

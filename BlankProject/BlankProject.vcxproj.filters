@@ -46,6 +46,18 @@
     <Filter Include="Source\Common\Public">
       <UniqueIdentifier>{e639deb2-d17f-462b-9782-ad6e6620da1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scripts">
+      <UniqueIdentifier>{0ca51efa-b2dc-4759-877c-15a06f79c6a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Public">
+      <UniqueIdentifier>{b702166b-e640-4f1d-a541-84f34b163ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Private">
+      <UniqueIdentifier>{d34ec596-5cb5-459b-b237-08d396bb1346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Classes">
+      <UniqueIdentifier>{b861c274-325f-4177-a6c5-bcd25980b0f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -53,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="Source\BlankProject.h">
       <Filter>Source\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BulletScript.h">
-      <Filter>Source\GameObjects\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\HandleInputs.h">
       <Filter>Source\Common\Classes</Filter>
@@ -65,6 +74,18 @@
     </ClInclude>
     <ClInclude Include="Source\GameManager.h">
       <Filter>Source\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ship.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BulletScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnnemyScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +102,6 @@
     <ClCompile Include="Source\BlankProject.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BulletScript.cpp">
-      <Filter>Source\GameObjects\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\HandleInputs.cpp">
       <Filter>Source\Common\Private</Filter>
     </ClCompile>
@@ -92,6 +110,18 @@
     </ClCompile>
     <ClCompile Include="Source\GameManager.cpp">
       <Filter>Source\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ship.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BulletScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnnemyScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,6 @@
 #pragma once
 
 #include <DirectXMath.h>
-
-using namespace DirectX;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -14,7 +11,7 @@ using namespace DirectX;
 
 #pragma region Transform Struct
 
-struct Transform
+struct ENGINE_API Transform
 {
 
     /*
@@ -28,23 +25,23 @@ struct Transform
 #pragma region Attributs
 
     // Scale
-    XMFLOAT3    m_VectorScale;
-    XMFLOAT4X4  m_MatrixScale;
+    DirectX::XMFLOAT3    m_VectorScale;
+    DirectX::XMFLOAT4X4  m_MatrixScale;
 
     // Rotation
-    XMFLOAT3    m_VectorRotation;
-    XMFLOAT3    m_VectorDirection;
-    XMFLOAT3    m_VectorRight;
-    XMFLOAT3    m_VectorUp;
-    XMFLOAT4    m_QuaternionRotation;
-    XMFLOAT4X4  m_MatrixRotation;
+    DirectX::XMFLOAT3    m_VectorRotation;
+    DirectX::XMFLOAT3    m_VectorDirection;
+    DirectX::XMFLOAT3    m_VectorRight;
+    DirectX::XMFLOAT3    m_VectorUp;
+    DirectX::XMFLOAT4    m_QuaternionRotation;
+    DirectX::XMFLOAT4X4  m_MatrixRotation;
 
     // Position
-    XMFLOAT3    m_VectorPosition;
-    XMFLOAT4X4  m_MatrixPosition;
+    DirectX::XMFLOAT3    m_VectorPosition;
+    DirectX::XMFLOAT4X4  m_MatrixPosition;
 
     // Result
-    XMFLOAT4X4  m_Matrix;
+    DirectX::XMFLOAT4X4  m_Matrix;
 
 #pragma endregion
 
@@ -67,6 +64,10 @@ struct Transform
     void SetRotationVector(DirectX::XMFLOAT3 rotation) { m_VectorRotation = rotation; }
     DirectX::XMFLOAT3 GetRotationVector() const { return m_VectorRotation; }
     DirectX::XMFLOAT3 GetScaleVector() const { return m_VectorScale; }
+
+    DirectX::XMFLOAT3 GetForwardVector();
+    DirectX::XMVECTOR GetRightVector();
+    DirectX::XMVECTOR GetUpVector();
 
 #pragma endregion
 

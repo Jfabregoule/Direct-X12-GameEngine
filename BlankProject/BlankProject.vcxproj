@@ -101,17 +101,23 @@
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp" />
     <ClCompile Include="Source\BulletScript.cpp" />
+    <ClCompile Include="Source\EnnemyScript.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
     <ClCompile Include="Source\HandleInputs.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\BlankProject.h" />
     <ClInclude Include="Source\BulletScript.h" />
+    <ClInclude Include="Source\EnnemyScript.h" />
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
+    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Ship.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc" />
