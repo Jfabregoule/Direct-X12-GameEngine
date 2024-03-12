@@ -231,7 +231,7 @@ void Entity::InitObject(std::string type, std::string shader_type, std::string t
 	if (type == "camera")
 	{
 		AddComponentByName("camera");
-		Translate(0.0f, 3.0f, -10.0f);
+		Translate(0.0f, 0.0f, 0.0f);
 	}
 	else if (type == "cube" || type == "pyramid" || type == "pipe" || type == "sphere" || type == "skybox")
 	{

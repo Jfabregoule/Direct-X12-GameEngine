@@ -39,7 +39,7 @@ void Camera::Init(float aspectRatio) {
 
     // Paramètres de la projection perspective
     m_AspectRatio = aspectRatio;
-    m_FovAngleY = DirectX::XMConvertToRadians(70.0f);
+    m_FovAngleY = DirectX::XMConvertToRadians(90.0f);
     m_NearZ = 0.1f;
     m_FarZ = 1000.0f;
 

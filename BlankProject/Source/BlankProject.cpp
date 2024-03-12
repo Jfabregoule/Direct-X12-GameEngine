@@ -40,11 +40,6 @@ public:
         GameManager* gameManager = new GameManager();
         gameManager->Initialize(handle);
 
-        DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
-        DX12Inst.m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
-        DX12Inst.m_ListEntities.at(3)->SetCollider();
-        DX12Inst.m_ListEntities.at(3)->Translate(10.0f, 10.0f, 2.0f);
-
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
