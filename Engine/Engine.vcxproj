@@ -163,6 +163,7 @@
     <ClInclude Include="Source\Engine\Script.h" />
     <ClInclude Include="Source\Engine\Shader.h" />
     <ClInclude Include="Source\Engine\Simulation.h" />
+    <ClInclude Include="Source\Engine\Skybox.h" />
     <ClInclude Include="Source\Engine\SphereMesh.h" />
     <ClInclude Include="Source\Engine\SplashScreen.h" />
     <ClInclude Include="Source\Engine\Texture.h" />

@@ -34,7 +34,7 @@ void Atom::Update()
 	XMFLOAT3 newScale = { 1.0f - deltaTime, 1.0f - deltaTime, 1.0f - deltaTime };
 
 	m_Transform->Scale(newScale.x * m_StartingLifeTime / 5.0f, newScale.y * m_StartingLifeTime / 5.0f, newScale.z * m_StartingLifeTime / 5.0f);
-	m_Transform->Translate(m_Direction.x * m_Speed * deltaTime * 2.0f, m_Direction.y * m_Speed * deltaTime * 2.0f, m_Direction.z * m_Speed * deltaTime * 2.0f);
+	m_Transform->Translate(m_Direction.x * m_Speed * deltaTime * 10.0f, m_Direction.y * m_Speed * deltaTime * 10.0f, m_Direction.z * m_Speed * deltaTime * 10.0f);
 	m_Transform->UpdateMatrix();
 
 	//Après l'appel de cette méthode, vérifier si m_LifeTime est inférieur à 0, dans le cas échéant supprimer l'atom

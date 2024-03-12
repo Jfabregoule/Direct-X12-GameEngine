@@ -31,7 +31,8 @@ struct ENGINE_API CubeMesh {
 	Vertex cube[8];
 	UINT cubeVerticesCount = 8; // Taille du tableau cube
 
-	UINT cubeIndices[36] = {
+	UINT cubeIndices[36] = 
+	{
 		// front face
 		
 		0, 1, 2,
