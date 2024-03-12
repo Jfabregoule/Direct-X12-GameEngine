@@ -56,7 +56,7 @@ public:
         HandleCollisions handleCollisions(&DX12Inst);
 
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
-        DX12Inst.m_ListEntities.at(0)->InitObject("cube", "textured");
+        DX12Inst.m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
         DX12Inst.m_ListEntities.at(0)->SetCollider();
         DX12Inst.m_ListEntities.at(0)->Translate(0.0f, 0.0f, 2.0f);
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
