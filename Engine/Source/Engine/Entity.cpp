@@ -7,6 +7,7 @@
 #include "Engine/Script.h"
 #include "Engine/Collider.h"
 #include "Engine/Tags.h"
+#include "Engine/Atom.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -151,6 +152,18 @@ Component* Entity::AddComponentByName(std::string componentName)
 		m_ListComponent.push_back(TagsComponent);
 		return TagsComponent;
 	}
+	else if (std::strcmp(componentName.c_str(), "particle-system") == 0)
+	{
+		ParticleSystem* particleSystem = new ParticleSystem();
+		m_ListComponent.push_back(particleSystem);
+		return particleSystem;
+	}
+	else if (std::strcmp(componentName.c_str(), "atom") == 0)
+	{
+		Atom* atom = new Atom(this);
+		m_ListComponent.push_back(atom);
+		return atom;
+	}
 }
 
 void Entity::AttachComponent(Component* component)
@@ -220,7 +233,7 @@ void Entity::InitObject(std::string type, std::string shader_type, std::string t
 		AddComponentByName("camera");
 		Translate(0.0f, 3.0f, -10.0f);
 	}
-	else if (type == "cube" || type == "pyramid" || type == "pipe")
+	else if (type == "cube" || type == "pyramid" || type == "pipe" || type == "sphere" || type == "skybox")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
 		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pInst, type, shader_type,texture_name);

@@ -11,6 +11,7 @@
 #include "Engine/Collider.h"
 #include "HandleCollisions.h"
 #include "GameManager.h"
+#include "Engine/ParticleSystem.h"
 
 BOOL GameRunning = TRUE;
 
@@ -69,7 +70,7 @@ public:
         DX12Inst.m_ListEntities.at(2)->Translate(10.0f, 0.0f, 2.0f);
 
         DX12Inst.m_ListEntities.push_back(new Entity(&DX12Inst));
-        DX12Inst.m_ListEntities.at(3)->InitObject("cube", "textured", "sky");
+        DX12Inst.m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
         DX12Inst.m_ListEntities.at(3)->SetCollider();
         DX12Inst.m_ListEntities.at(3)->Translate(10.0f, 10.0f, 2.0f);
 
