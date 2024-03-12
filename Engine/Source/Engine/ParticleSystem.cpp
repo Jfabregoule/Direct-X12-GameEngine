@@ -18,10 +18,12 @@ void ParticleSystem::InitializeParticleSystem(Entity* particlesystem)
 	SetName("particle-system");
 }
 
-void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
+void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, float speed, float lifeTime, int atomsNumber, DirectX::XMFLOAT3 direction)
 {
-	m_DeltaTime = 0.001f;
+	m_DeltaTime = 0.1f;
 	m_AtomsNumber = atomsNumber;
+	int atomSpeed = speed + 1;
+	int atomLifeTime = lifeTime + 1;
 	Entity* atom;
 	srand(timeGetTime());
 	DWORD old = timeGetTime();
@@ -32,21 +34,20 @@ void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 		atom->Translate(position.x, position.y, position.z);
 		atom->InitObject("cube");
 		Atom* atomComponent = dynamic_cast<Atom*>(atom->AddComponentByName("atom"));
-		atomComponent->InitializeAtom(-5.0f + rand() % 5, 1.0f + rand() % 5, -5.0f + rand() % 10, -5.0f + rand() % 10, -5.0f + rand() % 10);
+		if (direction.x == 0 && direction.y == 0 && direction.z == 0)
+			atomComponent->InitializeAtom(-5.0f + rand() % 5, 1.0f + rand() % 5, -5.0f + rand() % 10, -5.0f + rand() % 10, -5.0f + rand() % 10);
+		else
+			atomComponent->InitializeAtom(1.0f + rand() % atomSpeed, 1.0f + rand() % atomLifeTime, ((direction.x - direction.x * 0.2f) * 100000 + rand() % int((direction.x - direction.x * 1.2f) * 100000)) * 0.00001, ((direction.y - direction.y * 0.2f) * 100000 + rand() % int((direction.y - direction.y * 1.2f) * 100000)) * 0.00001, ((direction.z - direction.z * 0.2f) * 100000 + rand() % int((direction.z - direction.z * 1.2f) * 100000)) * 0.00001);
 		m_Atoms.push_back(atom);
 	}
 	DWORD newt = timeGetTime();
-	OutputDebugStringA(std::to_string(newt - old).c_str());
-	OutputDebugStringA("\n");
 }
 
 void ParticleSystem::Update() 
 {
-	for (int ù = 0; ù < m_Atoms.size(); ù++)
-	{
-		m_Atoms.at(ù)->UpdateEntity();
-		if (dynamic_cast<Atom*>(m_Atoms.at(ù)->GetComponentByName("atom"))->m_LifeTime <= 0) 
-			m_Atoms.at(ù)->SetDestroyValue(true); 
-	}
+	for (int i = 0; i < m_Atoms.size(); i++)
+		m_Atoms.at(i)->UpdateEntity();
+	if (m_Atoms.size() == 0)
+		m_SelfEntity->SetDestroyValue(true);
 
 }

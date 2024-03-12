@@ -93,7 +93,6 @@ public:
 #pragma region Getters And Setters
 
 	DirectX::XMFLOAT4X4 GetMatrixProj() { return m_MatrixProj; };
-	void SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
 
 	DirectX::XMFLOAT4X4 GetMatrixView() { return m_MatrixView; };
 
@@ -104,6 +103,9 @@ public:
 	void SetUp(DirectX::XMVECTOR vector) { m_Up = vector; };
 
 	Transform* GetTransform() { return camTransform; };
+
+	void	SetFov(float FOV) { m_FovAngleY = FOV; UpdateMatrix(); };
+	float	GetFov() { return m_FovAngleY; };
 
 	
 

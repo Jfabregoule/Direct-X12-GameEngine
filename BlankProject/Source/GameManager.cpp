@@ -31,23 +31,27 @@ VOID	GameManager::Initialize(HWND handle) {
 
 
 
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
+    //m_pDX12Inst->m_ListEntities.at(0)->SetCollider();
+    //m_pDX12Inst->m_ListEntities.at(0)->Translate(0.0f, 0.0f, 2.0f);
     m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
+    m_pDX12Inst->m_ListEntities.at(0)->InitObject("pyramid");
     m_pDX12Inst->m_ListEntities.at(0)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(0)->Translate(0.0f, 0.0f, 2.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(1)->InitObject("pyramid");
-    m_pDX12Inst->m_ListEntities.at(1)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(2)->InitObject("cube", "textured", "victor");
-    m_pDX12Inst->m_ListEntities.at(2)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(2)->Translate(10.0f, 0.0f, 2.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
-    m_pDX12Inst->m_ListEntities.at(3)->Scale(9.0f, 9.0f, 9.0f);
+    m_pDX12Inst->m_ListEntities.at(0)->Translate(2.0f, 0.0f, 10.0f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(2)->InitObject("cube", "textured", "victor");
+    //m_pDX12Inst->m_ListEntities.at(2)->SetCollider();
+    //m_pDX12Inst->m_ListEntities.at(2)->Translate(10.0f, 0.0f, 2.0f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
+    //m_pDX12Inst->m_ListEntities.at(3)->Scale(3.0f, 3.0f, 3.0f);
     //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(3)->Translate(0.0f, 0.0f, 0.0f);
+    //m_pDX12Inst->m_ListEntities.at(3)->Translate(0.0f, 0.0f, 0.0f);
+    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    m_pDX12Inst->m_ListEntities.at(1)->InitObject("cube");
+    m_pDX12Inst->m_ListEntities.at(1)->SetCollider();
+    m_pDX12Inst->m_ListEntities.at(1)->Translate(-2.0f, 0.0f, 4.0f);
 
 
 }
