@@ -104,6 +104,8 @@
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
     <ClCompile Include="Source\HandleInputs.cpp" />
+    <ClCompile Include="Source\LaserScript.cpp" />
+    <ClCompile Include="Source\Rocketscript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -112,6 +114,8 @@
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
+    <ClInclude Include="Source\LaserScript.h" />
+    <ClInclude Include="Source\Rocketscript.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc" />

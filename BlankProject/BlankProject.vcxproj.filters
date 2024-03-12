@@ -66,6 +66,12 @@
     <ClInclude Include="Source\GameManager.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Rocketscript.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LaserScript.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -92,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="Source\GameManager.cpp">
       <Filter>Source\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rocketscript.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LaserScript.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
