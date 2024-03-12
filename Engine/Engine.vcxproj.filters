@@ -369,5 +369,8 @@
     <ClInclude Include="Source\Engine\SphereMesh.h">
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Skybox.h">
+      <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

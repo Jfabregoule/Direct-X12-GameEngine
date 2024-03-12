@@ -184,7 +184,7 @@ void	Entity::InitObject(string type)
 	{
 		//
 	}
-	else if (type == "cube" || type == "pyramid" || type == "pipe")
+	else if (type == "cube" || type == "pyramid" || type == "pipe" || type == "sphere" || type == "skybox")
 	{
 		Component* meshRenderer = AddComponentByName("mesh_renderer");
 		dynamic_cast<MeshRenderer*>(meshRenderer)->InitMeshRenderer(m_pDevice, type);

@@ -20,7 +20,7 @@ public:
 
 	void InitializeParticleSystem();
 
-	void CreateAtomsGroup(ID3D12Device* device, int atomsNumber = 20 + rand() % 100);
+	void CreateAtomsGroup(ID3D12Device* device, int atomsNumber = 50 + rand() % 100);
 
 	void Update() override;
 };
