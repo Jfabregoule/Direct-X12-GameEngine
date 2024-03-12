@@ -17,8 +17,10 @@ public:
 	HandleInputs(DirectX12Instance* inst, GameManager* gameManager);
 	~HandleInputs();
 
+	void Update();
+
 	void UpdateInputs();
 
-
+	VOID UpdateMouse();
 
 };

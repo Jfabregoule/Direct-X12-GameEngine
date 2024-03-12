@@ -44,6 +44,8 @@ InputManager::~InputManager() {}
 #pragma region Methods
 
 void InputManager::Handle() {
+    
+    
     // Boucle à travers toutes les touches pour détecter les états
     for (int i = 0; i < 256; ++i) {
         if (GetAsyncKeyState(i) & 0x8000) {
@@ -55,34 +57,30 @@ void InputManager::Handle() {
     }
 
     // Obtenez la position actuelle de la souris
-    POINT currentMousePos;
-    GetCursorPos(&currentMousePos);
-    ScreenToClient(dx12Inst->m_handle, &currentMousePos);
-
-    ShowCursor(FALSE);
+    GetCursorPos(&mousePos);
+    ScreenToClient(dx12Inst->m_handle, &mousePos);
 
     // Calculez les différences de position de la souris entre les cadres
-    int deltaX = currentMousePos.x - lastMousePos.x;
-    int deltaY = currentMousePos.y - lastMousePos.y;
+    mouseDelta[0] = mousePos.x - lastMousePos.x;
+    mouseDelta[1] = mousePos.y - lastMousePos.y;
 
+    lastMousePos = mousePos;
     // Mise à jour de la position précédente de la souris
-    lastMousePos = currentMousePos;
 
-    // Ajoutez la rotation de la caméra en fonction des mouvements de la souris
-    // Convertir les valeurs de déplacement en radians et les multiplier par un facteur de sensibilité
-    float sensitivity = 0.001f; // Réglage de la sensibilité de la souris
-    float rotationX = static_cast<float>(deltaX) * sensitivity;
-    float rotationY = static_cast<float>(deltaY) * sensitivity;
-
-    dx12Inst->m_pMainCamera->Rotate(rotationX, rotationY, 0.0f);
-
-    dx12Inst->m_pMainCamComponent->ChangeForward();
-
-    SetCursorPos(dx12Inst->mClientWidth / 2, dx12Inst->mClientHeight / 2);
-    lastMousePos.x = dx12Inst->mClientWidth / 2;
-    lastMousePos.y = dx12Inst->mClientHeight / 2;
-    ScreenToClient(dx12Inst->m_handle, &lastMousePos);
     UpdateState();
+}
+
+POINT* InputManager::GetLastMousePos() {
+    return &lastMousePos;
+}
+
+POINT* InputManager::GetCurrentMousePos() {
+    return &mousePos;
+}
+
+float *InputManager::GetMouseDelta()
+{
+    return mouseDelta;
 }
 
 

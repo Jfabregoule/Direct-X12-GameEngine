@@ -54,6 +54,7 @@ private:
     POINT lastMousePos;
     POINT mousePos;
     KeyState keys[256]; // Stocke les états pour chaque touche
+    float    mouseDelta[2];
 
     DirectX12Instance* dx12Inst;
 
@@ -87,6 +88,9 @@ public:
 #pragma region Methods
 
     void Handle();
+    POINT* GetLastMousePos();
+    POINT* GetCurrentMousePos();
+    float *GetMouseDelta();
     void UpdateState();
     InputState GetCurrentState(int key);
     InputState GetPreviousState(int key);
