@@ -286,8 +286,10 @@ VOID DirectX12Instance::InitializePostCommand()
 
 VOID DirectX12Instance::InitTextures() {
     //Ici ajouter toutes les textures utilisées
+    
     m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
     m_pTextureManager->AddTexture("victor", L"Content/Images/image.dds");
+    
 }
 
 
@@ -476,7 +478,7 @@ VOID DirectX12Instance::Draw(Entity* entity) {
 
     //??
     if(mesh_renderer->GetShader()->GetIsDescTable() == 1)
-        mCommandList->SetGraphicsRootDescriptorTable(0, m_pTextureManager->GetDescriptorHandleGPU());
+        mCommandList->SetGraphicsRootDescriptorTable(0, mesh_renderer->GetTexture()->m_DescriptorHandleGPU);
 
     mCommandList->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
