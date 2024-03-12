@@ -289,6 +289,7 @@ VOID DirectX12Instance::InitTextures() {
     
     m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
     m_pTextureManager->AddTexture("victor", L"Content/Images/image.dds");
+    m_pTextureManager->AddTexture("sky", L"Content/Images/sky.dds");
     
 }
 
