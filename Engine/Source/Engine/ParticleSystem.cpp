@@ -20,7 +20,6 @@ void ParticleSystem::InitializeParticleSystem(Entity* particlesystem)
 
 void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 {
-	m_DeltaTime = 0.001f;
 	m_AtomsNumber = atomsNumber;
 	Entity* atom;
 	srand(timeGetTime());
@@ -32,7 +31,7 @@ void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 		atom->Translate(position.x, position.y, position.z);
 		atom->InitObject("cube");
 		Atom* atomComponent = dynamic_cast<Atom*>(atom->AddComponentByName("atom"));
-		atomComponent->InitializeAtom(-5.0f + rand() % 5, 1.0f + rand() % 5, -5.0f + rand() % 10, -5.0f + rand() % 10, -5.0f + rand() % 10);
+		atomComponent->InitializeAtom(1.0f + rand() % 20, 1.0f + rand() % 5, -5.0f + rand() % 10, -5.0f + rand() % 10, -5.0f + rand() % 10);
 		m_Atoms.push_back(atom);
 	}
 	DWORD newt = timeGetTime();
@@ -40,11 +39,11 @@ void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 	OutputDebugStringA("\n");
 }
 
-void ParticleSystem::Update() 
+void ParticleSystem::Update(float dt)
 {
 	for (int ù = 0; ù < m_Atoms.size(); ù++)
 	{
-		m_Atoms.at(ù)->UpdateEntity();
+		m_Atoms.at(ù)->UpdateEntity(dt);
 		if (dynamic_cast<Atom*>(m_Atoms.at(ù)->GetComponentByName("atom"))->m_LifeTime <= 0) 
 			m_Atoms.at(ù)->SetDestroyValue(true); 
 	}

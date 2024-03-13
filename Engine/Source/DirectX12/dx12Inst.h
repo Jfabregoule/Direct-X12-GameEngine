@@ -186,7 +186,7 @@ public:
     VOID InitShader();
 
     VOID LateUpdate();
-    VOID Update();
+    VOID Update(float dt);
 
 #pragma endregion
 

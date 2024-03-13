@@ -95,8 +95,6 @@ public:
 	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type, std::string texture_name);
 	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
 
-	void Update() override;
-
 #pragma endregion
 
 };

@@ -8,9 +8,8 @@
 #include "Engine/transform.h"
 #include "Engine/Camera.h"
 #include "Engine/Entity.h"
-#include "../../BlankProject/Source/GameManager.h"
+#include "GameManager.h"
 
-float speed = 0.1f;
 float lButtonCD = 0.0f;
 
 HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
@@ -18,6 +17,7 @@ HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
 	m_DX12Instance = inst;
 	m_InputManager = new InputManager(m_DX12Instance);
     m_GameManager = gameManager;
+    m_Speed = 4.0f;
     ShowCursor(FALSE);
 
 }
@@ -26,7 +26,8 @@ HandleInputs::~HandleInputs()
 {
 }
 
-void HandleInputs::Update() {
+void HandleInputs::Update(float dt) {
+    m_DeltaTime = dt;
     UpdateInputs();
     if (*m_GameManager->GetGameState() == PLAYING)
         UpdateMouse();
@@ -46,32 +47,32 @@ void HandleInputs::UpdateInputs() {
     DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetRightVector());
     DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetUpVector());
     if ((m_InputManager->GetCurrentState('W') == PRESSED || m_InputManager->GetCurrentState('W') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Forward(speed);
+        m_GameManager->GetMainCamera()->Forward(m_Speed, m_DeltaTime);
     else if ((m_InputManager->GetCurrentState('Z') == PRESSED || m_InputManager->GetCurrentState('Z') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Forward(speed);
+        m_GameManager->GetMainCamera()->Forward(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState('S') == PRESSED || m_InputManager->GetCurrentState('S') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Backward(speed);
+        m_GameManager->GetMainCamera()->Backward(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState('A') == PRESSED || m_InputManager->GetCurrentState('A') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeLeft(speed);
+        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, m_DeltaTime);
     else if ((m_InputManager->GetCurrentState('Q') == PRESSED || m_InputManager->GetCurrentState('Q') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeLeft(speed);
+        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState('D') == PRESSED || m_InputManager->GetCurrentState('D') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeRight(speed);
+        m_GameManager->GetMainCamera()->StrafeRight(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState(VK_SPACE) == PRESSED || m_InputManager->GetCurrentState(VK_SPACE) == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Up(speed);
+        m_GameManager->GetMainCamera()->Up(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState(VK_CONTROL) == PRESSED || m_InputManager->GetCurrentState(VK_CONTROL) == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Down(speed);
+        m_GameManager->GetMainCamera()->Down(m_Speed, m_DeltaTime);
     if ((m_InputManager->GetCurrentState(VK_SHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_SHIFT) == HELD) && currentstate == PLAYING)
-        speed = 0.15f;
+        m_Speed = 7.0f;
     else
-        speed = 0.1f;
-    if ((m_InputManager->GetCurrentState(VK_LBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_LBUTTON) == HELD) && lButtonCD >= 20.0f && currentstate == PLAYING)
+        m_Speed = 4.0f;
+    if ((m_InputManager->GetCurrentState(VK_LBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_LBUTTON) == HELD) && lButtonCD >= 0.1f && currentstate == PLAYING)
     {
         //Bullet de Gauche
         m_DX12Instance->m_ListEntities.push_back(new Entity(m_DX12Instance));
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AttachComponent(new BulletScript(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)));
-        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 10, forwardVect, 0.1);
+        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(20, 5, forwardVect, 1);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->SetCollider();
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.z);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Scale(0.02f, 0.02f, 0.2f);
@@ -82,7 +83,7 @@ void HandleInputs::UpdateInputs() {
         m_DX12Instance->m_ListEntities.push_back(new Entity(m_DX12Instance));
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AttachComponent(new BulletScript(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)));
-        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(0.2, 10, forwardVect, 0.1);
+        dynamic_cast<BulletScript*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->GetComponentByName("script"))->InitBulletScript(20, 5, forwardVect, 1);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->SetCollider();
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Rotate(m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.y, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.x, m_DX12Instance->m_pMainCamera->GetTransform()->m_VectorRotation.z);
         m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Scale(0.02f, 0.02f, 0.2f);
@@ -90,7 +91,7 @@ void HandleInputs::UpdateInputs() {
         dynamic_cast<Tags*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AddComponentByName("tags"))->AddTags("bullet");
         lButtonCD = 0.0f;
     }
-    if ((m_InputManager->GetCurrentState(VK_ESCAPE) == PRESSED || m_InputManager->GetCurrentState(VK_ESCAPE) == HELD) && lButtonCD >= 20.0f)
+    if ((m_InputManager->GetCurrentState(VK_ESCAPE) == PRESSED || m_InputManager->GetCurrentState(VK_ESCAPE) == HELD) && lButtonCD >= 0.5f)
     {
         switch (currentstate)
         {
@@ -107,7 +108,7 @@ void HandleInputs::UpdateInputs() {
         }
         lButtonCD = 0.0f;
     }
-    lButtonCD += 1.0f;
+    lButtonCD += m_DeltaTime;
 }
 
 VOID HandleInputs::UpdateMouse() {

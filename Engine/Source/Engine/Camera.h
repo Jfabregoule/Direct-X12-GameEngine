@@ -126,7 +126,7 @@ public:
 	void Change();
 	void UpdateMatrix();
 
-	void Update() override;
+	void Update(float dt) override;
 
 #pragma endregion
 

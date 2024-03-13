@@ -1,6 +1,7 @@
 #pragma once
 #include "DirectX12/dx12Inst.h"
 #include "Engine/Entity.h"
+#include <chrono>
 
 enum GameState {
 
@@ -17,12 +18,15 @@ class HandleInputs;
 class GameManager {
 private:
 
-	HWND				m_WinHandle;
-	GameState			m_State;
-	Entity*				m_pMainCamera;
-	DirectX12Instance*	m_pDX12Inst;
-	HandleCollisions*	m_pCollisionsHandle;
-	HandleInputs*		m_pInputsHandle;
+	HWND						m_WinHandle;
+	GameState					m_State;
+	Entity*						m_pMainCamera;
+	DirectX12Instance*			m_pDX12Inst;
+	HandleCollisions*			m_pCollisionsHandle;
+	HandleInputs*				m_pInputsHandle;
+
+	float						m_LastUpdateTime;
+	float						m_DeltaTime;
 
 public: 
 

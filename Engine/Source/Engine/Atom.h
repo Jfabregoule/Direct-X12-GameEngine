@@ -25,5 +25,5 @@ public:
 
 	void InitializeAtom(float speed, float lifeTime, float xDir, float yDir, float zDir);
 
-	void Update() override;
+	void Update(float dt) override;
 };

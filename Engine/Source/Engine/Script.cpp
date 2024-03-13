@@ -20,7 +20,7 @@ Script::~Script()
 {
 }
 
-void Script::Update()
+void Script::Update(float dt)
 {
 }
 
