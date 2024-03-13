@@ -354,11 +354,11 @@ VOID DirectX12Instance::LateUpdate()
     }
 }
 
-VOID DirectX12Instance::Update()
+VOID DirectX12Instance::Update(float dt)
 {
     for (int i = 0; i < m_ListEntities.size(); i++)
     {
-        m_ListEntities.at(i)->UpdateEntity();
+        m_ListEntities.at(i)->UpdateEntity(dt);
     }
     RenderFrame();
     LateUpdate();

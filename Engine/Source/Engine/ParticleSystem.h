@@ -13,7 +13,6 @@ class ENGINE_API ParticleSystem : public Component
 public:
 	std::vector<Entity*>	m_Atoms;
 	int						m_AtomsNumber;
-	float					m_DeltaTime;
 	Entity*					m_SelfEntity;
 
 	ParticleSystem();
@@ -23,5 +22,5 @@ public:
 
 	void CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber = 50 + rand() % 100);
 
-	void Update() override;
+	void Update(float dt) override;
 };

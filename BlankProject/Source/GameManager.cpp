@@ -8,28 +8,26 @@
 #include "BulletScript.h"
 #include "Engine/Collider.h"
 #include "HandleCollisions.h"
+#include "Time.h"
 
 GameManager::GameManager() {
-};
+    
+}
 
-GameManager::~GameManager() {
+GameManager::~GameManager() {}
 
-};
+VOID GameManager::Initialize(HWND handle) {
+    m_WinHandle = handle;
 
-VOID	GameManager::Initialize(HWND handle) {
-	m_WinHandle = handle;
-
-	m_pDX12Inst = new DirectX12Instance(handle);
-	m_pDX12Inst->Init();
+    m_pDX12Inst = new DirectX12Instance(handle);
+    m_pDX12Inst->Init();
 
     m_State = PLAYING;
 
-	SetAsMainCamera(new Entity(m_pDX12Inst), m_pDX12Inst);
+    SetAsMainCamera(new Entity(m_pDX12Inst), m_pDX12Inst);
 
     m_pInputsHandle = new HandleInputs(m_pDX12Inst, this);
     m_pCollisionsHandle = new HandleCollisions(m_pDX12Inst);
-
-
 
     m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
     m_pDX12Inst->m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
@@ -47,22 +45,21 @@ VOID	GameManager::Initialize(HWND handle) {
     m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
     m_pDX12Inst->m_ListEntities.at(3)->Scale(9.0f, 9.0f, 9.0f);
     //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(3)->Translate(0.0f, 0.0f, 0.0f);
 
-
+    m_LastUpdateTime = Time::GetCurrentTime();
 }
 
-VOID    GameManager::Update() {
+VOID GameManager::Update() {
+    float currentTime = Time::GetCurrentTime();
+    m_DeltaTime = currentTime - m_LastUpdateTime;
+    m_LastUpdateTime = currentTime;
 
-    m_pInputsHandle->Update();
-    m_pCollisionsHandle->UpdateCollisions();
-    m_pDX12Inst->Update();
-
+    m_pInputsHandle->Update(m_DeltaTime);
+    m_pCollisionsHandle->UpdateCollisions(m_DeltaTime);
+    m_pDX12Inst->Update(m_DeltaTime);
 }
 
-VOID    GameManager::Clear() {
-
+VOID GameManager::Clear() {
     m_pDX12Inst->ReleaseFrame();
     m_pDX12Inst->Cleanup();
-
 }

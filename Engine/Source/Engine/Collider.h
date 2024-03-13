@@ -30,6 +30,6 @@ public:
 
 	bool					CheckCollision(Entity* entity);
 
-	void					Update() override;
+	void					Update(float dt) override;
 
 };

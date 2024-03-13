@@ -105,7 +105,7 @@ public:
 	void					Down(float speed, float dT = 1);
 	void					Up(float speed, float dT = 1);
 
-	void					UpdateEntity();
+	void					UpdateEntity(float dt);
 	void					InitObject(std::string type, std::string shader_type = "default", std::string texture_name = "bark");
 
 	void					SetCollider();

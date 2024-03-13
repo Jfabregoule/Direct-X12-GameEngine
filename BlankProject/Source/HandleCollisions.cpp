@@ -12,7 +12,7 @@ HandleCollisions::~HandleCollisions()
 {
 }
 
-void HandleCollisions::UpdateCollisions()
+void HandleCollisions::UpdateCollisions(float dt)
 {
 	for (int i = 0; i < m_DX12Instance->m_ListEntities.size(); i++)
 	{

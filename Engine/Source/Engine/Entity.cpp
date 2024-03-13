@@ -243,11 +243,11 @@ void Entity::InitObject(std::string type, std::string shader_type, std::string t
 	}
 };
 
-void Entity::UpdateEntity() {
+void Entity::UpdateEntity(float dt) {
 
 	for (int i = 0; i < m_ListComponent.size(); i++)
 	{
-		m_ListComponent.at(i)->Update();
+		m_ListComponent.at(i)->Update(dt);
 	}
 	m_Transform.UpdateMatrix();
 

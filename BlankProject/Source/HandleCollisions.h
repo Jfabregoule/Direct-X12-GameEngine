@@ -14,5 +14,5 @@ public:
 	HandleCollisions(DirectX12Instance* inst);
 	~HandleCollisions();
 
-	void UpdateCollisions();
+	void UpdateCollisions(float dt);
 };

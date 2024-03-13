@@ -40,7 +40,7 @@ public :
 
 #pragma region Methods
 
-	void Update() override;
+	void Update(float dt) override;
 
 #pragma endregion
 

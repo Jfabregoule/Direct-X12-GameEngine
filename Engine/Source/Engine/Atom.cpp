@@ -24,10 +24,9 @@ void Atom::InitializeAtom(float speed, float lifeTime, float xDir, float yDir, f
 	m_Transform->Scale(0.2f, 0.2f, 0.2f);
 }
 
-void Atom::Update()
+void Atom::Update(float dt)
 {
-	float deltaTime = 0.002f;
-	m_LifeTime -= deltaTime * 20.0f;
+	m_LifeTime -= dt;
 
 	if (m_LifeTime <= 0)
 	{
@@ -35,10 +34,10 @@ void Atom::Update()
 	}
 
 	XMFLOAT3 currentScale = m_Transform->GetScaleVector();
-	XMFLOAT3 newScale = { 1.0f - deltaTime * 10, 1.0f - deltaTime * 10, 1.0f - deltaTime * 10 };
+	XMFLOAT3 newScale = { 1.0f - dt, 1.0f - dt, 1.0f - dt};
 
 	m_Transform->Scale(newScale.x * m_StartingLifeTime / 5.0f, newScale.y * m_StartingLifeTime / 5.0f, newScale.z * m_StartingLifeTime / 5.0f);
-	m_Transform->Translate(m_Direction.x * m_Speed * deltaTime * 10.0f, m_Direction.y * m_Speed * deltaTime * 10.0f, m_Direction.z * m_Speed * deltaTime * 10.0f);
+	m_Transform->Translate(m_Direction.x * m_Speed * dt, m_Direction.y * m_Speed * dt, m_Direction.z * m_Speed * dt);
 	m_Transform->UpdateMatrix();
 
 	//Après l'appel de cette méthode, vérifier si m_LifeTime est inférieur à 0, dans le cas échéant supprimer l'atom

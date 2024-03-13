@@ -73,7 +73,7 @@ public:
 
 #pragma region Methods
 
-	virtual void Update();
+	virtual void Update(float dt);
 
 #pragma endregion
 

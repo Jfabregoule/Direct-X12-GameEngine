@@ -77,8 +77,4 @@ void MeshRenderer::UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix) {
 
 }
 
-void MeshRenderer::Update()
-{
-}
-
 #pragma endregion

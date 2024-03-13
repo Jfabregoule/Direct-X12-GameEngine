@@ -20,10 +20,10 @@ void BulletScript::InitBulletScript(float speed, float lifetime, DirectX::XMFLOA
 
 }
 
-void BulletScript::Update()
+void BulletScript::Update(float dt)
 {
 
-	m_LifeTime -= m_DecreaseLifeSpeed;
+	m_LifeTime -= m_DecreaseLifeSpeed * dt;
 
 	if (m_LifeTime <= 0)
 	{
@@ -31,6 +31,6 @@ void BulletScript::Update()
 		return;
 	}
 
-	m_pEntity->Translate(m_Speed * m_Direction.x, m_Speed * m_Direction.y, m_Speed * m_Direction.z);
+	m_pEntity->Forward(m_Speed, dt);
 
 }
