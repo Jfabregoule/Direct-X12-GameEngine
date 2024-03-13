@@ -166,7 +166,7 @@ Component* Entity::AddComponentByName(std::string componentName)
 	}
 }
 
-void Entity::AttachComponent(Component* component)
+void	Entity::AttachComponent(Component* component)
 {
 	m_ListComponent.push_back(component);
 }
@@ -195,36 +195,58 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
+#pragma region Maths
+
+float	Entity::CalculateNorm(DirectX::XMFLOAT3* vector) {
+	return sqrtf(powf(vector->x, 2) + powf(vector->y, 2) + powf(vector->z, 2));
+}
+
+void	Entity::CalculateVelocity(DirectX::XMFLOAT3* direction, float speed) { 
+	float magnitude = CalculateNorm(direction);
+
+	float coefficient = speed / magnitude;
+
+	m_Velocity =
+	{
+		direction->x * coefficient,
+		direction->y * coefficient,
+		direction->z * coefficient
+	};
+	MathHelper::Normalize(&m_Velocity.x, &m_Velocity.y, &m_Velocity.z);
+}
+
+#pragma endregion
+
 #pragma region movment 
 
-void Entity::Forward(float speed, float dT, float* gameSpeed) {
+void	Entity::Forward(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();	
 	Translate(forwardVect.x * speed * dT * *gameSpeed, forwardVect.y * speed * dT * *gameSpeed, forwardVect.z * speed * dT * *gameSpeed);
-};
-void Entity::Backward(float speed, float dT, float* gameSpeed) {
+};	
+void	Entity::Backward(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();
 	Translate(-forwardVect.x * speed * dT * *gameSpeed, -forwardVect.y * speed * dT * *gameSpeed, -forwardVect.z * speed * dT * *gameSpeed);
 };
-void Entity::StrafeLeft(float speed, float dT, float* gameSpeed) {
+void	Entity::StrafeLeft(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 rightVect;
 	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
 	Translate(-rightVect.x * speed * dT * *gameSpeed, -rightVect.y * speed * dT * *gameSpeed, -rightVect.z * speed * dT * *gameSpeed);
 };
-void Entity::StrafeRight(float speed, float dT, float* gameSpeed) {
+void	Entity::StrafeRight(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 rightVect;
 	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
 	Translate(rightVect.x * speed * dT * *gameSpeed, rightVect.y * speed * dT * *gameSpeed, rightVect.z * speed * dT * *gameSpeed);
 };
-void Entity::Down(float speed, float dT, float* gameSpeed) {
+void	Entity::Down(float speed, float dT, float* gameSpeed) {
 	Translate(0.0f, -1.0f * speed * dT * *gameSpeed, 0.0f);
 };
-void Entity::Up(float speed, float dT, float* gameSpeed) {
+void	Entity::Up(float speed, float dT, float* gameSpeed) {
 	Translate(0.0f, 1.0f * speed * dT * *gameSpeed, 0.0f);
 };
 
 #pragma endregion
 
-void Entity::InitObject(std::string type, std::string shader_type, std::string texture_name)
+void	Entity::InitObject(std::string type, std::string shader_type, std::string texture_name)
 {
 	if (type == "camera")
 	{
@@ -241,7 +263,7 @@ void Entity::InitObject(std::string type, std::string shader_type, std::string t
 	}
 };
 
-void Entity::UpdateEntity(float dt, float* gameSpeed) {
+void	Entity::UpdateEntity(float dt, float* gameSpeed) {
 
 	for (int i = 0; i < m_ListComponent.size(); i++)
 	{
@@ -251,12 +273,12 @@ void Entity::UpdateEntity(float dt, float* gameSpeed) {
 
 };
 
-void Entity::SetCollider() {
+void	Entity::SetCollider() {
 	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
 	oue->InitCollider(this, m_pInst->m_ListEntities);
 }
-
-bool Entity::HasTag(std::string tag)
+	
+bool	Entity::HasTag(std::string tag)
 {
 	Tags* tagComponent = dynamic_cast<Tags*>(GetComponentByName("tags"));
 	if (tagComponent != nullptr)

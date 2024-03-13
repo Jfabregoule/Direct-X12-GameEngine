@@ -302,8 +302,8 @@ VOID DirectX12Instance::InitMesh() {
     m_ListMesh.find("pyramid")->second->InitializeMesh(device, "pyramid");
     m_ListMesh["pipe"] = std::move(new Mesh());
     m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
-    /*m_ListMesh["sphere"] = std::move(new Mesh());
-    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");*/
+    m_ListMesh["sphere"] = std::move(new Mesh());
+    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");
     m_ListMesh["skybox"] = std::move(new Mesh());
     m_ListMesh.find("skybox")->second->InitializeMesh(device, "skybox");
 
@@ -416,7 +416,7 @@ VOID DirectX12Instance::RenderFrame()
     * |----------------------------------------------
     */
 
-    SetBackground(0.6f, 0.6f, 0.6f, 1.0f);
+    SetBackground(115.0f, 147.0f, 179.0f, 1.0f);
 
     ID3D12DescriptorHeap* descriptorHeaps[] = { m_pTextureManager->GetSrvHeap() };
     mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
@@ -458,7 +458,7 @@ VOID DirectX12Instance::Draw(Entity* entity)
 
     ///////////////////////////////////////////
 
-    //entity->Rotate(0.0f, 0.001f, 0.0f);
+    entity->Rotate(0.0f, 0.01f, 0.0f);
     entity->GetTransform()->UpdateMatrix();
 
     UpdateCam(entity);

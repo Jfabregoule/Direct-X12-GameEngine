@@ -42,6 +42,8 @@ private:
 	bool						m_ToDestroy;
 	bool						m_isSlide;
 
+	DirectX::XMFLOAT3			m_Velocity;
+
 #pragma endregion
 
 public:
@@ -97,6 +99,9 @@ public:
 	void					Translate(float postionX, float positionY, float positionZ);
 	void					Rotate(float yaw, float pitch, float roll);
 	void					Scale(float scaleX, float scaleY, float scaleZ);
+
+	float					CalculateNorm(DirectX::XMFLOAT3* vector);
+	void					CalculateVelocity(DirectX::XMFLOAT3* direction, float speed);
 
 	void					Forward(float speed, float dT, float* gameSpeed);
 	void					Backward(float speed, float dT, float* gameSpeed);
