@@ -53,6 +53,8 @@ public:
             gameManager->Update();
 
             GameRunning = window->IsRunning();
+            if (GameRunning == false)
+                exit(0);
         }
     };
 
