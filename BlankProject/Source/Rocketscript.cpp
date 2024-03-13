@@ -29,6 +29,9 @@ void RocketScript::Update() {
         m_pEntity->SetDestroyValue(true);
         return;
     }
+
+
+
     /*
 
     // Recherche de l'ennemi le plus proche
