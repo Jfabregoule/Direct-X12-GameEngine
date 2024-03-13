@@ -20,7 +20,7 @@ Script::~Script()
 {
 }
 
-void Script::Update(float dt)
+void Script::Update(float dt, float* gameSpeed)
 {
 }
 

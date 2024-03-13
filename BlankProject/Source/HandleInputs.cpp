@@ -26,15 +26,14 @@ HandleInputs::~HandleInputs()
 {
 }
 
-void HandleInputs::Update(float dt) {
-    m_DeltaTime = dt;
-    UpdateInputs();
+void HandleInputs::Update(float dt, float *gameSpeed) {
+    UpdateInputs(dt, gameSpeed);
     if (*m_GameManager->GetGameState() == PLAYING)
-        UpdateMouse();
+        UpdateMouse(gameSpeed);
     m_DX12Instance->m_pMainCamComponent->ChangePos();
 }
 
-void HandleInputs::UpdateInputs() {
+void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
 
     GameState currentstate = *m_GameManager->GetGameState();
 
@@ -45,22 +44,30 @@ void HandleInputs::UpdateInputs() {
     DirectX::XMFLOAT3 rotateVect;
     DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetRightVector());
     DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetUpVector());
+    if ((m_InputManager->GetCurrentState('R') == PRESSED || m_InputManager->GetCurrentState('R') == HELD) && currentstate == PLAYING)
+    {
+        if (*m_GameManager->GetGameSpeed() == 1.0f)
+            m_GameManager->SetGameSpeed(0.5f);
+        else
+            m_GameManager->SetGameSpeed(1.0f);
+    }
+        
     if ((m_InputManager->GetCurrentState('W') == PRESSED || m_InputManager->GetCurrentState('W') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Forward(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->Forward(m_Speed, dt, gameSpeed);
     else if ((m_InputManager->GetCurrentState('Z') == PRESSED || m_InputManager->GetCurrentState('Z') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Forward(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->Forward(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState('S') == PRESSED || m_InputManager->GetCurrentState('S') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Backward(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->Backward(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState('A') == PRESSED || m_InputManager->GetCurrentState('A') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, dt, gameSpeed);
     else if ((m_InputManager->GetCurrentState('Q') == PRESSED || m_InputManager->GetCurrentState('Q') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->StrafeLeft(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState('D') == PRESSED || m_InputManager->GetCurrentState('D') == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->StrafeRight(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->StrafeRight(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState(VK_SPACE) == PRESSED || m_InputManager->GetCurrentState(VK_SPACE) == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Up(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->Up(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState(VK_CONTROL) == PRESSED || m_InputManager->GetCurrentState(VK_CONTROL) == HELD) && currentstate == PLAYING)
-        m_GameManager->GetMainCamera()->Down(m_Speed, m_DeltaTime);
+        m_GameManager->GetMainCamera()->Down(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState(VK_SHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_SHIFT) == HELD) && currentstate == PLAYING)
         m_Speed = 7.0f;
     else
@@ -107,17 +114,17 @@ void HandleInputs::UpdateInputs() {
         }
         lButtonCD = 0.0f;
     }
-    lButtonCD += m_DeltaTime;
+    lButtonCD += dt * *gameSpeed;
 }
 
-VOID HandleInputs::UpdateMouse() {
+VOID HandleInputs::UpdateMouse(float* gameSpeed) {
     
 
     // Ajoutez la rotation de la caméra en fonction des mouvements de la souris
     // Convertir les valeurs de déplacement en radians et les multiplier par un facteur de sensibilité
     float sensitivity = 0.001f; // Réglage de la sensibilité de la souris
-    float rotationX = static_cast<float>(m_InputManager->GetMouseDelta()[0]) * sensitivity;
-    float rotationY = static_cast<float>(m_InputManager->GetMouseDelta()[1]) * sensitivity;
+    float rotationX = static_cast<float>(m_InputManager->GetMouseDelta()[0]) * sensitivity * *gameSpeed;
+    float rotationY = static_cast<float>(m_InputManager->GetMouseDelta()[1]) * sensitivity * *gameSpeed;
 
     m_DX12Instance->m_pMainCamera->Rotate(rotationX, rotationY, 0.0f);
 

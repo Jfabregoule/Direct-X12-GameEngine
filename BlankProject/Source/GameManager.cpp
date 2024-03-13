@@ -52,6 +52,7 @@ VOID GameManager::Initialize(HWND handle) {
     //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
 
     m_LastUpdateTime = Time::GetCurrentTime();
+    m_GameSpeed = 1.0f;
 }
 
 VOID GameManager::Update() {
@@ -59,9 +60,9 @@ VOID GameManager::Update() {
     m_DeltaTime = currentTime - m_LastUpdateTime;
     m_LastUpdateTime = currentTime;
 
-    m_pInputsHandle->Update(m_DeltaTime);
-    m_pCollisionsHandle->UpdateCollisions(m_DeltaTime);
-    m_pDX12Inst->Update(m_DeltaTime);
+    m_pInputsHandle->Update(m_DeltaTime, &m_GameSpeed);
+    m_pCollisionsHandle->UpdateCollisions(m_DeltaTime, &m_GameSpeed);
+    m_pDX12Inst->Update(m_DeltaTime, &m_GameSpeed);
 }
 
 VOID GameManager::Clear() {

@@ -66,7 +66,7 @@ public:
 
 	void InitBulletScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed);
 
-	void Update(float dt) override;
+	void Update(float dt, float* gameSpeed) override;
 
 #pragma endregion
 

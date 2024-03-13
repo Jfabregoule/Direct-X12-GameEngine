@@ -98,14 +98,14 @@ public:
 	void					Rotate(float yaw, float pitch, float roll);
 	void					Scale(float scaleX, float scaleY, float scaleZ);
 
-	void					Forward(float speed, float dT = 1);
-	void					Backward(float speed, float dT = 1);
-	void					StrafeLeft(float speed, float dT = 1);
-	void					StrafeRight(float speed, float dT = 1);
-	void					Down(float speed, float dT = 1);
-	void					Up(float speed, float dT = 1);
+	void					Forward(float speed, float dT, float* gameSpeed);
+	void					Backward(float speed, float dT, float* gameSpeed);
+	void					StrafeLeft(float speed, float dT, float* gameSpeed);
+	void					StrafeRight(float speed, float dT, float* gameSpeed);
+	void					Down(float speed, float dT, float* gameSpeed);
+	void					Up(float speed, float dT, float* gameSpeed);
 
-	void					UpdateEntity(float dt);
+	void					UpdateEntity(float dt, float* gameSpeed);
 	void					InitObject(std::string type, std::string shader_type = "default", std::string texture_name = "bark");
 
 	void					SetCollider();

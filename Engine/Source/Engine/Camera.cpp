@@ -71,7 +71,7 @@ void Camera::UpdateMatrix() {
     DirectX::XMStoreFloat4x4(&m_MatrixProj, m_ProjMatrix);
 }
 
-void Camera::Update(float dt)
+void Camera::Update(float dt, float* gameSpeed)
 {
     ChangePos();
 }

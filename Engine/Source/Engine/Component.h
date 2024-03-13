@@ -73,7 +73,7 @@ public:
 
 #pragma region Methods
 
-	virtual void Update(float dt);
+	virtual void Update(float dt, float* gameSpeed);
 
 #pragma endregion
 

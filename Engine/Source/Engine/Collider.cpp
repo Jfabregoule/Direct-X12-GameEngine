@@ -39,7 +39,7 @@ bool Collider::CheckCollision(Entity* entity)
 	return false;
 }
 
-void Collider::Update(float dt)
+void Collider::Update(float dt, float* gameSpeed)
 {
 	m_CenterPoint = m_Self->GetTransform()->m_VectorPosition;
 	for (int i = 0; i < m_ListEntity.size(); i++)

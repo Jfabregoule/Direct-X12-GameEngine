@@ -39,11 +39,11 @@ void ParticleSystem::CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber)
 	OutputDebugStringA("\n");
 }
 
-void ParticleSystem::Update(float dt)
+void ParticleSystem::Update(float dt, float* gameSpeed)
 {
 	for (int ù = 0; ù < m_Atoms.size(); ù++)
 	{
-		m_Atoms.at(ù)->UpdateEntity(dt);
+		m_Atoms.at(ù)->UpdateEntity(dt, gameSpeed);
 		if (dynamic_cast<Atom*>(m_Atoms.at(ù)->GetComponentByName("atom"))->m_LifeTime <= 0) 
 			m_Atoms.at(ù)->SetDestroyValue(true); 
 	}

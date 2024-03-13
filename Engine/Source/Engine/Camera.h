@@ -126,7 +126,7 @@ public:
 	void Change();
 	void UpdateMatrix();
 
-	void Update(float dt) override;
+	void Update(float dt, float* gameSpeed) override;
 
 #pragma endregion
 

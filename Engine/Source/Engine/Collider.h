@@ -30,6 +30,6 @@ public:
 
 	bool					CheckCollision(Entity* entity);
 
-	void					Update(float dt) override;
+	void					Update(float dt, float* gameSpeed) override;
 
 };

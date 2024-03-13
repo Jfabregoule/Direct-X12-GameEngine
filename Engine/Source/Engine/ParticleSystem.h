@@ -22,5 +22,5 @@ public:
 
 	void CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber = 50 + rand() % 100);
 
-	void Update(float dt) override;
+	void Update(float dt, float* gameSpeed) override;
 };
