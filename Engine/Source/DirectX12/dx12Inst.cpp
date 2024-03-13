@@ -3,6 +3,16 @@
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
+#include "Engine/Texture.h"
+#include "Engine/Camera.h"
+
+#include <DirectXMath.h>
+#include "DirectX12/MathHelper.h"
+
+#pragma comment(lib,"d3dcompiler.lib")
+#pragma comment(lib, "D3D12.lib")
+#pragma comment(lib, "dxgi.lib")
+
 
 DirectX12Instance* DirectX12Instance::inst;
 
@@ -57,11 +67,33 @@ VOID DirectX12Instance::InitGraphics() {
     CheckSucceeded(m_hresult);
     OutputDebugString(L"DirectX 12 device created.\n");
 
+
+}
+
+VOID DirectX12Instance::CreateCommandListQueue()
+{
+
     // Création de la file de commandes graphiques
     m_graphics_command_queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     m_hresult = device->CreateCommandQueue(&m_graphics_command_queue_desc, IID_PPV_ARGS(&graphics_command_queue));
     CheckSucceeded(m_hresult);
     OutputDebugString(L"Graphics command queue created.\n");
+
+    device->CreateCommandAllocator(
+        D3D12_COMMAND_LIST_TYPE_DIRECT,
+        IID_PPV_ARGS(&command_allocator));
+
+    device->CreateCommandList(
+        0,
+        D3D12_COMMAND_LIST_TYPE_DIRECT,
+        command_allocator, // Associated command allocator
+        nullptr,                   // Initial PipelineStateObject
+        IID_PPV_ARGS(&mCommandList));
+
+    // Start off in a closed state.  This is because the first time we refer 
+    // to the command list we will Reset it, and it needs to be closed before
+    // calling Reset.
+    mCommandList->Close();
 };
 
 VOID DirectX12Instance::CreateSwapChain() {
@@ -84,7 +116,7 @@ VOID DirectX12Instance::CreateSwapChain() {
     m_swap_chain_desc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
     IDXGISwapChain1* tempSwapChain;
     dxgi_factory->CreateSwapChainForHwnd(graphics_command_queue, m_handle, &m_swap_chain_desc, nullptr, nullptr, &tempSwapChain);
-    
+
 
     // Convertir la chaîne d'échange en IDXGISwapChain4
     tempSwapChain->QueryInterface(IID_PPV_ARGS(&swap_chain));
@@ -132,8 +164,7 @@ VOID DirectX12Instance::CreateRTVBuffers()
         device->CreateRenderTargetView(buffer, 0, render_target_descriptor);
         render_target_descriptors[frame] = render_target_descriptor;
         render_target_descriptor.ptr += render_target_descriptor_size;
-        device->CreateCommandAllocator(m_graphics_command_queue_desc.Type, IID_PPV_ARGS(&command_allocators[frame]));
-        
+
     }
     OutputDebugString(L"Render target buffers initialized.\n");
 }
@@ -157,7 +188,7 @@ VOID DirectX12Instance::CreateDepthStencilView()
     dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     dsvDesc.Texture2D.MipSlice = 0;
     device->CreateDepthStencilView(mDepthStencilBuffer, &dsvDesc, mDsvHeap->GetCPUDescriptorHandleForHeapStart());
-    
+
 }
 
 VOID DirectX12Instance::CreateDepthStencilBuffer()
@@ -203,18 +234,90 @@ VOID DirectX12Instance::CreateFencesAndEvents()
     }
 }
 
-VOID DirectX12Instance::CreateCamera()
+VOID DirectX12Instance::FlushCommandQueue()
 {
-    float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
 
-    m_pMainCamera = new Entity(device);
-    Camera* cam = dynamic_cast<Camera*>(m_pMainCamera->AddComponentByName("camera"));
-    cam->Init(aspectRatio);
-    m_pMainCamera->Translate(0.0f, 3.0f, -10.0f);
+    UINT frame = m_CurrentBufferIndex;
 
-    m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
+    fence_value[frame]++;
+    graphics_command_queue->Signal(fence[frame], fence_value[frame]);
+
+    //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
+    if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
+        fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
+        WaitForSingleObject(fence_event[frame], INFINITE);
+    }
 }
 
+VOID DirectX12Instance::SetEntityAsMainCamera(Entity* entity) {
+
+    float aspectRatio = static_cast<float>(mClientWidth) / static_cast<float>(mClientHeight);
+
+    if (entity == nullptr)
+        m_pMainCamera = new Entity(this);
+    else
+        m_pMainCamera = entity;
+
+    m_pMainCamera->InitObject("camera");
+    m_pMainCamComponent = dynamic_cast<Camera*>(m_pMainCamera->GetComponentByName("camera"));
+    m_pMainCamComponent->Init(aspectRatio);
+};
+
+VOID DirectX12Instance::CreateTextureManager() {
+    m_pTextureManager = new TextureManager(this);
+    m_pTextureManager->InitDescHeap();
+};
+
+VOID DirectX12Instance::InitializePostCommand()
+{
+    command_allocator->Reset();
+    mCommandList->Reset(command_allocator, nullptr);
+
+    InitTextures();
+
+    mCommandList->Close();
+
+    ID3D12CommandList* cmdsLists[] = { mCommandList };
+    graphics_command_queue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+    FlushCommandQueue();
+
+
+}
+
+VOID DirectX12Instance::InitTextures() {
+    //Ici ajouter toutes les textures utilisées
+    
+    m_pTextureManager->AddTexture("bark", L"Content/Images/bark.dds");
+    m_pTextureManager->AddTexture("victor", L"Content/Images/image.dds");
+    m_pTextureManager->AddTexture("sky", L"Content/Images/sky.dds");
+    
+}
+
+
+VOID DirectX12Instance::InitMesh() {
+    m_ListMesh["cube"] = std::move(new Mesh());
+    m_ListMesh.find("cube")->second->InitializeMesh(device, "cube");
+    m_ListMesh["pyramid"] = std::move(new Mesh());
+    m_ListMesh.find("pyramid")->second->InitializeMesh(device, "pyramid");
+    m_ListMesh["pipe"] = std::move(new Mesh());
+    m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
+    /*m_ListMesh["sphere"] = std::move(new Mesh());
+    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");*/
+    m_ListMesh["skybox"] = std::move(new Mesh());
+    m_ListMesh.find("skybox")->second->InitializeMesh(device, "skybox");
+
+
+};
+
+VOID DirectX12Instance::InitShader() {
+    m_ListShader["default"] = std::move(new Shader());
+    m_ListShader.find("default")->second->InitializeShader(device);
+    m_ListShader["textured"] = std::move(new Shader());
+    m_ListShader.find("textured")->second->InitializeShader(device, "textured");
+};
+
+#pragma endregion
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -282,23 +385,21 @@ VOID DirectX12Instance::RenderFrame()
     UINT frame = m_CurrentBufferIndex;
 
     //Met la command list en mode "écoute"
-    command_allocators[frame]->Reset();//Frame définit l'index du back buffer sur lequel on va dessiners
-    command_list.Reset();
+    command_allocator->Reset();//Frame définit l'index du back buffer sur lequel on va dessiner
+    mCommandList->Reset(command_allocator, nullptr);
 
-    HRESULT hresult = device->CreateCommandList(0, m_graphics_command_queue_desc.Type, command_allocators[frame], 0, IID_PPV_ARGS(command_list.GetAddressOf()));
-    CheckSucceeded(hresult);
 
     //Passage du 1er back buffer en mode render target
 
     //Set la viewport
-    command_list->RSSetViewports(1, &viewport);
-    command_list->RSSetScissorRects(1, &scissor);
+    mCommandList->RSSetViewports(1, &viewport);
+    mCommandList->RSSetScissorRects(1, &scissor);
 
     auto transitionToRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    command_list->ResourceBarrier(1, &transitionToRenderTarget);
+    mCommandList->ResourceBarrier(1, &transitionToRenderTarget);
 
     CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
-    command_list->ResourceBarrier(1, &barrier);
+    mCommandList->ResourceBarrier(1, &barrier);
 
     // Obtenir l'adresse virtuelle GPU après la transition
     //D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = render_target_buffers[frame]->GetGPUVirtualAddress();
@@ -317,6 +418,9 @@ VOID DirectX12Instance::RenderFrame()
 
     SetBackground(0.6f, 0.6f, 0.6f, 1.0f);
 
+    ID3D12DescriptorHeap* descriptorHeaps[] = { m_pTextureManager->GetSrvHeap() };
+    mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
     DrawAll();
 
     /*
@@ -327,28 +431,21 @@ VOID DirectX12Instance::RenderFrame()
 
     //Passage du 1er back buffer en mode state present: on peut plus dessiner dessus
     auto transitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(render_target_buffers[frame], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-    command_list->ResourceBarrier(1, &transitionToPresent);
+    mCommandList->ResourceBarrier(1, &transitionToPresent);
 
     auto DsvTransitionToPresent = CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
-    command_list->ResourceBarrier(1, &DsvTransitionToPresent);
+    mCommandList->ResourceBarrier(1, &DsvTransitionToPresent);
 
     //On close la commandList et on l'envoie dans la commandQueue
-    command_list->Close();
-    ID3D12CommandList* command_lists[] = { command_list.Get() };
+    mCommandList->Close();
+    ID3D12CommandList* command_lists[] = { mCommandList };
     graphics_command_queue->ExecuteCommandLists(_countof(command_lists), command_lists);
 
     //Affiche le current Back Buffer
     swap_chain->Present(1, 0);
     m_CurrentBufferIndex = (m_CurrentBufferIndex + 1) % FRAMES;
 
-    fence_value[frame]++;
-    graphics_command_queue->Signal(fence[frame], fence_value[frame]);
-
-    //Regarde si le cpu doit attendre avant d'envoyer les instructions au gpu
-    if (fence[frame]->GetCompletedValue() < fence_value[frame]) {
-        fence[frame]->SetEventOnCompletion(fence_value[frame], fence_event[frame]);
-        WaitForSingleObject(fence_event[frame], INFINITE);
-    }
+    FlushCommandQueue();
 
 }
 
@@ -368,14 +465,14 @@ VOID DirectX12Instance::Draw(Entity* entity)
 
     ///////////////////////////////////////////
 
-
-    command_list->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
-    command_list->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
+    //??
+    mCommandList->SetGraphicsRootSignature(mesh_renderer->GetShader()->GetRootSignature());
+    mCommandList->SetPipelineState(mesh_renderer->GetShader()->GetPipelineState());
 
 
     UINT frame = m_CurrentBufferIndex;
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
-    command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    mCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
     // Mappez et copiez la matrice identité dans le tampon de constantes sur le GPU
@@ -384,27 +481,29 @@ VOID DirectX12Instance::Draw(Entity* entity)
 
     // Définissez la vue de tampon de constantes
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = mesh_renderer->GetConstantBufferGPU()->GetGPUVirtualAddress();
-    command_list->SetGraphicsRootConstantBufferView(0, gpuAddress);
+    mCommandList->SetGraphicsRootConstantBufferView(mesh_renderer->GetShader()->GetRootParamSize()-1, gpuAddress);
 
     auto vertexbufftemp = mesh_renderer->GetMesh()->GetVertexBufferView();
     auto Indexbufftemp = mesh_renderer->GetMesh()->GetIndexBufferView();
 
-    command_list->IASetVertexBuffers(0, 1, &vertexbufftemp);
-    command_list->IASetIndexBuffer(&Indexbufftemp);
+    mCommandList->IASetVertexBuffers(0, 1, &vertexbufftemp);
+    mCommandList->IASetIndexBuffer(&Indexbufftemp);
 
 
 
     // Draw the thing
     auto DsvHeap = mDsvHeap->GetCPUDescriptorHandleForHeapStart();
-    command_list->OMSetRenderTargets(1, &current_render_target_descriptor, true, &DsvHeap);
+    mCommandList->OMSetRenderTargets(1, &current_render_target_descriptor, true, &DsvHeap);
 
-    command_list->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
+    //??
+    if(mesh_renderer->GetShader()->GetIsDescTable() == 1)
+        mCommandList->SetGraphicsRootDescriptorTable(0, mesh_renderer->GetTexture()->m_DescriptorHandleGPU);
+
+    mCommandList->DrawIndexedInstanced(*mesh_renderer->GetMesh()->GetIndexCount(), 1, 0, 0, 0);
 };
 
-VOID DirectX12Instance::DrawAll() 
-{
+VOID DirectX12Instance::DrawAll() {
     for (int i = 0; i < m_ListEntities.size(); i++) {
-        //OutputDebugString(L"asrstsg");
         Draw(m_ListEntities[i]);
         if (m_ListEntities[i]->GetComponentByName("particle-system") != nullptr)
         {
@@ -422,8 +521,8 @@ VOID DirectX12Instance::SetBackground(float r, float g, float b, float a)
     float clear_color[4] = { r, g, b, a };
 
     D3D12_CPU_DESCRIPTOR_HANDLE current_render_target_descriptor = render_target_descriptors[frame];
-    command_list->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
-    command_list->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+    mCommandList->ClearRenderTargetView(current_render_target_descriptor, clear_color, 0, 0);
+    mCommandList->ClearDepthStencilView(mDsvHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 };
 
 VOID DirectX12Instance::UpdateCam(Entity* entity) 
@@ -439,8 +538,9 @@ VOID DirectX12Instance::UpdateCam(Entity* entity)
     // Calcul de la matrice world (dans votre cas, cela semble déjà être fait correctement)
     XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
 
-    m_worldViewProjMatrix = world * view * proj;
-
+    XMMATRIX mmm = XMMatrixTranspose(world * view * proj);
+    //XMMATRIX mmm = world * view * proj;
+    XMStoreFloat4x4(&m_worldViewProjMatrix, mmm);
 };
 
 #pragma endregion
