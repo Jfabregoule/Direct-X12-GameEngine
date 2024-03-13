@@ -8,16 +8,18 @@ class EnemyScript;
 class Enemy : public Ship {
 private:
 
-	DirectX::XMFLOAT3 m_Path [4];
-	DirectX::XMFLOAT3 m_PathDirection[4];
+	DirectX::XMFLOAT3		m_Path [4];
+	DirectX::XMFLOAT3		m_PathDirection[4];
+	int						m_pathState = 0;
 
-	DirectX::XMFLOAT3 m_LastPos;
+	DirectX::XMFLOAT3		m_LastPos;
+	DirectX::XMFLOAT3		m_Dir;
 
-	float m_Renge;
+	float					m_Renge;
 
-	EnemyScript* m_Script;
+	EnemyScript*			m_Script;
 
-	Entity* m_pEntity;
+	Entity*					m_pEntity;
 
 public:
 
@@ -32,6 +34,8 @@ public:
 
 	VOID ChangeLastPos();
 
-	VOID ChangeDirection();
+	VOID CheckDistancePath();
+
+	VOID ChangeDirection(DirectX::XMFLOAT3 pos);
 
 };

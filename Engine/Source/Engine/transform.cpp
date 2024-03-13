@@ -177,4 +177,34 @@ DirectX::XMVECTOR Transform::GetUpVector() {
     return up;
 }
 
+//inline DirectX::XMMATRIX XM_CALLCONV Transform::XMMatrixLookAtLH
+//(
+//    DirectX::FXMVECTOR EntityPosition,
+//    DirectX::FXMVECTOR TargetPosition,
+//    DirectX::FXMVECTOR UpDirection
+//) noexcept
+//{
+//    // Calculer la direction vers la cible depuis la position de l'entité
+//    DirectX::XMVECTOR EntityToTarget = DirectX::XMVectorSubtract(TargetPosition, EntityPosition);
+//    DirectX::XMVECTOR ForwardDirection = DirectX::XMVector3Normalize(EntityToTarget);
+//
+//    // Calculer la droite vers la droite (à droite de l'entité)
+//    DirectX::XMVECTOR RightDirection = DirectX::XMVector3Cross(UpDirection, ForwardDirection);
+//    RightDirection = DirectX::XMVector3Normalize(RightDirection);
+//
+//    // Calculer la direction vers le haut
+//    DirectX::XMVECTOR NewUpDirection = DirectX::XMVector3Cross(ForwardDirection, RightDirection);
+//
+//    // Créer la matrice de transformation en utilisant les directions calculées
+//    DirectX::XMMATRIX TransformationMatrix;
+//    TransformationMatrix.r[0] = RightDirection;
+//    TransformationMatrix.r[1] = NewUpDirection;
+//    TransformationMatrix.r[2] = ForwardDirection;
+//    TransformationMatrix.r[3] = EntityPosition;
+//
+//    TransformationMatrix = DirectX::XMMatrixTranspose(TransformationMatrix);
+//
+//    return TransformationMatrix;
+//}
+
 #pragma endregion

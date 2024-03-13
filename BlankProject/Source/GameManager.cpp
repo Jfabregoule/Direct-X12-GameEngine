@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Ship.h"
 #include "Time.h"
+#include "Enemy.h"
 
 GameManager::GameManager() {
     
@@ -50,6 +51,18 @@ VOID GameManager::Initialize(HWND handle) {
     m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
     m_pDX12Inst->m_ListEntities.at(3)->Scale(9.0f, 9.0f, 9.0f);
     //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
+
+    Enemy* enemy = new Enemy();
+    DirectX::XMFLOAT3 tab[4] = {
+        XMFLOAT3(5.0f,0.0f,0.0f),
+        XMFLOAT3(10.0f,5.0f,0.0f),
+        XMFLOAT3(0.0f,0.0f,5.0f),
+        XMFLOAT3(5.0f,0.0f,0.0f)
+    };
+    enemy->InitializeEnemy(m_pDX12Inst, tab);
+    m_pDX12Inst->m_ListEntities.push_back(enemy->GetEntity());
+
+
 
     m_LastUpdateTime = Time::GetCurrentTime();
     m_GameSpeed = 1.0f;

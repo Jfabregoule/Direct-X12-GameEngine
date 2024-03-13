@@ -69,6 +69,8 @@ struct ENGINE_API Transform
     DirectX::XMVECTOR GetRightVector();
     DirectX::XMVECTOR GetUpVector();
 
+    inline DirectX::XMMATRIX XM_CALLCONV XMMatrixLookAtLH(DirectX::FXMVECTOR EntityPosition, DirectX::FXMVECTOR TargetPosition, DirectX::FXMVECTOR UpDirection);
+
 #pragma endregion
 
 };

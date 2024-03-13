@@ -27,35 +27,39 @@ void EnemyScript::Update(float dt, float* gameSpeed)
 
 	switch (m_CurrentState) {
 		case IDLE:
-			UpdateIDLE();
+			UpdateIDLE(dt, gameSpeed);
+			break;
+		case PATHING:
+			UpdatePATHING(dt, gameSpeed);
 			break;
 		case TRIGGERED:
-			UpdateTRIGGERED();
+			UpdateTRIGGERED(dt, gameSpeed);
 			break;
 		case RETREAT:
-			UpdateRETREAT();
+			UpdateRETREAT(dt, gameSpeed);
 			break;
 	}
 
 }
 
-void EnemyScript::UpdateIDLE()
+void EnemyScript::UpdateIDLE(float dt, float* gameSpeed)
 {
-	//m_pEnemy->ChangeLastPos();
-
-	//m_pEntity->Forward(m_Speed,1);
-
-
-	//if (m_pTransform->) {
-	//}
+	
 }
 
-void EnemyScript::UpdateTRIGGERED()
+void EnemyScript::UpdatePATHING(float dt, float* gameSpeed)
+{
+	m_pEntity->Forward(m_Speed, dt, gameSpeed);
+
+	m_pEnemy->CheckDistancePath();
+}
+
+void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
 {
 
 }
 
-void EnemyScript::UpdateRETREAT()
+void EnemyScript::UpdateRETREAT(float dt, float* gameSpeed)
 {
 
 }

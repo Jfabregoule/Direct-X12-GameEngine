@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp" />
     <ClCompile Include="Source\BulletScript.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EnemyScript.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
@@ -112,10 +113,12 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\BlankProject.h" />
     <ClInclude Include="Source\BulletScript.h" />
+    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\EnemyScript.h" />
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
+    <ClInclude Include="Source\Maths.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Ship.h" />
   </ItemGroup>
