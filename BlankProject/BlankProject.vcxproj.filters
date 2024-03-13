@@ -84,7 +84,7 @@
     <ClInclude Include="Source\BulletScript.h">
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EnnemyScript.h">
+    <ClInclude Include="Source\EnemyScript.h">
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -120,7 +120,7 @@
     <ClCompile Include="Source\BulletScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\EnnemyScript.cpp">
+    <ClCompile Include="Source\EnemyScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
   </ItemGroup>

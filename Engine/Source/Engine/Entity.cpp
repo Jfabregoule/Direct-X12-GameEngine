@@ -198,13 +198,11 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 #pragma region movment 
 
 void Entity::Forward(float speed, float dT) {
-	DirectX::XMFLOAT3 forwardVect;
-	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
+	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();	
 	Translate(forwardVect.x * speed * dT, forwardVect.y * speed * dT, forwardVect.z * speed * dT);
 };
 void Entity::Backward(float speed, float dT) {
-	DirectX::XMFLOAT3 forwardVect;
-	DirectX::XMStoreFloat3(&forwardVect, m_Transform.GetForwardVector());
+	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();
 	Translate(-forwardVect.x * speed * dT, -forwardVect.y * speed * dT, -forwardVect.z * speed * dT);
 };
 void Entity::StrafeLeft(float speed, float dT) {

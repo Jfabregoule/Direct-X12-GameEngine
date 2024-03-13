@@ -39,11 +39,10 @@ void HandleInputs::UpdateInputs() {
     GameState currentstate = *m_GameManager->GetGameState();
 
     m_InputManager->Handle();
-    DirectX::XMFLOAT3 forwardVect;
+    DirectX::XMFLOAT3 forwardVect = m_DX12Instance->m_pMainCamComponent->GetTransform()->GetForwardVector();
     DirectX::XMFLOAT3 rightVect;
     DirectX::XMFLOAT3 upVect;
     DirectX::XMFLOAT3 rotateVect;
-    DirectX::XMStoreFloat3(&forwardVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetForwardVector());
     DirectX::XMStoreFloat3(&rightVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetRightVector());
     DirectX::XMStoreFloat3(&upVect, m_DX12Instance->m_pMainCamComponent->GetTransform()->GetUpVector());
     if ((m_InputManager->GetCurrentState('W') == PRESSED || m_InputManager->GetCurrentState('W') == HELD) && currentstate == PLAYING)
