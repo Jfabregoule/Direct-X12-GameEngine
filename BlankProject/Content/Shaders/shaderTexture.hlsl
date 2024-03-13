@@ -24,7 +24,8 @@ struct VertexOutput
 VertexOutput vs_main(VertexInput input)
 {
 	VertexOutput output;
-    output.position = mul(WorldViewProjection, float4(input.position, 1.0f));
+    //output.position = mul(WorldViewProjection, float4(input.position, 1.0f));
+    output.position = mul(float4(input.position, 1.0f), WorldViewProjection);
 	output.color = input.color;
 	output.TexC = input.TexC;
 	return output;

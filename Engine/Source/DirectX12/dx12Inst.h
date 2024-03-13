@@ -110,7 +110,7 @@ public:
     DirectX::XMFLOAT4X4 mView = MathHelper::Identity4x4();
     DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
-    DirectX::XMMATRIX m_worldViewProjMatrix;
+    DirectX::XMFLOAT4X4 m_worldViewProjMatrix;
 
     int mClientWidth = 1280;
     int mClientHeight = 720;
