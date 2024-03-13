@@ -8,6 +8,8 @@
 #include "BulletScript.h"
 #include "Engine/Collider.h"
 #include "HandleCollisions.h"
+#include "Player.h"
+#include "Ship.h"
 #include "Time.h"
 
 GameManager::GameManager() {
@@ -24,7 +26,10 @@ VOID GameManager::Initialize(HWND handle) {
 
     m_State = PLAYING;
 
-    SetAsMainCamera(new Entity(m_pDX12Inst), m_pDX12Inst);
+    Player* mainPlayer = new Player();
+    mainPlayer->Initialize(m_pDX12Inst);
+
+	SetAsMainCamera(mainPlayer->GetEntity(), m_pDX12Inst);
 
     m_pInputsHandle = new HandleInputs(m_pDX12Inst, this);
     m_pCollisionsHandle = new HandleCollisions(m_pDX12Inst);
