@@ -186,7 +186,7 @@ public:
     VOID InitShader();
 
     VOID LateUpdate();
-    VOID Update(float dt);
+    VOID Update(float dt, float* gameSpeed);
 
 #pragma endregion
 

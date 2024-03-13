@@ -27,6 +27,7 @@ private:
 
 	float						m_LastUpdateTime;
 	float						m_DeltaTime;
+	float						m_GameSpeed;
 
 public: 
 
@@ -46,6 +47,9 @@ public:
 
 	GameState* GetGameState() { return &m_State; };
 	VOID		SetGameState(GameState state) { m_State = state; };
+
+	float		*GetGameSpeed() { return &m_GameSpeed; };
+	VOID		SetGameSpeed(float gameSpeed) { m_GameSpeed = gameSpeed; };
 
 	DirectX12Instance* GetInst() { return m_pDX12Inst; };
 

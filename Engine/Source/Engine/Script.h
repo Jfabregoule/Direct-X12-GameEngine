@@ -40,7 +40,7 @@ public :
 
 #pragma region Methods
 
-	void Update(float dt) override;
+	void Update(float dt, float* gameSpeed) override;
 
 #pragma endregion
 

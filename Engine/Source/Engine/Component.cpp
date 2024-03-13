@@ -38,7 +38,7 @@ VOID Component::SetName(const char* name) {
 
 }
 
-void Component::Update(float dt)
+void Component::Update(float dt, float* gameSpeed)
 {
 }
 

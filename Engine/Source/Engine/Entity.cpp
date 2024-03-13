@@ -197,29 +197,29 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 
 #pragma region movment 
 
-void Entity::Forward(float speed, float dT) {
+void Entity::Forward(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();	
-	Translate(forwardVect.x * speed * dT, forwardVect.y * speed * dT, forwardVect.z * speed * dT);
+	Translate(forwardVect.x * speed * dT * *gameSpeed, forwardVect.y * speed * dT * *gameSpeed, forwardVect.z * speed * dT * *gameSpeed);
 };
-void Entity::Backward(float speed, float dT) {
+void Entity::Backward(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();
-	Translate(-forwardVect.x * speed * dT, -forwardVect.y * speed * dT, -forwardVect.z * speed * dT);
+	Translate(-forwardVect.x * speed * dT * *gameSpeed, -forwardVect.y * speed * dT * *gameSpeed, -forwardVect.z * speed * dT * *gameSpeed);
 };
-void Entity::StrafeLeft(float speed, float dT) {
+void Entity::StrafeLeft(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 rightVect;
 	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
-	Translate(-rightVect.x * speed * dT, -rightVect.y * speed * dT, -rightVect.z * speed * dT);
+	Translate(-rightVect.x * speed * dT * *gameSpeed, -rightVect.y * speed * dT * *gameSpeed, -rightVect.z * speed * dT * *gameSpeed);
 };
-void Entity::StrafeRight(float speed, float dT) {
+void Entity::StrafeRight(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 rightVect;
 	DirectX::XMStoreFloat3(&rightVect, m_Transform.GetRightVector());
-	Translate(rightVect.x * speed * dT, rightVect.y * speed * dT, rightVect.z * speed * dT);
+	Translate(rightVect.x * speed * dT * *gameSpeed, rightVect.y * speed * dT * *gameSpeed, rightVect.z * speed * dT * *gameSpeed);
 };
-void Entity::Down(float speed, float dT) {
-	Translate(0.0f, -1.0f * speed * dT, 0.0f);
+void Entity::Down(float speed, float dT, float* gameSpeed) {
+	Translate(0.0f, -1.0f * speed * dT * *gameSpeed, 0.0f);
 };
-void Entity::Up(float speed, float dT) {
-	Translate(0.0f, 1.0f * speed * dT, 0.0f);
+void Entity::Up(float speed, float dT, float* gameSpeed) {
+	Translate(0.0f, 1.0f * speed * dT * *gameSpeed, 0.0f);
 };
 
 #pragma endregion
@@ -241,11 +241,11 @@ void Entity::InitObject(std::string type, std::string shader_type, std::string t
 	}
 };
 
-void Entity::UpdateEntity(float dt) {
+void Entity::UpdateEntity(float dt, float* gameSpeed) {
 
 	for (int i = 0; i < m_ListComponent.size(); i++)
 	{
-		m_ListComponent.at(i)->Update(dt);
+		m_ListComponent.at(i)->Update(dt, gameSpeed);
 	}
 	m_Transform.UpdateMatrix();
 

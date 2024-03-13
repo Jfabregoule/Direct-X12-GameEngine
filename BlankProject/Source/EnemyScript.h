@@ -76,7 +76,7 @@ public:
 
 	void InitEnemyScript(float speed, DirectX::XMFLOAT3 direction);
 
-	void Update(float dt) override;
+	void Update(float dt, float* gameSpeed) override;
 
 	void UpdateIDLE();
 

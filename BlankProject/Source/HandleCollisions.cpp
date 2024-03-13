@@ -12,7 +12,7 @@ HandleCollisions::~HandleCollisions()
 {
 }
 
-void HandleCollisions::UpdateCollisions(float dt)
+void HandleCollisions::UpdateCollisions(float dt, float* gameSpeed)
 {
 	for (int i = 0; i < m_DX12Instance->m_ListEntities.size(); i++)
 	{

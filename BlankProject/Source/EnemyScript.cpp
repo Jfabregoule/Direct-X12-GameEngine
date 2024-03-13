@@ -22,7 +22,7 @@ void EnemyScript::InitEnemyScript(float speed, DirectX::XMFLOAT3 direction) {
 
 }
 
-void EnemyScript::Update(float dt)
+void EnemyScript::Update(float dt, float* gameSpeed)
 {
 
 	switch (m_CurrentState) {
@@ -43,7 +43,7 @@ void EnemyScript::UpdateIDLE()
 {
 	//m_pEnemy->ChangeLastPos();
 
-	m_pEntity->Forward(m_Speed,1);
+	//m_pEntity->Forward(m_Speed,1);
 
 
 	//if (m_pTransform->) {
