@@ -14,8 +14,9 @@ class Enemy;
 *  -------------------------------------------------------------------------------------
 */
 
-enum State{
+enum State {
 	IDLE,
+	PATHING,
 	TRIGGERED,
 	RETREAT
 };
@@ -78,11 +79,13 @@ public:
 
 	void Update(float dt, float* gameSpeed) override;
 
-	void UpdateIDLE();
+	void UpdateIDLE(float dt, float* gameSpeed);
 
-	void UpdateTRIGGERED();
+	void UpdatePATHING(float dt, float* gameSpeed);
 
-	void UpdateRETREAT();
+	void UpdateTRIGGERED(float dt, float* gameSpeed);
+
+	void UpdateRETREAT(float dt, float* gameSpeed);
 
 #pragma endregion
 

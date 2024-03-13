@@ -87,6 +87,12 @@
     <ClInclude Include="Source\EnemyScript.h">
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Source\GameObjects\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Maths.h">
+      <Filter>Source\Private</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -122,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="Source\EnemyScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Source\GameObjects\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
