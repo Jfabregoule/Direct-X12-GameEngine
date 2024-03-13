@@ -93,7 +93,7 @@ public:
 #pragma region Methods
 
 	void InitMeshRenderer(DirectX12Instance* inst, std::string type, std::string shader_type, std::string texture_name);
-	void UpdateConstantBuffer(XMMATRIX worldViewProjMatrix);
+	void UpdateConstantBuffer(XMFLOAT4X4 worldViewProjMatrix);
 
 #pragma endregion
 

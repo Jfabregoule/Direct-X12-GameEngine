@@ -67,10 +67,9 @@ void MeshRenderer::InitMeshRenderer(DirectX12Instance* inst, std::string type, s
 
 #pragma region Methods
 
-void MeshRenderer::UpdateConstantBuffer(DirectX::XMMATRIX worldViewProjMatrix) {
+void MeshRenderer::UpdateConstantBuffer(DirectX::XMFLOAT4X4 worldViewProjMatrix) {
 
-	CD3DX12_RANGE readRange(0, 0);
-	m_pConstantBufferGPU->Map(0, &readRange, reinterpret_cast<void**>(&m_pConstantBufferData));
+	m_pConstantBufferGPU->Map(0, nullptr, reinterpret_cast<void**>(&m_pConstantBufferData));
 
 	memcpy(m_pConstantBufferData, &worldViewProjMatrix, sizeof(worldViewProjMatrix));
 	m_pConstantBufferGPU->Unmap(0, nullptr);

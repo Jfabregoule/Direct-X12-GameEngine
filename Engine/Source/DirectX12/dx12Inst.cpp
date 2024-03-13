@@ -481,7 +481,7 @@ VOID DirectX12Instance::Draw(Entity* entity)
 
     // Définissez la vue de tampon de constantes
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = mesh_renderer->GetConstantBufferGPU()->GetGPUVirtualAddress();
-    mCommandList->SetGraphicsRootConstantBufferView(mesh_renderer->GetShader()->GetRootParamSize(), gpuAddress);
+    mCommandList->SetGraphicsRootConstantBufferView(mesh_renderer->GetShader()->GetRootParamSize()-1, gpuAddress);
 
     auto vertexbufftemp = mesh_renderer->GetMesh()->GetVertexBufferView();
     auto Indexbufftemp = mesh_renderer->GetMesh()->GetIndexBufferView();
@@ -538,8 +538,9 @@ VOID DirectX12Instance::UpdateCam(Entity* entity)
     // Calcul de la matrice world (dans votre cas, cela semble déjà être fait correctement)
     XMMATRIX world = XMLoadFloat4x4(entity->GetTransformConvert());
 
-    m_worldViewProjMatrix = world * view * proj;
-
+    XMMATRIX mmm = XMMatrixTranspose(world * view * proj);
+    //XMMATRIX mmm = world * view * proj;
+    XMStoreFloat4x4(&m_worldViewProjMatrix, mmm);
 };
 
 #pragma endregion

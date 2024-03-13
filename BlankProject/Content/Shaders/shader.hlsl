@@ -20,7 +20,8 @@ PSInput vs_main(VSInput input)
     PSInput output;
 
     // Pass through transformed position
-    output.position = mul(worldViewProjMatrix, float4(input.position, 1.0f));
+    //output.position = mul(worldViewProjMatrix, float4(input.position, 1.0f));
+    output.position = mul(float4(input.position, 1.0f), worldViewProjMatrix);
     // Set color to white initially
     output.color = input.color;
     input.color.a = 1.0f;
