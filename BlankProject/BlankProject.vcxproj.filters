@@ -93,6 +93,12 @@
     <ClInclude Include="Source\Map.h">
       <Filter>Source\Common\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\LaserScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Rocketscript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -134,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="Source\Map.cpp">
       <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LaserScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rocketscript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

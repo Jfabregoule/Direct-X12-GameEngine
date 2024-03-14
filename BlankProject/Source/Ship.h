@@ -21,4 +21,6 @@ public:
 
 	VOID Initialize(DirectX12Instance* inst);
 	VOID Shoot();
+	VOID RocketShoot();
+	VOID LaserShoot();
 };
