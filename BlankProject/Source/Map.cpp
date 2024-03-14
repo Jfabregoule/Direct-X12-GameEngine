@@ -5,6 +5,7 @@
 #include "Common/Random.h"
 #include "Engine/Tags.h"
 #include "EnemyScript.h"
+#include "ShipScript.h"
 
 
 Map::Map(Entity* player, DirectX12Instance* inst) {
@@ -53,7 +54,11 @@ void Map::CreateEntities() {
 
             Entity* enemy = new Entity(m_pInst);
             EnemyScript* enemyScript = new EnemyScript();
+            ShipScript* shipScript = new ShipScript();
+            enemy->SetCollider();
+            shipScript->Initialize(m_pInst, enemy);
             enemy->AttachComponent(enemyScript);
+            enemy->AttachComponent(shipScript);
             enemyScript->InitEnemyScript(4.0f, enemy, m_pMainPlayer);
 
             enemyScript->InitializeEnemy(m_pInst, tab);

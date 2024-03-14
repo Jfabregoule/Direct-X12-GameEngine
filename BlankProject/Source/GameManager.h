@@ -21,7 +21,7 @@ private:
 
 	HWND						m_WinHandle;
 	GameState					m_State;
-	Entity*						m_pMainCamera;
+	Entity*						m_pMainPlayer;
 	DirectX12Instance*			m_pDX12Inst;
 	HandleCollisions*			m_pCollisionsHandle;
 	HandleInputs*				m_pInputsHandle;
@@ -41,11 +41,11 @@ public:
 
 	VOID Clear();
 
-	Entity* GetMainPlayer() { return m_pMainCamera; };
-	VOID SetAsMainPlayer(Entity* player, DirectX12Instance* inst) { m_pMainCamera = player; SetAsMainCamera(m_pMainCamera,inst); };
+	Entity* GetMainPlayer() { return m_pMainPlayer; };
+	VOID SetAsMainPlayer(Entity* player, DirectX12Instance* inst) { m_pMainPlayer = player; SetAsMainCamera(m_pMainPlayer,inst); };
 
-	Entity* GetMainCamera() { return m_pMainCamera; };
-	VOID SetAsMainCamera(Entity* entity, DirectX12Instance* inst) { m_pMainCamera = entity; inst->SetEntityAsMainCamera(entity); };
+	Entity* GetMainCamera() { return m_pMainPlayer; };
+	VOID SetAsMainCamera(Entity* entity, DirectX12Instance* inst) { m_pMainPlayer = entity; inst->SetEntityAsMainCamera(entity); };
 
 	GameState* GetGameState() { return &m_State; };
 	VOID		SetGameState(GameState state) { m_State = state; };

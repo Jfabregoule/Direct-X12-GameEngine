@@ -253,7 +253,7 @@ void Entity::UpdateEntity(float dt, float* gameSpeed) {
 
 void Entity::SetCollider() {
 	Collider* oue = dynamic_cast<Collider*>(AddComponentByName("collider"));
-	oue->InitCollider(this, m_pInst->m_ListEntities);
+	oue->InitCollider(this, &m_pInst->m_ListEntities);
 }
 
 bool Entity::HasTag(std::string tag)
