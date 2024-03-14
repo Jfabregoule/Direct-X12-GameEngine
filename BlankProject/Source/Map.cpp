@@ -4,11 +4,14 @@
 #include <vector>
 #include "Common/Random.h"
 #include "Engine/Tags.h"
-#include "Enemy.h"
+#include "EnemyScript.h"
 
 
-Map::Map() {
+Map::Map(Entity* player, DirectX12Instance* inst) {
 
+    m_pMainPlayer = player;
+    m_pInst = inst;
+    
     srand(time(0));
     numberOfPlanets = GenerateRandomInt(15, 31);
 
@@ -22,13 +25,13 @@ Map::~Map() {
 
 }
 
-void Map::CreateEntities(DirectX12Instance* Inst) {
+void Map::CreateEntities() {
 
     //Create Planets
     for (int i = 0; i < numberOfPlanets; i++) {
 
-        Entity* pEntity = new Entity(Inst);
-        Inst->m_ListEntities.push_back(pEntity);
+        Entity* pEntity = new Entity(m_pInst);
+        m_pInst->m_ListEntities.push_back(pEntity);
         pEntity->InitObject("sphere");
 
         m_ListPlanets.push_back(pEntity);
@@ -47,23 +50,20 @@ void Map::CreateEntities(DirectX12Instance* Inst) {
         OutputDebugStringA(std::to_string(numberOfEnemiesPerHorde).c_str());
         OutputDebugStringA("\n");
         for (int j = 0; j < numberOfEnemiesPerHorde; j++) {
-            Enemy* newEnemy = new Enemy;
-            newEnemy->InitializeEnemy(Inst, tab);
-            Inst->m_ListEntities.push_back(newEnemy->GetEntity());
-            m_ListEnemies.push_back(newEnemy->GetEntity());
-            //Entity* pEntity = new Entity(Inst);
 
-            //Inst->m_ListEntities.push_back(pEntity);
-            //pEntity->InitObject("pyramid");
-            ////pEntity->SetCollider();
-            //dynamic_cast<Tags*>(pEntity->AddComponentByName("tags"))->AddTags("Horde" + std::to_string(i));
+            Entity* enemy = new Entity(m_pInst);
+            EnemyScript* enemyScript = new EnemyScript();
+            enemy->AttachComponent(enemyScript);
+            enemyScript->InitEnemyScript(4.0f, enemy, m_pMainPlayer);
 
-            //m_ListEnemies.push_back(pEntity);
+            enemyScript->InitializeEnemy(m_pInst, tab);
+            m_pInst->m_ListEntities.push_back(enemy);
+            m_ListEnemies.push_back(enemy);
         }
     }
 }
 
-void Map::PlaceEntities(DirectX12Instance* Inst) {
+void Map::PlaceEntities() {
 
     float offset = m_CaseLimit * sizeOfCases * 0.5f;
     //Place Planets
@@ -164,8 +164,8 @@ void Map::UpdateEntities() {
 }
 
 
-void Map::GenerateEntities(DirectX12Instance* Inst) {
+void Map::GenerateEntities() {
 
-    CreateEntities(Inst);
-    PlaceEntities(Inst);
+    CreateEntities();
+    PlaceEntities();
 }
