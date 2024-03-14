@@ -15,13 +15,13 @@ private:
     int m_EnemyCaseY;
     int m_EnemyCaseZ;
 
-    int m_CaseLimit = 20;
-    int grid[20][20][20];
+    int m_CaseLimit = 5;
+    int grid[5][5][5];
 
     int m_EnemyCaseLimit = 3;
     int enemyGrid[3][3][3];
 
-    float sizeOfCases = 50;
+    float sizeOfCases = 500;
     float sizeOfObjects;
 
     //Planets

@@ -53,27 +53,6 @@ void TextureManager::AddTexture(std::string name, std::wstring path) {
     m_pListTexture[name] = texture;
 }
 
-//void TextureManager::InitSRV(Texture* texture) {
-//
-//
-//    //
-//    // Fill out the heap with actual descriptors.
-//    //
-//    m_DescriptorHandleCPU = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_SrvHeap->GetCPUDescriptorHandleForHeapStart());
-//
-//    m_SrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-//    m_SrvDesc.Format = texture->Resource->GetDesc().Format;
-//    m_SrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-//    m_SrvDesc.Texture2D.MostDetailedMip = 0;
-//    m_SrvDesc.Texture2D.MipLevels = texture->Resource->GetDesc().MipLevels;
-//    m_SrvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-//
-//    m_pInst->device->CreateShaderResourceView(texture->Resource.Get(), &m_SrvDesc, m_DescriptorHandleCPU);
-//
-//    texture->m_DescriptorHandleGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(m_SrvHeap->GetGPUDescriptorHandleForHeapStart());
-//
-//};
-
 void TextureManager::InitSRV(Texture* texture) {
     // Obtenez le handle CPU pour le prochain emplacement disponible dans le heap
     CD3DX12_CPU_DESCRIPTOR_HANDLE descriptorHandleCPU(m_SrvHeap->GetCPUDescriptorHandleForHeapStart(), m_DescriptorIndexCPU, m_pInst->device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
