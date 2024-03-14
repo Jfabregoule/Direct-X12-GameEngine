@@ -72,6 +72,8 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
         m_Speed = 7.0f;
     else
         m_Speed = 4.0f;
+
+    //Bullet
     if ((m_InputManager->GetCurrentState(VK_LBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_LBUTTON) == HELD) && lButtonCD >= 0.1f && currentstate == PLAYING)
     {
         m_GameManager->GetMainPlayer()->Shoot();
@@ -79,6 +81,26 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
         
         lButtonCD = 0.0f;
     }
+
+    //Laser
+    if ((m_InputManager->GetCurrentState(VK_RSHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_RSHIFT) == HELD) && lButtonCD >= 1.0f && currentstate == PLAYING)
+    {
+        m_GameManager->GetMainPlayer()->LaserShoot();
+
+
+        lButtonCD = 0.0f;
+    }
+
+    //Rocket 
+    if ((m_InputManager->GetCurrentState(VK_RBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_RBUTTON) == HELD) && lButtonCD >= 0.5f && currentstate == PLAYING)
+    {
+        m_GameManager->GetMainPlayer()->RocketShoot();
+
+
+        lButtonCD = 0.0f;
+    }
+
+
     if ((m_InputManager->GetCurrentState(VK_ESCAPE) == PRESSED || m_InputManager->GetCurrentState(VK_ESCAPE) == HELD) && lButtonCD >= 0.5f)
     {
         switch (currentstate)

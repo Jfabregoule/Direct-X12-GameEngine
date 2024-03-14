@@ -106,8 +106,10 @@
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
     <ClCompile Include="Source\HandleInputs.cpp" />
+    <ClCompile Include="Source\LaserScript.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Rocketscript.cpp" />
     <ClCompile Include="Source\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -119,8 +121,10 @@
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
+    <ClInclude Include="Source\LaserScript.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Rocketscript.h" />
     <ClInclude Include="Source\Ship.h" />
   </ItemGroup>
   <ItemGroup>
