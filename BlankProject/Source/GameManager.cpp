@@ -30,7 +30,7 @@ VOID GameManager::Initialize(HWND handle) {
     Player* mainPlayer = new Player();
     mainPlayer->Initialize(m_pDX12Inst);
 
-	SetAsMainCamera(mainPlayer->GetEntity(), m_pDX12Inst);
+    SetAsMainPlayer(mainPlayer, m_pDX12Inst);
 
     m_pInputsHandle = new HandleInputs(m_pDX12Inst, this);
     m_pCollisionsHandle = new HandleCollisions(m_pDX12Inst);

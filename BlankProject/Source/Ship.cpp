@@ -32,19 +32,32 @@ VOID Ship::Shoot() {
     DirectX::XMStoreFloat3(&upVect, m_pTransform->GetUpVector());
 
     //Bullet de Gauche
+
+    
     m_pInst->m_ListEntities.push_back(new Entity(m_pInst));
     Entity* entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
+    entity->InitObject("cube");
+    entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
+    BulletScript* bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    bullet->InitBulletScript(20, 5, forwardVect, 1);
+    entity->SetCollider();
+    entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
+    entity->Scale(0.01f, 0.01f, 0.1f);
+    entity->Translate(m_pTransform->m_VectorPosition.x + rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y + rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z + rightVect.x/ 4 - upVect.x / 4);
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("bullet");
+    
 
-    for (int i = -1; i < 2; i = i + 2) {
-        entity->InitObject("cube");
-        entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
-        BulletScript* bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-        bullet->InitBulletScript(0.2, 10, forwardVect, 0.1);
-        entity->SetCollider();
-        entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
-        entity->Scale(0.02f, 0.02f, 0.2f);
-        entity->Translate(m_pTransform->m_VectorPosition.x + (rightVect.x / 4 - upVect.x / 4)*i, m_pTransform->m_VectorPosition.y + (rightVect.y / 4 - upVect.y / 4) * i, m_pTransform->m_VectorPosition.z + (rightVect.x / 4 - upVect.x / 4) * i);
-        dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("bullet");
-    }
+    m_pInst->m_ListEntities.push_back(new Entity(m_pInst));
+    entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
+    entity->InitObject("cube");
+    entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
+    bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    bullet->InitBulletScript(20, 5, forwardVect, 1);
+    entity->SetCollider();
+    entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
+    entity->Scale(0.01f, 0.01f, 0.1f);
+    entity->Translate(m_pTransform->m_VectorPosition.x - rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y - rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z - rightVect.x/ 4 - upVect.x / 4);
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("bullet");
+    
 
 };
