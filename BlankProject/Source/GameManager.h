@@ -2,6 +2,7 @@
 #include "DirectX12/dx12Inst.h"
 #include "Engine/Entity.h"
 #include <chrono>
+#include "Player.h"
 
 enum GameState {
 
@@ -21,6 +22,7 @@ private:
 	HWND						m_WinHandle;
 	GameState					m_State;
 	Entity*						m_pMainCamera;
+	Player*						m_pMainPlayer;
 	DirectX12Instance*			m_pDX12Inst;
 	HandleCollisions*			m_pCollisionsHandle;
 	HandleInputs*				m_pInputsHandle;
@@ -40,7 +42,8 @@ public:
 
 	VOID Clear();
 
-
+	Player* GetMainPlayer() { return m_pMainPlayer; };
+	VOID SetAsMainPlayer(Player* player, DirectX12Instance* inst) { m_pMainPlayer = player; SetAsMainCamera(player->GetEntity(),inst); };
 
 	Entity* GetMainCamera() { return m_pMainCamera; };
 	VOID SetAsMainCamera(Entity* entity, DirectX12Instance* inst) { m_pMainCamera = entity; inst->SetEntityAsMainCamera(entity); };

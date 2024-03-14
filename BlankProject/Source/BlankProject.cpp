@@ -37,6 +37,8 @@ public:
         handle = Handle();
         Window *window = GetWindow();
 
+
+
         GameManager* gameManager = new GameManager();
         gameManager->Initialize(handle);
 
