@@ -186,49 +186,47 @@ void Transform::RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPositio
 VOID Transform::SetDirection(DirectX::XMFLOAT3 posTarget) {
 
 
-    DirectX::XMMATRIX matrix = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&m_VectorPosition), DirectX::XMLoadFloat3(&posTarget), DirectX::XMVectorSet(0,1,0,0));
-    matrix = DirectX::XMMatrixInverse(nullptr, matrix);
+    // Calcul de la direction vers la cible
+    DirectX::XMFLOAT3 direction;
+    direction.x = posTarget.x - m_VectorPosition.x;
+    direction.y = posTarget.y - m_VectorPosition.y;
+    direction.z = posTarget.z - m_VectorPosition.z;
 
-    DirectX::XMFLOAT4X4 float4Matrix;
-    DirectX::XMStoreFloat4x4(&float4Matrix, matrix);
-    float4Matrix._41 = 0;
-    float4Matrix._42 = 0;
-    float4Matrix._43 = 0;
+    // Normalisation de la direction
+    float length = sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
+    if (length > 0.0f) {
+        direction.x /= length;
+        direction.y /= length;
+        direction.z /= length;
+    }
 
-    float4Matrix._41 = 0;
-    float4Matrix._42 = 0;
-    float4Matrix._43 = 0;
-    matrix = DirectX::XMLoadFloat4x4(&float4Matrix);
+    // Calcul de l'angle de rotation autour de l'axe Y (yaw)
+    float yaw = atan2(direction.x, direction.z);
 
-    DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationMatrix(matrix);
+    // Calcul de l'angle de rotation autour de l'axe X (pitch)
+    float pitch = asin(-direction.y);
 
-    DirectX::XMStoreFloat4(&m_QuaternionRotation, quaternion);
+    // Mise à jour du vecteur de rotation
+    m_VectorRotation.x = pitch;
+    m_VectorRotation.y = yaw;
+    m_VectorRotation.z = 0.0f; // Le roll est souvent considéré comme nul lorsqu'on vise une direction précise
 
-
-   // DirectX::XMVECTOR qRot = DirectX::XMLoadFloat4(&m_QuaternionRotation);
-    
-
-
-    // Matrix
-    DirectX::XMMATRIX  rotationMatrix = DirectX::XMMatrixRotationQuaternion(quaternion);
+    // Création de la matrice de rotation à partir des angles de rotation
+    DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, 0.0f);
     DirectX::XMStoreFloat4x4(&m_MatrixRotation, rotationMatrix);
 
- //   qRot = DirectX::XMQuaternionMultiply(qRot, quaternion);
-  //  DirectX::XMStoreFloat4(&m_QuaternionRotation, qRot);
+    // Mise à jour des vecteurs de direction, de droite et de haut à partir de la matrice de rotation
+    m_VectorDirection.x = m_MatrixRotation._31;
+    m_VectorDirection.y = m_MatrixRotation._32;
+    m_VectorDirection.z = m_MatrixRotation._33;
 
-    // Axis
-    m_VectorDirection.x = m_MatrixRotation._11;
-    m_VectorDirection.y = m_MatrixRotation._12;
-    m_VectorDirection.z = m_MatrixRotation._13;
+    m_VectorRight.x = m_MatrixRotation._11;
+    m_VectorRight.y = m_MatrixRotation._12;
+    m_VectorRight.z = m_MatrixRotation._13;
 
-    m_VectorRight.x = m_MatrixRotation._21;
-    m_VectorRight.y = m_MatrixRotation._22;
-    m_VectorRight.z = m_MatrixRotation._23;
-
-    m_VectorUp.x = m_MatrixRotation._31;
-    m_VectorUp.y = m_MatrixRotation._32;
-    m_VectorUp.z = m_MatrixRotation._33;
-
+    m_VectorUp.x = m_MatrixRotation._21;
+    m_VectorUp.y = m_MatrixRotation._22;
+    m_VectorUp.z = m_MatrixRotation._23;
     
 };
 

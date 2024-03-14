@@ -21,14 +21,14 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     //Set de l'entité
     m_pEntity = new Entity(inst);
     m_pEntity->InitObject("pyramid");
-    m_pEntity->SetCollider();
+    //m_pEntity->SetCollider();
     dynamic_cast<Tags*>(m_pEntity->AddComponentByName("tags"))->AddTags("enemy");
     //m_pEntity->Rotate(0.0f,0.0f,1.5f);
     m_pInst = inst;
 
 
     m_pTransform = m_pEntity->GetTransform();
-    m_pEntity->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
+    m_pEntity->Translate(m_Path[0].x, m_Path[0].y, m_Path[0].z);
     m_pTransform->UpdateMatrix();
     //ChangeDirection(m_Path[m_nextPathState]);
     m_Spawn = m_Path[0];
@@ -80,11 +80,20 @@ VOID Enemy::CheckDistancePath() {
     
     if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Path[m_nextPathState]) <= 0.1) {
 
-        OutputDebugString(L"zob");
-
-
         m_pathState = m_nextPathState;
         m_nextPathState = (m_pathState + 1) % 4;
+
+        ChangeDirection(m_Path[m_nextPathState]);
+
+    }
+};
+
+VOID Enemy::CheckDistanceSpawn() {
+
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Spawn) <= 0.1) {
+
+        m_pathState = 0;
+        m_nextPathState = 1;
 
         ChangeDirection(m_Path[m_nextPathState]);
 
@@ -96,14 +105,13 @@ VOID Enemy::CheckDistancePath() {
 
 VOID Enemy::CheckDistancePlayer() {
 
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 10) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 30) {
 
         OutputDebugString(L"Ennemy spoted");
 
-
         FocusOnPlayer();
 
-        m_Script->SetCurrentState(TRIGGERED);
+        //m_Script->SetCurrentState(TRIGGERED);
 
         //Shoot();
     }
@@ -118,7 +126,7 @@ VOID Enemy::FocusOnPlayer() {
 
 VOID Enemy::CheckDistancePlayerOutOfRange() {
 
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) >= 20) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) >= 50) {
 
         ChangeDirection(m_Spawn);
 
@@ -127,15 +135,6 @@ VOID Enemy::CheckDistancePlayerOutOfRange() {
     }
 
 }
-
-VOID Enemy::CheckDistanceSpawn() {
-
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Spawn) <= 1) {
-
-        m_Script->SetCurrentState(PATHING);
-
-    }
-};
 
 VOID Enemy::ChangeDirection(DirectX::XMFLOAT3 pos) {
 

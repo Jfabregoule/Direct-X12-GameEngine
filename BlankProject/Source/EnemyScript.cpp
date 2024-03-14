@@ -17,7 +17,7 @@ void EnemyScript::InitEnemyScript(float speed, DirectX::XMFLOAT3 direction) {
 
 	m_Speed = speed;
 	m_Direction = direction;
-	m_CurrentState = IDLE;
+	m_CurrentState = PATHING;
 	m_pTransform = m_pEntity->GetTransform();
 
 }
@@ -53,7 +53,7 @@ void EnemyScript::UpdatePATHING(float dt, float* gameSpeed)
 
 	m_pEnemy->CheckDistancePath();
 
-	m_pEnemy->CheckDistancePlayer();
+	//m_pEnemy->CheckDistancePlayer();
 }
 
 void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
@@ -65,11 +65,26 @@ void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
 	m_pEntity->Forward(m_Speed, dt, gameSpeed);
 
 	m_pEnemy->CheckDistancePlayerOutOfRange();
+
+	if(InternClock(dt))
+		m_pEnemy->RocketShoot();
 }
 
 void EnemyScript::UpdateRETREAT(float dt, float* gameSpeed)
 {
 	m_pEntity->Forward(m_Speed, dt, gameSpeed);
 
-	m_pEnemy->CheckDistancePath();
+	m_pEnemy->CheckDistanceSpawn();
+}
+
+bool EnemyScript::InternClock(float dt) {
+
+	m_clock += dt;
+	if (m_clock >= 1.5) {
+		m_clock = 0;
+		return true;
+	}
+
+	return false;
+
 }
