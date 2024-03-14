@@ -112,7 +112,7 @@ VOID Ship::RocketShoot() {
     entity->InitObject("pyramid");
     entity->AttachComponent(new RocketScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     RocketScript* rocket = dynamic_cast<RocketScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-    rocket->InitRocketScript(0.2, 30, forwardVect, 0.1);
+    rocket->InitRocketScript(0.4, 20, forwardVect, 0.1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.3f, 0.3f, 1.5f);

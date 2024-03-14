@@ -17,7 +17,7 @@ private:
 	DirectX::XMFLOAT3		m_Dir;
 	DirectX::XMFLOAT3		m_Spawn;
 
-	float					m_Renge;
+	float					m_Range;
 
 	EnemyScript*			m_Script;
 
