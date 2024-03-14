@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Engine/Shader.h"
 #include <d3dcompiler.h>
+#include "Engine/DirectX12Utils.h"
 
 /*
 *  -------------------------------------------------------------------------------------
@@ -197,10 +198,7 @@ bool Shader::InitializeRootSignatureShader()
 		m_SerializedRootSignature.GetAddressOf(),
 		m_ErrorBlob.GetAddressOf()
 	);
-	if (m_HResult != S_OK)
-	{
-		return false;
-	}
+	CheckSucceeded(m_HResult);
 
 	/* Creating the Root Signature */
 	m_HResult = m_Device->CreateRootSignature(
@@ -209,10 +207,7 @@ bool Shader::InitializeRootSignatureShader()
 		m_SerializedRootSignature->GetBufferSize(),
 		IID_PPV_ARGS(&m_pRootSignature)
 	);
-	if (m_HResult != S_OK)
-	{
-		return false;
-	}
+	CheckSucceeded(m_HResult);
 
 	//m_SerializedRootSignature->Release();
 	//if (m_ErrorBlob) m_ErrorBlob->Release();
@@ -227,7 +222,7 @@ bool Shader::InitializeRootSignature()
 	m_rootParamSize = 1;
 	m_isDescTable = 0;
 
-	CD3DX12_ROOT_PARAMETER rootParams[1] = {};
+	CD3DX12_ROOT_PARAMETER rootParams[1];
 	rootParams[0].InitAsConstantBufferView(0);
 
 	CD3DX12_ROOT_SIGNATURE_DESC desc(1, rootParams, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
