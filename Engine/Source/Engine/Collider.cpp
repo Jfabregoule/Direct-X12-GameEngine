@@ -12,7 +12,7 @@ Collider::~Collider()
 {
 }
 
-void Collider::InitCollider(Entity* self, std::vector<Entity*> listEntity)
+void Collider::InitCollider(Entity* self, std::vector<Entity*>* listEntity)
 {
 	m_ListEntity = listEntity;
 	m_Self = self;
@@ -42,14 +42,14 @@ bool Collider::CheckCollision(Entity* entity)
 void Collider::Update(float dt, float* gameSpeed)
 {
 	m_CenterPoint = m_Self->GetTransform()->m_VectorPosition;
-	for (int i = 0; i < m_ListEntity.size(); i++)
+	for (int i = 0; i < m_ListEntity->size(); i++)
 	{
-		if (m_ListEntity.at(i)->GetDestroyValue() == true)
-			m_ListEntity.erase(m_ListEntity.begin() + i);
-		else if (CheckCollision(m_ListEntity.at(i)))
+		if (m_ListEntity->at(i)->GetDestroyValue() == true)
+			m_ListEntity->erase(m_ListEntity->begin() + i);
+		else if (CheckCollision(m_ListEntity->at(i)))
 		{
 			m_IsColliding = true;
-			m_CollidingWith.push_back(m_ListEntity.at(i));
+			m_CollidingWith.push_back(m_ListEntity->at(i));
 		}
 	}
 }

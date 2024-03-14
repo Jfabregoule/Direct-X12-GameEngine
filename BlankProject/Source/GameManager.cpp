@@ -4,10 +4,11 @@
 #include "DirectX12/dx12Inst.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/InputManager.h"
+#include "Engine/Tags.h"
+#include "Engine/Collider.h"
 #include "HandleInputs.h"
 #include "BulletScript.h"
 #include "EnemyScript.h"
-#include "Engine/Collider.h"
 #include "HandleCollisions.h"
 #include "PlayerScript.h"
 #include "ShipScript.h"
@@ -34,13 +35,15 @@ VOID GameManager::Initialize(HWND handle) {
     mainPlayer->AttachComponent(playerScript);
     shipScript->Initialize(m_pDX12Inst, mainPlayer);
     mainPlayer->AttachComponent(shipScript);
+    mainPlayer->AddComponentByName("tags");
+    dynamic_cast<Tags*>(mainPlayer->GetComponentByName("tags"))->AddTags("ally");
 
     SetAsMainPlayer(mainPlayer, m_pDX12Inst);
 
     m_pInputsHandle = new HandleInputs(m_pDX12Inst, this);
     m_pCollisionsHandle = new HandleCollisions(m_pDX12Inst);
 
-    Map m_Map(m_pMainCamera,m_pDX12Inst);
+    Map m_Map(m_pMainPlayer,m_pDX12Inst);
 
     m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
     m_pDX12Inst->m_ListEntities.at(0)->InitObject("skybox", "textured", "sky");
@@ -50,8 +53,11 @@ VOID GameManager::Initialize(HWND handle) {
 
     Entity* enemy = new Entity(m_pDX12Inst);
     EnemyScript* enemyScript = new EnemyScript();
+    ShipScript* shipScript2 = new ShipScript();
+    shipScript2->Initialize(m_pDX12Inst, enemy);
     enemy->AttachComponent(enemyScript);
-    enemyScript->InitEnemyScript(4.0f, enemy, m_pMainCamera);
+    enemy->AttachComponent(shipScript2);
+    enemyScript->InitEnemyScript(4.0f, enemy, m_pMainPlayer);
     DirectX::XMFLOAT3 tab[4] = {
         XMFLOAT3(5.0f,0.0f,5.0f),
         XMFLOAT3(10.0f,0.0f,5.0f),

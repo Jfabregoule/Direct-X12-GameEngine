@@ -185,6 +185,11 @@ VOID EnemyScript::CheckDistanceSpawn() {
     }
 }
 
+VOID EnemyScript::ChangeDirection(DirectX::XMFLOAT3 pos) {
+
+    m_pTransform->SetDirection(pos);
+};
+
 bool EnemyScript::InternClock(float dt) {
 
 	m_clock += dt;

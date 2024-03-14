@@ -10,7 +10,7 @@ class ENGINE_API Collider : public Component
 private:
 
 	Entity*					m_Self;
-	std::vector<Entity*>	m_ListEntity;
+	std::vector<Entity*>	*m_ListEntity;
 
 	bool					m_IsColliding;
 	std::vector<Entity*>	m_CollidingWith;
@@ -23,7 +23,7 @@ public:
 	Collider();
 	~Collider();
 
-	void					InitCollider(Entity* self, std::vector<Entity*> listEntity);
+	void					InitCollider(Entity* self, std::vector<Entity*> *listEntity);
 
 	bool					GetCollidingValue()		{ return m_IsColliding; };
 	std::vector<Entity*>	GetCollidingEntities()	{ return m_CollidingWith; };
