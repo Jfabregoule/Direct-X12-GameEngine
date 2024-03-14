@@ -76,7 +76,7 @@ VOID GameManager::Initialize(HWND handle) {
 
     Enemy* enemy = new Enemy();
     DirectX::XMFLOAT3 tab[4] = {
-        XMFLOAT3(20.0f,0.0f,0.0f),
+        XMFLOAT3(40.0f,0.0f,0.0f),
         XMFLOAT3(10.0f,0.0f,5.0f),
         XMFLOAT3(5.0f,0.0f,0.0f),
         XMFLOAT3(5.0f,0.0f,10.0f)

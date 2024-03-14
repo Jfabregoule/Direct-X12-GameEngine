@@ -71,8 +71,8 @@ void Mesh::InitializeMesh(ID3D12Device* device, string type, Vertex* vertices)
         else if (type == "sphere")
         {
             SphereMesh* pSphereMesh = new SphereMesh();
+            pSphereMesh->InitSphereMesh(100);
             pSphereMesh->GenerateSphere();
-            pSphereMesh->InitSphereMesh(10);
             m_Vertices = pSphereMesh->sphere;
             m_Indices = pSphereMesh->sphereIndices;
             m_VerticesCount = pSphereMesh->sphereVerticesCount;

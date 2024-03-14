@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Transform.h"
 #include "Maths.h"
+#include <cmath>
 
 //#define IDENTITY {1,0,0,0,    0,1,0,0,    0,0,1,0,    0,0,0,1};
 
@@ -179,25 +180,56 @@ DirectX::XMVECTOR Transform::GetUpVector() {
 }
 
 void Transform::RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPosition) {
-    // Calculer le vecteur de direction entre l'entité et l'objet cible
-    DirectX::XMFLOAT3 directionToObject;
-    /*directionToObject.x = objectPosition.x - m_VectorPosition.x;
-    directionToObject.y = objectPosition.y - m_VectorPosition.y;
-    directionToObject.z = objectPosition.z - m_VectorPosition.z;*/
-    directionToObject.x =  m_VectorPosition.x - objectPosition.x;
-    directionToObject.y =  m_VectorPosition.y - objectPosition.y;
-    directionToObject.z =  m_VectorPosition.z - objectPosition.z;
-    DirectX::XMVECTOR tmp;
-    tmp = DirectX::XMLoadFloat3(&directionToObject);
-    DirectX::XMVECTOR dir = DirectX::XMVector3Normalize(tmp);
-
-    DirectX::XMStoreFloat3(&directionToObject, dir);
-
-    // Calculer les angles d'Euler à partir du vecteur de direction
-    DirectX::XMFLOAT3 eulerAngles = Maths::CalculateEulerAnglesFromDirection(directionToObject);
-
-    // Appliquer la rotation à l'entité
-    Rotate(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+    
 }
+
+VOID Transform::SetDirection(DirectX::XMFLOAT3 posTarget) {
+
+
+    DirectX::XMMATRIX matrix = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&m_VectorPosition), DirectX::XMLoadFloat3(&posTarget), DirectX::XMVectorSet(0,1,0,0));
+    matrix = DirectX::XMMatrixInverse(nullptr, matrix);
+
+    DirectX::XMFLOAT4X4 float4Matrix;
+    DirectX::XMStoreFloat4x4(&float4Matrix, matrix);
+    float4Matrix._41 = 0;
+    float4Matrix._42 = 0;
+    float4Matrix._43 = 0;
+
+    float4Matrix._41 = 0;
+    float4Matrix._42 = 0;
+    float4Matrix._43 = 0;
+    matrix = DirectX::XMLoadFloat4x4(&float4Matrix);
+
+    DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationMatrix(matrix);
+
+    DirectX::XMStoreFloat4(&m_QuaternionRotation, quaternion);
+
+
+   // DirectX::XMVECTOR qRot = DirectX::XMLoadFloat4(&m_QuaternionRotation);
+    
+
+
+    // Matrix
+    DirectX::XMMATRIX  rotationMatrix = DirectX::XMMatrixRotationQuaternion(quaternion);
+    DirectX::XMStoreFloat4x4(&m_MatrixRotation, rotationMatrix);
+
+ //   qRot = DirectX::XMQuaternionMultiply(qRot, quaternion);
+  //  DirectX::XMStoreFloat4(&m_QuaternionRotation, qRot);
+
+    // Axis
+    m_VectorDirection.x = m_MatrixRotation._11;
+    m_VectorDirection.y = m_MatrixRotation._12;
+    m_VectorDirection.z = m_MatrixRotation._13;
+
+    m_VectorRight.x = m_MatrixRotation._21;
+    m_VectorRight.y = m_MatrixRotation._22;
+    m_VectorRight.z = m_MatrixRotation._23;
+
+    m_VectorUp.x = m_MatrixRotation._31;
+    m_VectorUp.y = m_MatrixRotation._32;
+    m_VectorUp.z = m_MatrixRotation._33;
+
+    
+};
 
 #pragma endregion

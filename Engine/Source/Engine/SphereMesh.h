@@ -1,10 +1,9 @@
-#pragma once
+﻿#pragma once
 #include "Engine.h"
 #include "DirectX12/Vertex.h"
 #include <DirectXColors.h>
 #include <vector>
 
-using namespace DirectX;
 
 struct ENGINE_API SphereMesh
 {
@@ -22,10 +21,9 @@ struct ENGINE_API SphereMesh
 
 	void InitSphereMesh(UINT partCount)
 	{
-
 		m_PartCount = partCount;
-		sphereVerticesCount = (partCount + 1) * (partCount + 2) / 2;
-		sphereIndicesCount = partCount * partCount * 10;
+		sphereVerticesCount = (m_PartCount + 2) * (m_PartCount + 2);
+		sphereIndicesCount = partCount * partCount * 6;
 		sphere = new Vertex[sphereVerticesCount];
 
 		sphereIndices = new UINT[sphereIndicesCount];
@@ -34,15 +32,9 @@ struct ENGINE_API SphereMesh
 		int basicIndex = 1;
 		int ringVertexCount = m_PartCount + 1;
 
-		for (int i = 1; i <= m_PartCount; i++)
-		{
-			sphereIndices[index++] = 0;
-			sphereIndices[index++] = i + 1;
-			sphereIndices[index++] = i;
-		}
 
-		// Top semi-circle
-		for (UINT slice = 0; slice < m_PartCount - 2; slice++)
+		// Top semi-circle of first half-sphere
+		for (UINT slice = 0; slice < m_PartCount / 2; slice++)
 		{
 			for (UINT stack = 0; stack < m_PartCount; stack++)
 			{
@@ -53,36 +45,46 @@ struct ENGINE_API SphereMesh
 				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack;
 				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stack + 1;
 				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stack + 1;
+
+
 			}
 		}
 
-		int southPoleIndex = sphereVerticesCount - 1;
-		basicIndex = southPoleIndex - ringVertexCount;
-		for (int j = 0; j < m_PartCount; j++)
+
+		// Bottom semi-circle of second half-sphere
+		for (UINT slice = m_PartCount / 2; slice < m_PartCount; slice++)
 		{
-			sphereIndices[index++] = southPoleIndex;
-			sphereIndices[index++] = basicIndex + j;
-			sphereIndices[index++] = basicIndex + j + 1;
+			for (UINT stock = 0; stock < m_PartCount; stock++)
+			{
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock;
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock + 1;
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock;
+
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock;
+				sphereIndices[index++] = basicIndex + slice * ringVertexCount + stock + 1;
+				sphereIndices[index++] = basicIndex + (slice + 1) * ringVertexCount + stock + 1;
+			}
 		}
-		//assert(index == sphereIndicesCount);
+
+		assert(index = sphereIndicesCount);
 	}
 
 	void GenerateSphere()
 	{
 		float x, y, z, phi, theta, phiStep, thetaStep;
 		// Center Vertices
-		sphere[0] = Vertex(XMFLOAT3(0.0f, 2.0f, 0.0f), XMFLOAT4(Colors::AntiqueWhite));
-		sphere[sphereVerticesCount - 1] = Vertex(XMFLOAT3(0.0f, 2.0f, 0.0f), XMFLOAT4(Colors::AntiqueWhite));
+		sphere[0] = Vertex(DirectX::XMFLOAT3(0.0f, 2.0f, 0.0f), DirectX::XMFLOAT4(Colors::AntiqueWhite), DirectX::XMFLOAT2(0, 0));
 
 		// Defining angles Steps
-		phiStep = XM_PI / m_PartCount;
+		phiStep = XM_PI / m_PartCount; // Divided by 2 for half-sphere
 		thetaStep = 2.0f * XM_PI / m_PartCount;
 
-		// Disks Vertcies
+		// Disks Vertices
 		float radius = 1.0f;
 		int index = 1;
 
-		for (int slice = 0; slice < m_PartCount; slice++)
+		// Premiere demi-sph�re
+		for (int slice = m_PartCount; slice >= m_PartCount / 2; slice--)
 		{
 			phi = slice * phiStep; // Polar angle
 
@@ -94,9 +96,27 @@ struct ENGINE_API SphereMesh
 				y = radius * sin(phi) * sin(theta);
 				z = radius * cos(phi);
 
-				sphere[index++] = Vertex(XMFLOAT3(x, y, z), XMFLOAT4(Colors::LightSkyBlue));
+				sphere[index++] = Vertex(DirectX::XMFLOAT3(x, y, z), DirectX::XMFLOAT4(Colors::LightSkyBlue), DirectX::XMFLOAT2(0, 0));
 			}
 		}
-	};
-};
 
+		// Deuxieme demi-sphere (inverse)
+		for (int slice = 0; slice <= m_PartCount / 2 + 1; slice++)
+		{
+			phi = slice * phiStep; // Polar angle
+
+			for (int stack = 0; stack <= m_PartCount; stack++)
+			{
+				theta = stack * thetaStep; // Azimuthal angle
+
+				// Calcul des coordonnees inversees par rapport a la premiere demi-sphere
+				x = radius * sin(phi) * cos(theta);
+				y = -radius * sin(phi) * sin(theta);
+				z = radius * cos(phi); // Inversion de z
+
+				sphere[index++] = Vertex(DirectX::XMFLOAT3(x, y, z), DirectX::XMFLOAT4(Colors::Beige), DirectX::XMFLOAT2(0, 0));
+			}
+		}
+		assert(index = sphereVerticesCount);
+	}
+};
