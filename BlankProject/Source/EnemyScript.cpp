@@ -44,7 +44,7 @@ void EnemyScript::Update(float dt, float* gameSpeed)
 
 void EnemyScript::UpdateIDLE(float dt, float* gameSpeed)
 {
-	
+	m_pEnemy->CheckDistancePlayer();
 }
 
 void EnemyScript::UpdatePATHING(float dt, float* gameSpeed)
@@ -52,14 +52,22 @@ void EnemyScript::UpdatePATHING(float dt, float* gameSpeed)
 	m_pEntity->Forward(m_Speed, dt, gameSpeed);
 
 	m_pEnemy->CheckDistancePath();
+
+	m_pEnemy->CheckDistancePlayer();
 }
 
 void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
 {
+	m_pEnemy->FocusOnPlayer();
 
+	m_pEntity->Forward(m_Speed, dt, gameSpeed);
+
+	m_pEnemy->CheckDistancePlayerOutOfRange();
 }
 
 void EnemyScript::UpdateRETREAT(float dt, float* gameSpeed)
 {
+	m_pEntity->Forward(m_Speed, dt, gameSpeed);
 
+	m_pEnemy->CheckDistancePath();
 }

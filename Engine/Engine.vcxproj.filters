@@ -163,14 +163,8 @@
     <ClCompile Include="Source\Platform\Win32\w32Caption.cpp">
       <Filter>Source\Platform\Win32\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\d3dUtil.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\d3dApp.cpp">
-      <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
@@ -285,9 +279,6 @@
     <ClInclude Include="Source\Engine\DirectX12Utils.h">
       <Filter>Source\Engine\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dUtil.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dx12.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
@@ -296,9 +287,6 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX12\dx12Inst.h">
       <Filter>Source\DirectX12\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dApp.h">
-      <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
       <Filter>Source\DirectX12\Bin</Filter>
@@ -371,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Tags.h">
       <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Maths.h">
+      <Filter>Source\Engine\Entity\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,7 +2,8 @@
 #include "Enemy.h"
 #include "../../Engine/Source/Engine/Entity.h"
 #include "EnemyScript.h"
-#include "Maths.h" 
+#include "Engine/Maths.h" 
+#include "DirectX12/dx12Inst.h"
 
 Enemy::Enemy() {
 
@@ -19,11 +20,16 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     //Set de l'entité
     m_pEntity = new Entity(inst);
     m_pEntity->InitObject("pyramid");
+    m_pEntity->SetCollider();
     //m_pEntity->Rotate(0.0f,0.0f,1.5f);
     m_pInst = inst;
+
+
     m_pTransform = m_pEntity->GetTransform();
     m_pEntity->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
-    //ChangeDirection(m_Path[m_pathState+1]);
+    m_pTransform->UpdateMatrix();
+    ChangeDirection(m_Path[m_pathState+1]);
+    m_Spawn = m_Path[0];
 
     //m_pTransform->Rotate(0.0f,1.5f,0.0f);
 
@@ -33,8 +39,10 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     
     //Set du script
     m_Script = new EnemyScript(this);
-    m_Script->InitEnemyScript(2, m_pTransform->GetForwardVector());
+    m_Script->InitEnemyScript(4, m_pTransform->GetForwardVector());
     m_pEntity->AttachComponent(m_Script);
+
+    m_pPlayer = m_pInst->m_pMainCamera;
 
 };
 
@@ -68,16 +76,62 @@ VOID Enemy::ChangeLastPos() {
 
 VOID Enemy::CheckDistancePath() {
     
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Path[m_pathState + 1]) < 0.5) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Path[m_pathState + 1]) <= 0.1) {
+
+        OutputDebugString(L"zob");
 
         m_pathState = (m_pathState + 1) % 4;
 
-        ChangeDirection(m_Path[m_pathState]);
+        ChangeDirection(m_Path[m_pathState + 1]);
+
+        //Shoot();
+        m_Script->SetCurrentState(PATHING);
+
+    }
+};
+
+VOID Enemy::CheckDistancePlayer() {
+
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 5) {
+
+        OutputDebugString(L"zob");
+
+        m_pathState = (m_pathState + 1) % 4;
+
+        FocusOnPlayer();
+
+        m_Script->SetCurrentState(TRIGGERED);
+
+        //Shoot();
+    }
+};
+
+VOID Enemy::FocusOnPlayer() {
+    ChangeDirection(m_pPlayer->GetTransform()->m_VectorPosition);
+};
+
+VOID Enemy::CheckDistancePlayerOutOfRange() {
+
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) >= 20) {
+
+        ChangeDirection(m_Spawn);
+
+        m_Script->SetCurrentState(RETREAT);
+
+    }
+
+}
+
+VOID Enemy::CheckDistanceSpawn() {
+
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Spawn) <= 1) {
+
+        m_Script->SetCurrentState(PATHING);
+
     }
 };
 
 VOID Enemy::ChangeDirection(DirectX::XMFLOAT3 pos) {
-    m_Dir = Maths::AngleVectors(m_pTransform->GetForwardVector(),pos);
-    m_pTransform->Rotate(m_Dir.x,m_Dir.y,m_Dir.z);
-    m_pTransform->UpdateMatrix();
+
+    m_pTransform->RotateEntityTowardsObject(pos);
 };

@@ -90,9 +90,6 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>Source\GameObjects\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Maths.h">
-      <Filter>Source\Private</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">

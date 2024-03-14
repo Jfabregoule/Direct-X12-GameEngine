@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Transform.h"
+#include "Maths.h"
 
 //#define IDENTITY {1,0,0,0,    0,1,0,0,    0,0,1,0,    0,0,0,1};
 
@@ -177,34 +178,18 @@ DirectX::XMVECTOR Transform::GetUpVector() {
     return up;
 }
 
-//inline DirectX::XMMATRIX XM_CALLCONV Transform::XMMatrixLookAtLH
-//(
-//    DirectX::FXMVECTOR EntityPosition,
-//    DirectX::FXMVECTOR TargetPosition,
-//    DirectX::FXMVECTOR UpDirection
-//) noexcept
-//{
-//    // Calculer la direction vers la cible depuis la position de l'entité
-//    DirectX::XMVECTOR EntityToTarget = DirectX::XMVectorSubtract(TargetPosition, EntityPosition);
-//    DirectX::XMVECTOR ForwardDirection = DirectX::XMVector3Normalize(EntityToTarget);
-//
-//    // Calculer la droite vers la droite (à droite de l'entité)
-//    DirectX::XMVECTOR RightDirection = DirectX::XMVector3Cross(UpDirection, ForwardDirection);
-//    RightDirection = DirectX::XMVector3Normalize(RightDirection);
-//
-//    // Calculer la direction vers le haut
-//    DirectX::XMVECTOR NewUpDirection = DirectX::XMVector3Cross(ForwardDirection, RightDirection);
-//
-//    // Créer la matrice de transformation en utilisant les directions calculées
-//    DirectX::XMMATRIX TransformationMatrix;
-//    TransformationMatrix.r[0] = RightDirection;
-//    TransformationMatrix.r[1] = NewUpDirection;
-//    TransformationMatrix.r[2] = ForwardDirection;
-//    TransformationMatrix.r[3] = EntityPosition;
-//
-//    TransformationMatrix = DirectX::XMMatrixTranspose(TransformationMatrix);
-//
-//    return TransformationMatrix;
-//}
+void Transform::RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPosition) {
+    // Calculer le vecteur de direction entre l'entité et l'objet cible
+    DirectX::XMFLOAT3 directionToObject;
+    directionToObject.x = objectPosition.x - m_VectorPosition.x;
+    directionToObject.y = objectPosition.y - m_VectorPosition.y;
+    directionToObject.z = objectPosition.z - m_VectorPosition.z;
+
+    // Calculer les angles d'Euler à partir du vecteur de direction
+    DirectX::XMFLOAT3 eulerAngles = Maths::CalculateEulerAnglesFromDirection(directionToObject);
+
+    // Appliquer la rotation à l'entité
+    Rotate(eulerAngles.y, eulerAngles.x, eulerAngles.z);
+}
 
 #pragma endregion

@@ -9,7 +9,7 @@ class Enemy;
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
-* |									BulletScript Class	                                |
+* |									EnemyScript Class	                                |
 * |                                                                                     |
 *  -------------------------------------------------------------------------------------
 */
@@ -63,6 +63,8 @@ public:
 	EnemyScript(Enemy* enemy);
 	~EnemyScript();
 
+	VOID SetCurrentState(State state) { m_CurrentState = state; };
+
 #pragma endregion
 
 	/*
@@ -86,6 +88,7 @@ public:
 	void UpdateTRIGGERED(float dt, float* gameSpeed);
 
 	void UpdateRETREAT(float dt, float* gameSpeed);
+
 
 #pragma endregion
 
