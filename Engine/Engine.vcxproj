@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Common\CmdLineArgs.h" />
     <ClInclude Include="Source\Common\Logger.h" />
+    <ClInclude Include="Source\Common\Random.h" />
     <ClInclude Include="Source\Common\Time.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\CoreDefinitions.h" />

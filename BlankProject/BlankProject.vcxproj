@@ -106,6 +106,7 @@
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
     <ClCompile Include="Source\HandleInputs.cpp" />
+    <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Ship.cpp" />
   </ItemGroup>
@@ -118,6 +119,7 @@
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
+    <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Ship.h" />
   </ItemGroup>

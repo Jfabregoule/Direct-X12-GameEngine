@@ -363,5 +363,8 @@
     <ClInclude Include="Source\Engine\Maths.h">
       <Filter>Source\Engine\Entity\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Common\Random.h">
+      <Filter>Source\Common\Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

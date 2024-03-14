@@ -90,6 +90,9 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>Source\GameObjects\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Map.h">
+      <Filter>Source\Common\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Source\Enemy.cpp">
       <Filter>Source\GameObjects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
+      <Filter>Source\Common\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
