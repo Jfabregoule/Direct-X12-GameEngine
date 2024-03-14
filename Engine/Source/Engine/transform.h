@@ -70,6 +70,7 @@ struct ENGINE_API Transform
     DirectX::XMVECTOR GetUpVector();
 
     void RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPosition);
+    VOID SetDirection(DirectX::XMFLOAT3 newForward);
 
 #pragma endregion
 

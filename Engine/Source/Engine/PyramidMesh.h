@@ -60,11 +60,11 @@ struct ENGINE_API PyramidMesh {
 #pragma region Methods
 
 	void GeneratePyramid() {
-		pyramid[0] = Vertex(XMFLOAT3(0.5f, 0.0f, -0.5f), XMFLOAT4(Colors::Red),XMFLOAT2(0, 0));
-		pyramid[1] = Vertex(XMFLOAT3(-0.5f, 0.0f, -0.5f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
-		pyramid[2] = Vertex(XMFLOAT3(-0.5f, 0.0f, 0.5f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
-		pyramid[3] = Vertex(XMFLOAT3(0.5f, 0.0f, 0.5f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
-		pyramid[4] = Vertex(XMFLOAT3(0.0f, 1.5f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
+		pyramid[0] = Vertex(XMFLOAT3(0.5f, -0.5f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
+		pyramid[1] = Vertex(XMFLOAT3(-0.5f, -0.5f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
+		pyramid[2] = Vertex(XMFLOAT3(-0.5f, 0.5f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
+		pyramid[3] = Vertex(XMFLOAT3(0.5f, 0.5f, 0.0f), XMFLOAT4(Colors::Red), XMFLOAT2(0, 0));
+		pyramid[4] = Vertex(XMFLOAT3(0.0f, 0.0f, 1.5f), XMFLOAT4(Colors::Black), XMFLOAT2(0, 0));
 	};
 
 #pragma endregion

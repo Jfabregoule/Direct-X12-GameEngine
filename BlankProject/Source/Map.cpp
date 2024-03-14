@@ -29,7 +29,7 @@ void Map::CreateEntities(DirectX12Instance* Inst) {
 
         Entity* pEntity = new Entity(Inst);
         Inst->m_ListEntities.push_back(pEntity);
-        pEntity->InitObject("cube");
+        pEntity->InitObject("sphere");
 
         m_ListPlanets.push_back(pEntity);
     }

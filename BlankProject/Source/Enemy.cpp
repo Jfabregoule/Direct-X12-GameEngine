@@ -28,7 +28,7 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     m_pTransform = m_pEntity->GetTransform();
     m_pEntity->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
     m_pTransform->UpdateMatrix();
-    //ChangeDirection(m_Path[m_pathState+1]);
+    //ChangeDirection(m_Path[m_nextPathState]);
     m_Spawn = m_Path[0];
 
     //m_pTransform->Rotate(0.0f,1.5f,0.0f);
@@ -76,13 +76,15 @@ VOID Enemy::ChangeLastPos() {
 
 VOID Enemy::CheckDistancePath() {
     
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Path[m_pathState + 1]) <= 0.1) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_Path[m_nextPathState]) <= 0.1) {
 
         OutputDebugString(L"zob");
 
-        m_pathState = (m_pathState + 1) % 4;
 
-        ChangeDirection(m_Path[m_pathState + 1]);
+        m_pathState = m_nextPathState;
+        m_nextPathState = (m_pathState + 1) % 4;
+
+        ChangeDirection(m_Path[m_nextPathState]);
 
         //Shoot();
         m_Script->SetCurrentState(PATHING);
@@ -92,11 +94,10 @@ VOID Enemy::CheckDistancePath() {
 
 VOID Enemy::CheckDistancePlayer() {
 
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 5) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 10) {
 
-        OutputDebugString(L"zob");
+        OutputDebugString(L"Ennemy spoted");
 
-        m_pathState = (m_pathState + 1) % 4;
 
         FocusOnPlayer();
 
@@ -107,8 +108,10 @@ VOID Enemy::CheckDistancePlayer() {
 };
 
 VOID Enemy::FocusOnPlayer() {
+
     ChangeDirection(m_pPlayer->GetTransform()->m_VectorPosition);
-    m_pPlayer->GetTransform()->UpdateMatrix();
+    m_pTransform->UpdateMatrix();
+
 };
 
 VOID Enemy::CheckDistancePlayerOutOfRange() {
@@ -134,5 +137,5 @@ VOID Enemy::CheckDistanceSpawn() {
 
 VOID Enemy::ChangeDirection(DirectX::XMFLOAT3 pos) {
 
-    m_pTransform->RotateEntityTowardsObject(pos);
+    m_pTransform->SetDirection(pos);
 };

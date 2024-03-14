@@ -302,8 +302,8 @@ VOID DirectX12Instance::InitMesh() {
     m_ListMesh.find("pyramid")->second->InitializeMesh(device, "pyramid");
     m_ListMesh["pipe"] = std::move(new Mesh());
     m_ListMesh.find("pipe")->second->InitializeMesh(device, "pipe");
-    /*m_ListMesh["sphere"] = std::move(new Mesh());
-    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");*/
+    m_ListMesh["sphere"] = std::move(new Mesh());
+    m_ListMesh.find("sphere")->second->InitializeMesh(device, "sphere");
     m_ListMesh["skybox"] = std::move(new Mesh());
     m_ListMesh.find("skybox")->second->InitializeMesh(device, "skybox");
 
