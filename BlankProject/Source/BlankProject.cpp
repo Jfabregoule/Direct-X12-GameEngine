@@ -1,7 +1,10 @@
 #include "BlankProject.h"
-#include "Engine/Simulation.h"
-#include "Platform/Win32/WinEntry.h"
+
 #include "GameManager.h"
+
+#include "Platform/Win32/WinEntry.h"
+
+#include "Engine/Simulation.h"
 #include "Engine/ParticleSystem.h"
 
 BOOL GameRunning = TRUE;

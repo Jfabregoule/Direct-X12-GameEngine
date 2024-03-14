@@ -1,5 +1,7 @@
 #include "BlankProject.h"
+
 #include "HandleCollisions.h"
+
 #include "Engine/Entity.h"
 #include "Engine/ParticleSystem.h"
 #include "ShipScript.h"

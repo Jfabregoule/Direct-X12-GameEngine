@@ -1,12 +1,15 @@
 #pragma once
+
 #include "Engine.h"
-#include "Engine/Atom.h"
-#include "Engine/Component.h"
-#include "DirectX12/d3dUtil.h"
+
 #include <iostream>
 #include <vector>
 
+#include "Engine/Component.h"
+#include "Engine/Atom.h"
+
 class Entity;
+class DirectX12Instance;
 
 class ENGINE_API ParticleSystem : public Component
 {
@@ -20,7 +23,7 @@ public:
 
 	void InitializeParticleSystem(Entity* particlesystem);
 
-	void CreateAtomsGroup(ID3D12Device* device, int atomsNumber = 50 + rand() % 100);
+	void CreateAtomsGroup(DirectX12Instance* inst, int atomsNumber = 50 + rand() % 100);
 
 	void Update(float dt, float* gameSpeed) override;
 };

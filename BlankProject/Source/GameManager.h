@@ -1,7 +1,11 @@
 #pragma once
-#include "DirectX12/dx12Inst.h"
-#include "Engine/Entity.h"
+
 #include <chrono>
+
+#include "DirectX12/dx12Inst.h"
+
+#include "Engine/Entity.h"
+
 #include "PlayerScript.h"
 
 enum GameState {

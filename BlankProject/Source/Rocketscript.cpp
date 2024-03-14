@@ -1,4 +1,5 @@
 #include "BlankProject.h"
+
 #include "RocketScript.h"
 
 RocketScript::RocketScript(Entity* entity)

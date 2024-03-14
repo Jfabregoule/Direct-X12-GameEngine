@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Engine/Script.h"
 #include "DirectXMath.h"
+
 #include "Engine/Entity.h"
+#include "Engine/Script.h"
 
 /*
 *  -------------------------------------------------------------------------------------

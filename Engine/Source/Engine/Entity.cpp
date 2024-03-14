@@ -1,8 +1,13 @@
 #include "Engine.h"
+
 #include "Engine/Entity.h"
+
 #include <vector>
+
 #include "Platform/Win32/d3dx12.h"
+
 #include "DirectX12/MathHelper.h"
+
 #include "Engine/MeshRenderer.h"
 #include "Engine/Script.h"
 #include "Engine/Collider.h"

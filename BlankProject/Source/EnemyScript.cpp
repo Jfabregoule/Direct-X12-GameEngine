@@ -1,7 +1,10 @@
 #include "BlankProject.h"
+
 #include "EnemyScript.h"
-#include "Engine/Tags.h"
+
 #include "Engine/Maths.h"
+#include "Engine/Tags.h"
+
 #include "ShipScript.h"
 
 EnemyScript::EnemyScript()

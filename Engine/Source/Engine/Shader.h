@@ -3,9 +3,12 @@
 #pragma region Includes
 
 #include "Engine.h"
-#include "Platform/Win32/d3dx12.h"
-#include "DirectX12/MathHelper.h"
+
 #include <vector>
+
+#include "Platform/Win32/d3dx12.h"
+
+#include "DirectX12/MathHelper.h"
 
 #pragma endregion
 
