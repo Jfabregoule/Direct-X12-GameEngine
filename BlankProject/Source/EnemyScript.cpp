@@ -2,6 +2,7 @@
 #include "EnemyScript.h"
 #include "Engine/Tags.h"
 #include "Engine/Maths.h"
+#include "ShipScript.h"
 
 EnemyScript::EnemyScript()
 {
@@ -65,13 +66,16 @@ void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
     m_pSelf->Forward(m_Speed, dt, gameSpeed);
 
 	CheckDistancePlayerOutOfRange();
+
+	if(InternClock(dt))
+		dynamic_cast<ShipScript*>(m_pSelf->GetComponentByName("shipscript"))->RocketShoot();
 }
 
 void EnemyScript::UpdateRETREAT(float dt, float* gameSpeed)
 {
     m_pSelf->Forward(m_Speed, dt, gameSpeed);
 
-	CheckDistancePath();
+    CheckDistanceSpawn();
 }
 
 
@@ -179,9 +183,16 @@ VOID EnemyScript::CheckDistanceSpawn() {
         SetCurrentState(PATHING);
 
     }
-};
+}
 
-VOID EnemyScript::ChangeDirection(DirectX::XMFLOAT3 pos) {
+bool EnemyScript::InternClock(float dt) {
 
-    m_pTransform->SetDirection(pos);
-};
+	m_clock += dt;
+	if (m_clock >= 1.5) {
+		m_clock = 0;
+		return true;
+	}
+
+	return false;
+
+}
