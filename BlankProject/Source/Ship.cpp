@@ -41,7 +41,7 @@ VOID Ship::Shoot() {
     entity->InitObject("cube");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     BulletScript* bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-    bullet->InitBulletScript(20, 5, forwardVect, 1);
+    bullet->InitBulletScript(10, 5, forwardVect, 1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.01f, 0.01f, 0.1f);
@@ -64,7 +64,7 @@ VOID Ship::Shoot() {
     entity->InitObject("cube", "textured", "bark");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-    bullet->InitBulletScript(20, 5, forwardVect, 1);
+    bullet->InitBulletScript(10, 5, forwardVect, 1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.01f, 0.01f, 0.1f);
