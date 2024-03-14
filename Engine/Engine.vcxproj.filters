@@ -163,22 +163,13 @@
     <ClCompile Include="Source\Platform\Win32\w32Caption.cpp">
       <Filter>Source\Platform\Win32\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX12\d3dUtil.cpp">
-      <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX12\dx12Inst.cpp">
       <Filter>Source\DirectX12\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\d3dApp.cpp">
-      <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\DDSTextureLoader.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\MathHelper.cpp">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX12\GeometryGenerator.cpp">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX12\GameTimer.cpp">
@@ -205,9 +196,6 @@
     <ClCompile Include="Source\Engine\Entity.cpp">
       <Filter>Source\Engine\Entity\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Collider.cpp">
-      <Filter>Source\Engine\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Camera.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
@@ -224,6 +212,12 @@
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Atom.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Collider.cpp">
+      <Filter>Source\Engine\Entity\Component\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Tags.cpp">
       <Filter>Source\Engine\Entity\Component\Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,9 +279,6 @@
     <ClInclude Include="Source\Engine\DirectX12Utils.h">
       <Filter>Source\Engine\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dUtil.h">
-      <Filter>Source\DirectX12\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\d3dx12.h">
       <Filter>Source\DirectX12\Public</Filter>
     </ClInclude>
@@ -297,13 +288,7 @@
     <ClInclude Include="Source\DirectX12\dx12Inst.h">
       <Filter>Source\DirectX12\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX12\d3dApp.h">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX12\DDSTextureLoader.h">
-      <Filter>Source\DirectX12\Bin</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX12\GeometryGenerator.h">
       <Filter>Source\DirectX12\Bin</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX12\MathHelper.h">
@@ -342,9 +327,6 @@
     <ClInclude Include="Source\Engine\PyramidMesh.h">
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Collider.h">
-      <Filter>Source\Engine\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\PipeMesh.h">
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
     </ClInclude>
@@ -371,6 +353,15 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Skybox.h">
       <Filter>Source\Engine\Entity\Mesh\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Collider.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Tags.h">
+      <Filter>Source\Engine\Entity\Component\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Maths.h">
+      <Filter>Source\Engine\Entity\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

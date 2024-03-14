@@ -14,12 +14,16 @@ private:
 
 	DirectX::XMFLOAT3		m_LastPos;
 	DirectX::XMFLOAT3		m_Dir;
+	DirectX::XMFLOAT3		m_Spawn;
 
 	float					m_Renge;
 
 	EnemyScript*			m_Script;
 
 	Entity*					m_pEntity;
+
+	Entity*					m_pPlayer;
+
 
 public:
 
@@ -35,6 +39,14 @@ public:
 	VOID ChangeLastPos();
 
 	VOID CheckDistancePath();
+
+	VOID CheckDistancePlayer();
+
+	VOID FocusOnPlayer();
+
+	VOID CheckDistancePlayerOutOfRange();
+
+	VOID CheckDistanceSpawn();
 
 	VOID ChangeDirection(DirectX::XMFLOAT3 pos);
 

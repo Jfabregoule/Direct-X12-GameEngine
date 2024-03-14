@@ -118,7 +118,6 @@
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
-    <ClInclude Include="Source\Maths.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Ship.h" />
   </ItemGroup>
