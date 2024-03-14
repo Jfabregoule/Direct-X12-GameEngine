@@ -4,6 +4,7 @@
 #include "EnemyScript.h"
 #include "Engine/Maths.h" 
 #include "DirectX12/dx12Inst.h"
+#include "Engine/Tags.h"
 
 Enemy::Enemy() {
 
@@ -21,6 +22,7 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     m_pEntity = new Entity(inst);
     m_pEntity->InitObject("pyramid");
     m_pEntity->SetCollider();
+    dynamic_cast<Tags*>(m_pEntity->AddComponentByName("tags"))->AddTags("enemy");
     //m_pEntity->Rotate(0.0f,0.0f,1.5f);
     m_pInst = inst;
 

@@ -46,7 +46,7 @@ VOID Ship::Shoot() {
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.01f, 0.01f, 0.1f);
     entity->Translate(m_pTransform->m_VectorPosition.x + rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y + rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z + rightVect.z/ 4 - upVect.z / 4);
-    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("bullet");
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("ally", "allyBullet", "bullet");
 
     /*m_DX12Instance->m_ListEntities.push_back(new Entity(m_DX12Instance));
     m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->InitObject("cube");
@@ -69,7 +69,7 @@ VOID Ship::Shoot() {
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.01f, 0.01f, 0.1f);
     entity->Translate(m_pTransform->m_VectorPosition.x - rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y - rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z - rightVect.z/ 4 - upVect.z / 4);
-    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("bullet");
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("ally", "allyBullet", "bullet");
     
 
 };
@@ -89,12 +89,12 @@ VOID Ship::LaserShoot() {
     entity->InitObject("cube");
     entity->AttachComponent(new LaserScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     LaserScript* laser = dynamic_cast<LaserScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-    laser->InitLaserScript(0.2, 50, forwardVect, 0.1);
+    laser->InitLaserScript(0.2, 10, forwardVect, 0.1f);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
     entity->Scale(0.09f, 0.1f, 4.0f);
-    entity->Translate(m_pTransform->m_VectorPosition.x + rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y + rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z + rightVect.z / 4 - upVect.z / 4);
-    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("laser");
+    entity->Translate(m_pTransform->m_VectorPosition.x + rightVect.x * 0.8f - upVect.x / 2, m_pTransform->m_VectorPosition.y + rightVect.y * 0.8f - upVect.y / 2, m_pTransform->m_VectorPosition.z + rightVect.z * 0.8f - upVect.z / 2);
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("ally", "allyBullet", "laser");
 
 }; 
 
@@ -112,10 +112,10 @@ VOID Ship::RocketShoot() {
     entity->InitObject("pyramid");
     entity->AttachComponent(new RocketScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     RocketScript* rocket = dynamic_cast<RocketScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
-    rocket->InitRocketScript(0.2, 50, forwardVect, 0.1);
+    rocket->InitRocketScript(0.2, 30, forwardVect, 0.1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
-    entity->Scale(0.8f, 0.10f, 0.0f);
-    entity->Translate(m_pTransform->m_VectorPosition.x + rightVect.x / 4 - upVect.x / 4, m_pTransform->m_VectorPosition.y + rightVect.y / 4 - upVect.y / 4, m_pTransform->m_VectorPosition.z + rightVect.z / 4 - upVect.z / 4);
-    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("rocket");
+    entity->Scale(0.3f, 0.3f, 1.5f);
+    entity->Translate(m_pTransform->m_VectorPosition.x - rightVect.x * 0.8f - upVect.x / 2, m_pTransform->m_VectorPosition.y - rightVect.y * 0.8f - upVect.y / 2, m_pTransform->m_VectorPosition.z - rightVect.z * 0.8f - upVect.z / 2);
+    dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("ally", "allyBullet", "rocket");
 }; 

@@ -24,6 +24,8 @@ void LaserScript::Update(float dt, float* gameSpeed) {
 
     m_LifeTime -= m_DecreaseLifeSpeed;
 
+    m_Speed += m_Speed * 0.1f;
+
     if (m_LifeTime <= 0)
     {
         m_pEntity->SetDestroyValue(true);

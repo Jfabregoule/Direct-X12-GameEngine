@@ -11,6 +11,8 @@
 #include "GameManager.h"
 
 float lButtonCD = 0.0f;
+float rButtonCD = 0.0f;
+float eButtonCD = 0.0f;
 
 HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
 {
@@ -83,21 +85,21 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
     }
 
     //Laser
-    if ((m_InputManager->GetCurrentState(VK_RSHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_RSHIFT) == HELD) && lButtonCD >= 1.0f && currentstate == PLAYING)
+    if ((m_InputManager->GetCurrentState('E') == PRESSED || m_InputManager->GetCurrentState('E') == HELD) && eButtonCD >= 1.0f && currentstate == PLAYING)
     {
         m_GameManager->GetMainPlayer()->LaserShoot();
 
 
-        lButtonCD = 0.0f;
+        eButtonCD = 0.0f;
     }
 
     //Rocket 
-    if ((m_InputManager->GetCurrentState(VK_RBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_RBUTTON) == HELD) && lButtonCD >= 0.5f && currentstate == PLAYING)
+    if ((m_InputManager->GetCurrentState(VK_RBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_RBUTTON) == HELD) && rButtonCD >= 0.5f && currentstate == PLAYING)
     {
         m_GameManager->GetMainPlayer()->RocketShoot();
 
 
-        lButtonCD = 0.0f;
+        rButtonCD = 0.0f;
     }
 
 
@@ -119,6 +121,8 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
         lButtonCD = 0.0f;
     }
     lButtonCD += dt * *gameSpeed;
+    rButtonCD += dt * *gameSpeed;
+    eButtonCD += dt * *gameSpeed;
 }
 
 VOID HandleInputs::UpdateMouse(float* gameSpeed) {
