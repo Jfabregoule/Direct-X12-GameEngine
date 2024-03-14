@@ -4,8 +4,6 @@
 #include "DirectXMath.h"
 #include "Engine/Entity.h"
 
-class Enemy;
-
 /*
 *  -------------------------------------------------------------------------------------
 * |                                                                                     |
@@ -15,7 +13,7 @@ class Enemy;
 */
 
 enum State {
-	IDLE,
+	AFK,
 	PATHING,
 	TRIGGERED,
 	RETREAT
@@ -37,14 +35,27 @@ private:
 
 #pragma region Attributs
 
-	Enemy* m_pEnemy;
-	Entity* m_pEntity;
-	Transform* m_pTransform;
+	Entity*					m_pSelf;
+	Entity*					m_pPlayer;
+	Transform*				m_pTransform;
 
-	State m_CurrentState;
+	DirectX12Instance*		m_pInst;
+
+	State					m_CurrentState;
 	
-	float				m_Speed;
-	DirectX::XMFLOAT3	m_Direction;
+	float					m_Speed;
+	DirectX::XMFLOAT3		m_Direction;
+
+	DirectX::XMFLOAT3		m_Path[4];
+	DirectX::XMFLOAT3		m_PathDirection[4];
+	int						m_pathState = 0;
+	int						m_nextPathState = 1;
+
+	DirectX::XMFLOAT3		m_LastPos;
+	DirectX::XMFLOAT3		m_Dir;
+	DirectX::XMFLOAT3		m_Spawn;
+
+	float					m_Range;
 
 #pragma endregion
 
@@ -60,10 +71,8 @@ public:
 
 #pragma region Constructor And Destructor
 
-	EnemyScript(Enemy* enemy);
+	EnemyScript();
 	~EnemyScript();
-
-	VOID SetCurrentState(State state) { m_CurrentState = state; };
 
 #pragma endregion
 
@@ -77,11 +86,11 @@ public:
 
 #pragma region Methods
 
-	void InitEnemyScript(float speed, DirectX::XMFLOAT3 direction);
+	void InitEnemyScript(float speed, Entity* self, Entity* player);
 
 	void Update(float dt, float* gameSpeed) override;
 
-	void UpdateIDLE(float dt, float* gameSpeed);
+	void UpdateAFK(float dt, float* gameSpeed);
 
 	void UpdatePATHING(float dt, float* gameSpeed);
 
@@ -89,6 +98,25 @@ public:
 
 	void UpdateRETREAT(float dt, float* gameSpeed);
 
+	VOID InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path[4]);
+
+	VOID InitPath(DirectX::XMFLOAT3 path[4]);
+
+	VOID ChangeLastPos();
+
+	VOID CheckDistancePath();
+
+	VOID CheckDistancePlayer();
+
+	VOID FocusOnPlayer();
+
+	VOID CheckDistancePlayerOutOfRange();
+
+	VOID CheckDistanceSpawn();
+
+	VOID ChangeDirection(DirectX::XMFLOAT3 pos);
+
+	VOID SetCurrentState(State state) { m_CurrentState = state; };
 
 #pragma endregion
 

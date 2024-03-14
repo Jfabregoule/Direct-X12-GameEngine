@@ -22,18 +22,6 @@
     <Filter Include="Ressources\Icons">
       <UniqueIdentifier>{f12e2071-eb5c-42ca-bdfa-c9021874c5a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\GameObjects">
-      <UniqueIdentifier>{736934ec-e599-4978-abd9-e501bad8ed67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\GameObjects\Private">
-      <UniqueIdentifier>{f7ab4295-6273-46ea-8a20-17e9e5719f3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\GameObjects\Public">
-      <UniqueIdentifier>{f11e41be-1628-4c8b-bd11-e370d076a2c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\GameObjects\Classes">
-      <UniqueIdentifier>{1f71985d-f894-471c-b636-3cf6e99c223a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Common">
       <UniqueIdentifier>{0e8a3863-82f1-4362-856a-9bae39ce9d03}</UniqueIdentifier>
     </Filter>
@@ -75,20 +63,11 @@
     <ClInclude Include="Source\GameManager.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Ship.h">
-      <Filter>Source\GameObjects\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Source\GameObjects\Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BulletScript.h">
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\EnemyScript.h">
       <Filter>Source\Scripts\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy.h">
-      <Filter>Source\GameObjects\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Map.h">
       <Filter>Source\Common\Classes</Filter>
@@ -97,6 +76,12 @@
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Rocketscript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ShipScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerScript.h">
       <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,20 +108,11 @@
     <ClCompile Include="Source\GameManager.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Ship.cpp">
-      <Filter>Source\GameObjects\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Source\GameObjects\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BulletScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\EnemyScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Enemy.cpp">
-      <Filter>Source\GameObjects\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Map.cpp">
       <Filter>Source\Common\Private</Filter>
@@ -145,6 +121,12 @@
       <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Rocketscript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ShipScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerScript.cpp">
       <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
   </ItemGroup>

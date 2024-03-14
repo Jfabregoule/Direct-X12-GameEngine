@@ -15,13 +15,11 @@ private:
     int m_EnemyCaseY;
     int m_EnemyCaseZ;
 
-    // GRID ( [3][3][3] -> 3*3*3 = 27 cases )
-
     int m_CaseLimit = 20;
     int grid[20][20][20];
 
-    int m_EnemyCaseLimit = 6;
-    int enemyGrid[6][6][6];
+    int m_EnemyCaseLimit = 3;
+    int enemyGrid[3][3][3];
 
     float sizeOfCases = 50;
     float sizeOfObjects;
@@ -33,20 +31,23 @@ private:
     //Enemies
     int numberOfEnemiesPerHorde;
     int numberOfHordes;
-    int m_distanceOfEnemies = 3;
+    int m_distanceOfEnemies = 1;
     std::vector <Entity*> m_ListEnemies;
+
+    Entity*                m_pMainPlayer;
+    DirectX12Instance*     m_pInst;
 
 
 public:
 
 
 
-    Map();
+    Map(Entity* player, DirectX12Instance* inst);
     ~Map();
 
-    void CreateEntities(DirectX12Instance* Inst);
-    void PlaceEntities(DirectX12Instance* Inst);
+    void CreateEntities();
+    void PlaceEntities();
     void UpdateEntities();
 
-    void GenerateEntities(DirectX12Instance* Inst);
+    void GenerateEntities();
 };
