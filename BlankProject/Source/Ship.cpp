@@ -61,7 +61,7 @@ VOID Ship::Shoot() {
 
     m_pInst->m_ListEntities.push_back(new Entity(m_pInst));
     entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
-    entity->InitObject("cube");
+    entity->InitObject("cube", "textured", "bark");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
     bullet->InitBulletScript(20, 5, forwardVect, 1);
@@ -86,7 +86,7 @@ VOID Ship::LaserShoot() {
     //Laser
     m_pInst->m_ListEntities.push_back(new Entity(m_pInst));
     Entity* entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
-    entity->InitObject("cube");
+    entity->InitObject("cube", "textured", "laser");
     entity->AttachComponent(new LaserScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     LaserScript* laser = dynamic_cast<LaserScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
     laser->InitLaserScript(0.2, 10, forwardVect, 0.1f);
