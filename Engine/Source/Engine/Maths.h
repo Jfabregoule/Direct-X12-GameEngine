@@ -30,9 +30,10 @@ namespace Maths {
 	};
 
 	DirectX::XMFLOAT3 CalculateEulerAnglesFromDirection(const DirectX::XMFLOAT3& direction) {
-		float pitch = atan2f(direction.y, sqrtf(direction.x * direction.x + direction.z * direction.z));
+		float pitch = asinf(direction.y);
 		float yaw = atan2f(direction.x, direction.z);
-		float roll = 0.0f; // Vous pouvez laisser roll à 0 si vous ne voulez pas de rotation autour de cet axe
+		float roll = atan2f(direction.z, direction.x);
+
 		return DirectX::XMFLOAT3(pitch, yaw, roll);
 	}
 

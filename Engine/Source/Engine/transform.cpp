@@ -181,15 +181,23 @@ DirectX::XMVECTOR Transform::GetUpVector() {
 void Transform::RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPosition) {
     // Calculer le vecteur de direction entre l'entité et l'objet cible
     DirectX::XMFLOAT3 directionToObject;
-    directionToObject.x = objectPosition.x - m_VectorPosition.x;
+    /*directionToObject.x = objectPosition.x - m_VectorPosition.x;
     directionToObject.y = objectPosition.y - m_VectorPosition.y;
-    directionToObject.z = objectPosition.z - m_VectorPosition.z;
+    directionToObject.z = objectPosition.z - m_VectorPosition.z;*/
+    directionToObject.x =  m_VectorPosition.x - objectPosition.x;
+    directionToObject.y =  m_VectorPosition.y - objectPosition.y;
+    directionToObject.z =  m_VectorPosition.z - objectPosition.z;
+    DirectX::XMVECTOR tmp;
+    tmp = DirectX::XMLoadFloat3(&directionToObject);
+    DirectX::XMVECTOR dir = DirectX::XMVector3Normalize(tmp);
+
+    DirectX::XMStoreFloat3(&directionToObject, dir);
 
     // Calculer les angles d'Euler à partir du vecteur de direction
     DirectX::XMFLOAT3 eulerAngles = Maths::CalculateEulerAnglesFromDirection(directionToObject);
 
     // Appliquer la rotation à l'entité
-    Rotate(eulerAngles.y, eulerAngles.x, eulerAngles.z);
+    Rotate(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 }
 
 #pragma endregion

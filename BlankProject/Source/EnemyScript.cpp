@@ -60,7 +60,7 @@ void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
 {
 	m_pEnemy->FocusOnPlayer();
 
-	m_pEntity->Forward(m_Speed, dt, gameSpeed);
+	//m_pEntity->Forward(m_Speed, dt, gameSpeed);
 
 	m_pEnemy->CheckDistancePlayerOutOfRange();
 }

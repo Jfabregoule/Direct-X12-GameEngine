@@ -28,7 +28,7 @@ VOID Enemy::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 path [4] 
     m_pTransform = m_pEntity->GetTransform();
     m_pEntity->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
     m_pTransform->UpdateMatrix();
-    ChangeDirection(m_Path[m_pathState+1]);
+    //ChangeDirection(m_Path[m_pathState+1]);
     m_Spawn = m_Path[0];
 
     //m_pTransform->Rotate(0.0f,1.5f,0.0f);
@@ -108,6 +108,7 @@ VOID Enemy::CheckDistancePlayer() {
 
 VOID Enemy::FocusOnPlayer() {
     ChangeDirection(m_pPlayer->GetTransform()->m_VectorPosition);
+    m_pPlayer->GetTransform()->UpdateMatrix();
 };
 
 VOID Enemy::CheckDistancePlayerOutOfRange() {

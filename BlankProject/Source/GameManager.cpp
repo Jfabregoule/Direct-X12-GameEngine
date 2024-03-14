@@ -12,6 +12,7 @@
 #include "Ship.h"
 #include "Time.h"
 #include "Enemy.h"
+#include "Map.h"
 
 GameManager::GameManager() {
     
@@ -35,38 +36,43 @@ VOID GameManager::Initialize(HWND handle) {
     m_pInputsHandle = new HandleInputs(m_pDX12Inst, this);
     m_pCollisionsHandle = new HandleCollisions(m_pDX12Inst);
 
+    Map m_Map;
+
+
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
+    //m_pDX12Inst->m_ListEntities.at(0)->SetCollider();
+    //m_pDX12Inst->m_ListEntities.at(0)->Translate(20.0f, -20.0f, 2.0f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(1)->InitObject("pyramid");
+    //m_pDX12Inst->m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(2)->InitObject("cube", "textured", "victor");
+    //m_pDX12Inst->m_ListEntities.at(2)->SetCollider();
+    //m_pDX12Inst->m_ListEntities.at(2)->Translate(10.0f, 0.0f, 20.0f);
     m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(0)->InitObject("cube", "textured", "bark");
-    m_pDX12Inst->m_ListEntities.at(0)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(0)->Translate(20.0f, -20.0f, 2.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(1)->InitObject("pyramid");
-    m_pDX12Inst->m_ListEntities.at(1)->Translate(2.0f, 0.0f, 10.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(2)->InitObject("cube", "textured", "victor");
-    m_pDX12Inst->m_ListEntities.at(2)->SetCollider();
-    m_pDX12Inst->m_ListEntities.at(2)->Translate(10.0f, 0.0f, 20.0f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(3)->InitObject("skybox", "textured", "sky");
-    m_pDX12Inst->m_ListEntities.at(3)->Scale(9.0f, 9.0f, 9.0f);
+    m_pDX12Inst->m_ListEntities.at(0)->InitObject("skybox", "textured", "sky");
+    m_pDX12Inst->m_ListEntities.at(0)->Scale(9.0f, 9.0f, 9.0f);
     //m_pDX12Inst->m_ListEntities.at(3)->SetCollider();
 
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(4)->InitObject("cube");
-    m_pDX12Inst->m_ListEntities.at(4)->Translate(5.0f, 0.0f, 5.0f);
-    m_pDX12Inst->m_ListEntities.at(4)->Scale(0.1f, 0.1f, 0.1f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(5)->InitObject("cube");
-    m_pDX12Inst->m_ListEntities.at(5)->Translate(10.0f, 0.0f, 5.0f);
-    m_pDX12Inst->m_ListEntities.at(5)->Scale(0.1f, 0.1f, 0.1f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(6)->InitObject("cube");
-    m_pDX12Inst->m_ListEntities.at(6)->Translate(10.0f, 0.0f, 10.0f);
-    m_pDX12Inst->m_ListEntities.at(6)->Scale(0.1f, 0.1f, 0.1f);
-    m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
-    m_pDX12Inst->m_ListEntities.at(7)->InitObject("cube");
-    m_pDX12Inst->m_ListEntities.at(7)->Translate(5.0f, 0.0f, 10.0f);
-    m_pDX12Inst->m_ListEntities.at(7)->Scale(0.1f, 0.1f, 0.1f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(3)->InitObject("cube");
+    //m_pDX12Inst->m_ListEntities.at(3)->Translate(5.0f, 0.0f, 5.0f);
+    //m_pDX12Inst->m_ListEntities.at(3)->Scale(0.1f, 0.1f, 0.1f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(4)->InitObject("cube");
+    //m_pDX12Inst->m_ListEntities.at(4)->Translate(10.0f, 0.0f, 5.0f);
+    //m_pDX12Inst->m_ListEntities.at(4)->Scale(0.1f, 0.1f, 0.1f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(5)->InitObject("cube");
+    //m_pDX12Inst->m_ListEntities.at(5)->Translate(10.0f, 0.0f, 10.0f);
+    //m_pDX12Inst->m_ListEntities.at(5)->Scale(0.1f, 0.1f, 0.1f);
+    //m_pDX12Inst->m_ListEntities.push_back(new Entity(m_pDX12Inst));
+    //m_pDX12Inst->m_ListEntities.at(6)->InitObject("cube");
+    //m_pDX12Inst->m_ListEntities.at(6)->Translate(5.0f, 0.0f, 10.0f);
+    //m_pDX12Inst->m_ListEntities.at(6)->Scale(0.1f, 0.1f, 0.1f);
+
+    m_Map.GenerateEntities(m_pDX12Inst);
 
     Enemy* enemy = new Enemy();
     DirectX::XMFLOAT3 tab[4] = {
