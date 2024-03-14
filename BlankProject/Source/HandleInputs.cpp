@@ -19,7 +19,7 @@ HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
 	m_DX12Instance = inst;
 	m_InputManager = new InputManager(m_DX12Instance);
     m_GameManager = gameManager;
-    m_Speed = 4.0f;
+    m_Speed = 10.0f;
     ShowCursor(FALSE);
 
 }

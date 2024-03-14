@@ -46,6 +46,8 @@ private:
 	float				m_Speed;
 	DirectX::XMFLOAT3	m_Direction;
 
+	float m_clock = 0;
+
 #pragma endregion
 
 public:
@@ -89,6 +91,7 @@ public:
 
 	void UpdateRETREAT(float dt, float* gameSpeed);
 
+	bool InternClock(float dt);
 
 #pragma endregion
 
