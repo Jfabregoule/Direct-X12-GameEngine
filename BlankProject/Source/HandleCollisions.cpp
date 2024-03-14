@@ -30,7 +30,7 @@ void HandleCollisions::UpdateCollisions(float dt, float* gameSpeed)
 					m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->Translate(position.x, position.y, position.z);
 					ParticleSystem* particleSys = dynamic_cast<ParticleSystem*>(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1)->AddComponentByName("particle-system"));
 					particleSys->InitializeParticleSystem(m_DX12Instance->m_ListEntities.at(m_DX12Instance->m_ListEntities.size() - 1));
-					particleSys->CreateAtomsGroup(m_DX12Instance);
+					particleSys->CreateAtomsGroup(m_DX12Instance, 50);
 					m_DX12Instance->m_ListEntities.at(i)->SetDestroyValue(true);
 				}
 			}
