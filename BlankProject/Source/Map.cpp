@@ -14,10 +14,10 @@ Map::Map(Entity* player, DirectX12Instance* inst) {
     m_pInst = inst;
     
     srand(time(0));
-    numberOfPlanets = GenerateRandomInt(15, 31);
+    numberOfPlanets = GenerateRandomInt(4, 7);
 
 
-    numberOfHordes = GenerateRandomInt(20, 41);
+    numberOfHordes = GenerateRandomInt(5, 10);
     std::string Horde = "Hordes : " + std::to_string(numberOfHordes);
     OutputDebugStringA(Horde.c_str()); OutputDebugStringA("\n");
 
@@ -74,7 +74,7 @@ void Map::PlaceEntities() {
     //Place Planets
     for (int i = 0; i < m_ListPlanets.size(); i++) {
 
-        sizeOfObjects = GenerateRandomAsFloat(30, 41) * 0.5f;
+        sizeOfObjects = GenerateRandomAsFloat(60, 100);
 
         m_ListPlanets.at(i)->Scale(sizeOfObjects, sizeOfObjects, sizeOfObjects);
 
@@ -104,6 +104,7 @@ void Map::PlaceEntities() {
     }
 
     //Place Hordes of Enemies
+    offset = m_EnemyCaseLimit * m_distanceOfEnemies;
     for (int i = 0; i < numberOfHordes; i++) {
 
         OutputDebugStringA("Horde "); OutputDebugStringA(std::to_string(i).c_str()); OutputDebugStringA("\n");
@@ -123,12 +124,12 @@ void Map::PlaceEntities() {
 
                 OutputDebugStringA("Enemy Found : "); OutputDebugStringA(std::to_string(p).c_str()); OutputDebugStringA("\n");
 
-                sizeOfObjects = GenerateRandomAsFloat(10, 21) * 0.5f;
+                sizeOfObjects = GenerateRandomAsFloat(5, 11);
 
                 m_ListEnemies.at(p)->Scale(sizeOfObjects, sizeOfObjects, sizeOfObjects);
 
                 if (grid[m_CaseX][m_CaseY][m_CaseZ] != 1) {
-                    m_ListEnemies.at(p)->Translate(IntToFloat(m_CaseX * sizeOfCases + m_EnemyCaseX * m_distanceOfEnemies - offset), IntToFloat(m_CaseY * sizeOfCases + m_EnemyCaseY * m_distanceOfEnemies - offset), IntToFloat(m_CaseZ * sizeOfCases + m_EnemyCaseZ * m_distanceOfEnemies - offset));
+                    m_ListEnemies.at(p)->Translate(IntToFloat(m_EnemyCaseX * m_distanceOfEnemies - offset), IntToFloat(m_EnemyCaseY * m_distanceOfEnemies - offset), IntToFloat(m_EnemyCaseZ * m_distanceOfEnemies - offset));
                     OutputDebugStringA("Enemy Placed"); OutputDebugStringA("\n");
                 }
                 else {
@@ -144,7 +145,7 @@ void Map::PlaceEntities() {
                             m_EnemyCaseY = GenerateRandomInt(0, m_EnemyCaseLimit);
                             m_EnemyCaseZ = GenerateRandomInt(0, m_EnemyCaseLimit);
 
-                            m_ListEnemies.at(p)->Translate(IntToFloat(m_CaseX * sizeOfCases + m_EnemyCaseX * m_distanceOfEnemies - offset), IntToFloat(m_CaseY * sizeOfCases + m_EnemyCaseY * m_distanceOfEnemies - offset), IntToFloat(m_CaseZ * sizeOfCases + m_EnemyCaseZ * m_distanceOfEnemies - offset));
+                            m_ListEnemies.at(p)->Translate(IntToFloat(m_EnemyCaseX * m_distanceOfEnemies - offset), IntToFloat(m_EnemyCaseY * m_distanceOfEnemies - offset), IntToFloat(m_EnemyCaseZ * m_distanceOfEnemies - offset));
                             grid[m_CaseX][m_CaseY][m_CaseZ] = 2;
                             OutputDebugStringA("Case Found"); OutputDebugStringA("\n"); OutputDebugStringA("Enemy Placed"); OutputDebugStringA("\n");
                             break;
@@ -152,13 +153,7 @@ void Map::PlaceEntities() {
                         }
                     }
                 }
-
-                //m_ListEnemies.at(p)->Translate(IntToFloat(-sizeOfCases * 2), IntToFloat(-sizeOfCases * 2), IntToFloat(-sizeOfCases * 2));
-
-
             }
-
-
         }
 
     }
