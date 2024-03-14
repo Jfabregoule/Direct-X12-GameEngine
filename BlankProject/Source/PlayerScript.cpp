@@ -1,4 +1,5 @@
 #include "BlankProject.h"
+
 #include "PlayerScript.h"
 
 PlayerScript::PlayerScript() {

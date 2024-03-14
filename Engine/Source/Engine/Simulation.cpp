@@ -1,5 +1,7 @@
 #include "Engine.h"
+
 #include "Simulation.h"
+
 #include "Engine/SplashScreen.h"
 
 namespace Engine {

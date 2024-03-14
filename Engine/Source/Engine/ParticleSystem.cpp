@@ -1,7 +1,10 @@
 #include "Engine.h"
+
 #include "Engine/ParticleSystem.h"
-#include "Engine/Entity.h"
+
 #include <time.h>
+
+#include "Engine/Entity.h"
 
 ParticleSystem::ParticleSystem() : Component()
 {

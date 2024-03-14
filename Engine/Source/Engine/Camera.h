@@ -1,9 +1,11 @@
-#pragma once 
+#pragma once
+
 #include <DirectXMath.h>
 
+#include "DirectX12/MathHelper.h"
 
 #include "Engine/Component.h"
-#include "DirectX12/MathHelper.h"
+
 #include "transform.h"
 
 /*

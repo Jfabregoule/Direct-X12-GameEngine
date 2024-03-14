@@ -1,9 +1,10 @@
 #pragma once
 
+#include <Uxtheme.h>
+
 #include "SubObject.h"
 #include "w32Caption.h"
 
-#include <Uxtheme.h>
 #pragma comment(lib,"uxtheme.lib")
 
 /*

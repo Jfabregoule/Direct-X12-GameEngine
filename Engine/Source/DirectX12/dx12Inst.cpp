@@ -1,13 +1,17 @@
 #include "Engine.h"
+
 #include "dx12Inst.h"
+
+#include <DirectXMath.h>
+
+#include "DirectX12/MathHelper.h"
+
 #include "Engine/Entity.h"
 #include "Engine/Mesh.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/Texture.h"
 #include "Engine/Camera.h"
 
-#include <DirectXMath.h>
-#include "DirectX12/MathHelper.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")

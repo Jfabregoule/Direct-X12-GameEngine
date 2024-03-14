@@ -1,7 +1,9 @@
 #pragma once
-#include "Component.h"
+
 #include <vector>
 #include <DirectXMath.h>
+
+#include "Component.h"
 
 class Entity;
 

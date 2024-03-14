@@ -1,6 +1,9 @@
 #pragma once
+
 #include "Engine/Entity.h"
+
 #include <string>
+
 #include "DirectX12/dx12Inst.h"
 
 class Map {

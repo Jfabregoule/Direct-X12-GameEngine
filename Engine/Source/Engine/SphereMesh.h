@@ -1,9 +1,11 @@
 ﻿#pragma once
-#include "Engine.h"
-#include "DirectX12/Vertex.h"
-#include <DirectXColors.h>
-#include <vector>
 
+#include "Engine.h"
+
+#include <vector>
+#include <DirectXColors.h>
+
+#include "DirectX12/Vertex.h"
 
 struct ENGINE_API SphereMesh
 {

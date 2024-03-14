@@ -1,9 +1,12 @@
 #pragma once
+
 #include "Engine.h"
-#include "Engine/Atom.h"
-#include "Engine/Component.h"
+
 #include <iostream>
 #include <vector>
+
+#include "Engine/Component.h"
+#include "Engine/Atom.h"
 
 class Entity;
 class DirectX12Instance;

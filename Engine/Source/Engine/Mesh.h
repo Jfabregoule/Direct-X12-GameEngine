@@ -1,6 +1,9 @@
 #pragma once
+
 #include "Engine.h"
+
 #include "Platform/Win32/d3dx12.h"
+
 #include "DirectX12/MathHelper.h"
 #include "DirectX12/Vertex.h"
 

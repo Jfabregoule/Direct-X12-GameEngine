@@ -1,4 +1,5 @@
 #include "Engine.h"
+
 #include "SplashScreen.h"
 
 #include "Platform/Win32/Win32Utils.h"

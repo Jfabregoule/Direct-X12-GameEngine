@@ -1,14 +1,20 @@
 #include "BlankProject.h"
-#include "DirectX12/dx12Inst.h"
+
 #include "HandleInputs.h"
+
 #include <DirectXMath.h>
-#include "BulletScript.h"
+
+#include "GameManager.h"
+
+#include "DirectX12/dx12Inst.h"
+
+#include "Engine/Entity.h"
+#include "Engine/Camera.h"
 #include "Engine/Collider.h"
 #include "Engine/Tags.h"
 #include "Engine/transform.h"
-#include "Engine/Camera.h"
-#include "Engine/Entity.h"
-#include "GameManager.h"
+
+#include "BulletScript.h"
 #include "ShipScript.h"
 
 float lButtonCD = 0.0f;

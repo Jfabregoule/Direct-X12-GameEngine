@@ -1,6 +1,9 @@
 #include "Engine.h"
+
 #include "Engine/Atom.h"
+
 #include "DirectX12/MathHelper.h"
+
 #include "Engine/Entity.h"
 
 Atom::Atom(Entity* self) : Component()

@@ -1,4 +1,5 @@
 #include "BlankProject.h"
+
 #include "BulletScript.h"
 
 BulletScript::BulletScript(Entity *entity)

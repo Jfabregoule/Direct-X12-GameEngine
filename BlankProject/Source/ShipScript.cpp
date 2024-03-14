@@ -1,12 +1,15 @@
 #include "BlankProject.h"
-#include "ShipScript.h"
-#include "Engine/Entity.h"
+
 #include "DirectX12/dx12Inst.h"
+
+#include "Engine/Entity.h"
+#include "Engine/Tags.h"
+#include "Engine/transform.h"
+
+#include "ShipScript.h"
 #include "BulletScript.h"
 #include "Rocketscript.h"
 #include "LaserScript.h"
-#include "Engine/transform.h"
-#include "Engine/Tags.h"
 
 ShipScript::ShipScript() {
     m_Name = "shipscript";
