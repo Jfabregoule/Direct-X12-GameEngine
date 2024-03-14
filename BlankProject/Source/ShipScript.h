@@ -1,10 +1,12 @@
 #pragma once 
 
+#include "Engine/Script.h"
+
 class Entity;
 class DirectX12Instance;
 struct Transform;
 
-class Ship {
+class ShipScript : public Script {
 protected:
 
 	Entity* m_pEntity;
@@ -14,13 +16,13 @@ protected:
 
 public:
 
-	Ship();
-	~Ship();
+	ShipScript();
+	~ShipScript();
 
 	Entity* GetEntity() { return m_pEntity; };
 
-	VOID Initialize(DirectX12Instance* inst);
-	VOID Shoot();
-	VOID RocketShoot();
-	VOID LaserShoot();
+	void Initialize(DirectX12Instance* inst, Entity* self);
+	void Shoot();
+	void RocketShoot();
+	void LaserShoot();
 };

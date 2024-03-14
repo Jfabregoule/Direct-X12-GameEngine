@@ -9,6 +9,7 @@
 #include "Engine/Camera.h"
 #include "Engine/Entity.h"
 #include "GameManager.h"
+#include "ShipScript.h"
 
 float lButtonCD = 0.0f;
 float rButtonCD = 0.0f;
@@ -19,7 +20,7 @@ HandleInputs::HandleInputs(DirectX12Instance* inst, GameManager* gameManager)
 	m_DX12Instance = inst;
 	m_InputManager = new InputManager(m_DX12Instance);
     m_GameManager = gameManager;
-    m_Speed = 4.0f;
+    m_Speed = 10.0f;
     ShowCursor(FALSE);
 
 }
@@ -78,7 +79,7 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
     //Bullet
     if ((m_InputManager->GetCurrentState(VK_LBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_LBUTTON) == HELD) && lButtonCD >= 0.1f && currentstate == PLAYING)
     {
-        m_GameManager->GetMainPlayer()->Shoot();
+        dynamic_cast<ShipScript*>(m_GameManager->GetMainPlayer()->GetComponentByName("shipscript"))->Shoot();
 
         
         lButtonCD = 0.0f;
@@ -87,7 +88,7 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
     //Laser
     if ((m_InputManager->GetCurrentState('E') == PRESSED || m_InputManager->GetCurrentState('E') == HELD) && eButtonCD >= 1.0f && currentstate == PLAYING)
     {
-        m_GameManager->GetMainPlayer()->LaserShoot();
+        dynamic_cast<ShipScript*>(m_GameManager->GetMainPlayer()->GetComponentByName("shipscript"))->LaserShoot();
 
 
         eButtonCD = 0.0f;
@@ -96,7 +97,7 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
     //Rocket 
     if ((m_InputManager->GetCurrentState(VK_RBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_RBUTTON) == HELD) && rButtonCD >= 0.5f && currentstate == PLAYING)
     {
-        m_GameManager->GetMainPlayer()->RocketShoot();
+        dynamic_cast<ShipScript*>(m_GameManager->GetMainPlayer()->GetComponentByName("shipscript"))->RocketShoot();
 
 
         rButtonCD = 0.0f;

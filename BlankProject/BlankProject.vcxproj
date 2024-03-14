@@ -101,31 +101,29 @@
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp" />
     <ClCompile Include="Source\BulletScript.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EnemyScript.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\HandleCollisions.cpp" />
     <ClCompile Include="Source\HandleInputs.cpp" />
     <ClCompile Include="Source\LaserScript.cpp" />
     <ClCompile Include="Source\Map.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\PlayerScript.cpp" />
     <ClCompile Include="Source\Rocketscript.cpp" />
-    <ClCompile Include="Source\Ship.cpp" />
+    <ClCompile Include="Source\ShipScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\BlankProject.h" />
     <ClInclude Include="Source\BulletScript.h" />
-    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\EnemyScript.h" />
     <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\HandleCollisions.h" />
     <ClInclude Include="Source\HandleInputs.h" />
     <ClInclude Include="Source\LaserScript.h" />
     <ClInclude Include="Source\Map.h" />
-    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PlayerScript.h" />
     <ClInclude Include="Source\Rocketscript.h" />
-    <ClInclude Include="Source\Ship.h" />
+    <ClInclude Include="Source\ShipScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlankProject.rc" />
