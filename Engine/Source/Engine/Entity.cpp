@@ -89,12 +89,12 @@ DirectX::XMFLOAT4X4* Entity::GetTransformConvert()
 	return &m_Transform.m_Matrix;
 }
 
-bool	Entity::GetDestroyValue()
+bool Entity::GetDestroyValue()
 {
 	return m_ToDestroy;
 }
 
-void	Entity::SetDestroyValue(bool destroy)
+void Entity::SetDestroyValue(bool destroy)
 {
 	m_ToDestroy = destroy;
 }
@@ -200,7 +200,7 @@ void	Entity::Scale(float scaleX, float scaleY, float scaleZ) {
 	m_Transform.Scale(scaleX, scaleY, scaleZ);
 };
 
-#pragma region movment 
+#pragma region movement 
 
 void Entity::Forward(float speed, float dT, float* gameSpeed) {
 	DirectX::XMFLOAT3 forwardVect = m_Transform.GetForwardVector();	
