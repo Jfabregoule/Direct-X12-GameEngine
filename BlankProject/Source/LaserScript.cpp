@@ -3,7 +3,7 @@
 
 LaserScript::LaserScript(Entity* entity)
 {
-    m_Name = "script";
+    m_Name = "laserscript";
     m_pEntity = entity;
 }
 
@@ -13,6 +13,7 @@ LaserScript::~LaserScript()
 
 void LaserScript::InitLaserScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed) {
 
+    m_Dmg = 10;
     m_Speed = speed;
     m_LifeTime = lifetime;
     m_Direction = direction;

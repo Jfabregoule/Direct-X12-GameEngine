@@ -11,6 +11,9 @@ class Camera;
 class Shader;
 class Mesh;
 
+struct Plane {
+    DirectX::XMFLOAT4 equation;
+};
 
 #pragma region Classe
 
@@ -134,6 +137,8 @@ public:
     Camera* m_pMainCamComponent;
 
     HRESULT m_hresult;
+
+    Plane m_Planes[6];
 
 #pragma endregion
 

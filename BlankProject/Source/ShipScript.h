@@ -12,7 +12,7 @@ protected:
 	Entity* m_pEntity;
 	DirectX12Instance* m_pInst;
 	Transform* m_pTransform;
-	int m_life;
+	int m_Life;
 
 public:
 
@@ -25,4 +25,5 @@ public:
 	void Shoot();
 	void RocketShoot();
 	void LaserShoot();
+	void DecreaseLife(int dmg);
 };

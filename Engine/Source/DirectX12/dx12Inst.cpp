@@ -14,6 +14,7 @@
 #pragma comment(lib, "dxgi.lib")
 
 
+
 DirectX12Instance* DirectX12Instance::inst;
 
 /*
@@ -544,5 +545,7 @@ VOID DirectX12Instance::UpdateCam(Entity* entity)
     //XMMATRIX mmm = world * view * proj;
     XMStoreFloat4x4(&m_worldViewProjMatrix, mmm);
 };
+
+
 
 #pragma endregion
