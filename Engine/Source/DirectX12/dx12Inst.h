@@ -1,9 +1,12 @@
 #pragma once
-#include "Engine/DirectX12Utils.h"
+
 #include <dxgi1_4.h> // Include for DXGI interfaces
 #include <DirectXMath.h>
-#include "DirectX12/MathHelper.h"
 #include <map>
+
+#include "DirectX12/MathHelper.h"
+
+#include "Engine/DirectX12Utils.h"
 
 class TextureManager;
 class Entity;

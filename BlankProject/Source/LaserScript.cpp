@@ -1,4 +1,5 @@
 #include "BlankProject.h"
+
 #include "LaserScript.h"
 
 LaserScript::LaserScript(Entity* entity)

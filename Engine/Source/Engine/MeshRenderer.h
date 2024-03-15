@@ -1,9 +1,10 @@
-
 #pragma once
-#include "Engine/Component.h"
-#include "Engine/Mesh.h"
+
 #include <DirectXMath.h>
 #include <string>
+
+#include "Engine/Component.h"
+#include "Engine/Mesh.h"
 #include "Engine/Texture.h"
 #include "Engine/Shader.h"
 

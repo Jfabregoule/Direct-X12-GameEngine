@@ -1,9 +1,14 @@
 #include "BlankProject.h"
+
 #include "Map.h"
+
 #include <string>
 #include <vector>
+
 #include "Common/Random.h"
+
 #include "Engine/Tags.h"
+
 #include "EnemyScript.h"
 #include "ShipScript.h"
 

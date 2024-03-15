@@ -1,19 +1,24 @@
 #include "BlankProject.h"
+
 #include "GameManager.h"
-#include "Engine/DirectX12Utils.h"
+
 #include "DirectX12/dx12Inst.h"
+
+#include "Time.h"
+#include "Map.h"
+
+#include "Engine/DirectX12Utils.h"
 #include "Engine/MeshRenderer.h"
 #include "Engine/InputManager.h"
 #include "Engine/Tags.h"
 #include "Engine/Collider.h"
+
 #include "HandleInputs.h"
 #include "BulletScript.h"
 #include "EnemyScript.h"
 #include "HandleCollisions.h"
 #include "PlayerScript.h"
 #include "ShipScript.h"
-#include "Time.h"
-#include "Map.h"
 
 GameManager::GameManager() {
     

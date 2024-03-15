@@ -1,11 +1,14 @@
 #pragma once
+
 #include <vector>
 #include <string>
-#include "Engine/Component.h"
-#include "Engine/transform.h"
+
 #include "DirectX12/Vertex.h"
+
 #include "Engine/Camera.h"
+#include "Engine/Component.h"
 #include "Engine/ParticleSystem.h"
+#include "Engine/transform.h"
 
 class DirectX12Instance;
 

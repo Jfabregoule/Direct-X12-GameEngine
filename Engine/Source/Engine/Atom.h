@@ -1,9 +1,12 @@
 #pragma once
+
 #include "Engine.h"
+
 #include "DirectX12/MathHelper.h"
-#include "Engine/transform.h"
-#include "Engine/CubeMesh.h"
+
 #include "Engine/Component.h"
+#include "Engine/CubeMesh.h"
+#include "Engine/transform.h"
 
 using namespace DirectX;
 class Entity;

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Random.h"
+
 #include <stdlib.h>
 #include <time.h>
+
 #include "windows.h"
 
 
