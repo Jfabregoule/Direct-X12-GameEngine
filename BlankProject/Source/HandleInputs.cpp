@@ -128,9 +128,6 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
 
 VOID HandleInputs::UpdateMouse(float* gameSpeed) {
     
-
-    // Ajoutez la rotation de la caméra en fonction des mouvements de la souris
-    // Convertir les valeurs de déplacement en radians et les multiplier par un facteur de sensibilité
     float sensitivity = 0.001f; // Réglage de la sensibilité de la souris
     float rotationX = static_cast<float>(m_InputManager->GetMouseDelta()[0]) * sensitivity * *gameSpeed;
     float rotationY = static_cast<float>(m_InputManager->GetMouseDelta()[1]) * sensitivity * *gameSpeed;

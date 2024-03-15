@@ -30,6 +30,7 @@ private:
 
 	Entity* m_pEntity;
 
+	int					m_Dmg;
 	float				m_DecreaseLifeSpeed;
 	float				m_LifeTime;
 	float				m_Speed;
@@ -63,6 +64,8 @@ public:
 	*/
 
 #pragma region Methods
+
+	int GetDmg() { return m_Dmg; };
 
 	void InitLaserScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed);
 

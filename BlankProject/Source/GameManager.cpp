@@ -51,22 +51,6 @@ VOID GameManager::Initialize(HWND handle) {
 
     m_Map.GenerateEntities();
 
-    Entity* enemy = new Entity(m_pDX12Inst);
-    EnemyScript* enemyScript = new EnemyScript();
-    ShipScript* shipScript2 = new ShipScript();
-    shipScript2->Initialize(m_pDX12Inst, enemy);
-    enemy->AttachComponent(enemyScript);
-    enemy->AttachComponent(shipScript2);
-    enemyScript->InitEnemyScript(4.0f, enemy, m_pMainPlayer);
-    DirectX::XMFLOAT3 tab[4] = {
-        XMFLOAT3(40.0f,0.0f,0.0f),
-        XMFLOAT3(10.0f,0.0f,5.0f),
-        XMFLOAT3(5.0f,0.0f,0.0f),
-        XMFLOAT3(5.0f,0.0f,10.0f)
-    };
-    enemyScript->InitializeEnemy(m_pDX12Inst, tab);
-    m_pDX12Inst->m_ListEntities.push_back(enemy);
-
 
 
     m_LastUpdateTime = Time::GetCurrentTime();

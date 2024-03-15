@@ -10,7 +10,7 @@
 
 ShipScript::ShipScript() {
     m_Name = "shipscript";
-    m_life = 5;
+    m_Life = 20;
 };
 
 ShipScript::~ShipScript() {
@@ -41,7 +41,7 @@ void ShipScript::Shoot() {
     Entity* entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
     entity->InitObject("cube");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
-    BulletScript* bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    BulletScript* bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("bulletscript"));
     bullet->InitBulletScript(10, 5, forwardVect, 1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
@@ -57,7 +57,7 @@ void ShipScript::Shoot() {
     entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
     entity->InitObject("cube", "textured", "bark");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
-    bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("bulletscript"));
     bullet->InitBulletScript(10, 5, forwardVect, 1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
@@ -86,7 +86,7 @@ void ShipScript::LaserShoot() {
     Entity* entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
     entity->InitObject("cube", "textured", "laser");
     entity->AttachComponent(new LaserScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
-    LaserScript* laser = dynamic_cast<LaserScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    LaserScript* laser = dynamic_cast<LaserScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("laserscript"));
     laser->InitLaserScript(0.2, 10, forwardVect, 0.1f);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
@@ -113,7 +113,7 @@ void ShipScript::RocketShoot() {
     Entity* entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
     entity->InitObject("pyramid");
     entity->AttachComponent(new RocketScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
-    RocketScript* rocket = dynamic_cast<RocketScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("script"));
+    RocketScript* rocket = dynamic_cast<RocketScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("rocketscript"));
     rocket->InitRocketScript(0.4, 10, forwardVect, 0.1);
     entity->SetCollider();
     entity->Rotate(m_pTransform->m_VectorRotation.y, m_pTransform->m_VectorRotation.x, m_pTransform->m_VectorRotation.z);
@@ -124,4 +124,11 @@ void ShipScript::RocketShoot() {
     if (m_pEntity->HasTag("enemy"))
         dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("enemy", "enemyBullet");
     dynamic_cast<Tags*>(entity->AddComponentByName("tags"))->AddTags("rocket");
+};
+
+void ShipScript::DecreaseLife(int dmg) {
+    m_Life -= dmg;
+    if (m_Life <= 0) {
+        m_pEntity->SetDestroyValue(true);
+    }
 };

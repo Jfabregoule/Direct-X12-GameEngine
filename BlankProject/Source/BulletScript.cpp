@@ -3,7 +3,7 @@
 
 BulletScript::BulletScript(Entity *entity)
 {
-	m_Name = "script";
+	m_Name = "bulletscript";
 	m_pEntity = entity;
 }
 
@@ -13,6 +13,7 @@ BulletScript::~BulletScript()
 
 void BulletScript::InitBulletScript(float speed, float lifetime, DirectX::XMFLOAT3 direction, float decreaselifespeed) {
 
+	m_Dmg = 1;
 	m_Speed = speed;
 	m_LifeTime = lifetime;
 	m_Direction = direction;
