@@ -78,9 +78,9 @@ void HandleInputs::UpdateInputs(float dt, float *gameSpeed) {
     if ((m_InputManager->GetCurrentState(VK_CONTROL) == PRESSED || m_InputManager->GetCurrentState(VK_CONTROL) == HELD) && currentstate == PLAYING)
         m_GameManager->GetMainCamera()->Down(m_Speed, dt, gameSpeed);
     if ((m_InputManager->GetCurrentState(VK_SHIFT) == PRESSED || m_InputManager->GetCurrentState(VK_SHIFT) == HELD) && currentstate == PLAYING)
-        m_Speed = 7.0f;
+        m_Speed = 15.0f;
     else
-        m_Speed = 4.0f;
+        m_Speed = 8.0f;
 
     //Bullet
     if ((m_InputManager->GetCurrentState(VK_LBUTTON) == PRESSED || m_InputManager->GetCurrentState(VK_LBUTTON) == HELD) && lButtonCD >= 0.1f && currentstate == PLAYING)

@@ -36,6 +36,8 @@ TextureManager::~TextureManager() {
 
 void TextureManager::AddTexture(std::string name, std::wstring path) {
 
+    // On a pas réussi a implémenter le constantBuffer par texture, on a donc préféré ne pas le mettre pas manque de temps
+
     Texture* texture = new Texture();
     texture->Name = name;
     texture->Filename = path;

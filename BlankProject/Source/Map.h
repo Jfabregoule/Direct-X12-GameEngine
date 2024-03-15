@@ -1,9 +1,6 @@
 #pragma once
-
 #include "Engine/Entity.h"
-
 #include <string>
-
 #include "DirectX12/dx12Inst.h"
 
 class Map {
@@ -18,13 +15,16 @@ private:
     int m_EnemyCaseY;
     int m_EnemyCaseZ;
 
-    int m_CaseLimit = 5;
-    int grid[5][5][5];
+    // GRID ( [3][3][3] -> 3*3*3 = 27 cases )
 
-    int m_EnemyCaseLimit = 3;
-    int enemyGrid[3][3][3];
+    int m_CaseLimit = 6;
+    int grid[6][6][6];
+    float sizeOfCases = 300;
 
-    float sizeOfCases = 500;
+    int m_EnemyCaseLimit = 9;
+    int enemyGrid[9][9][9];
+    int m_distanceOfEnemies = 4;
+
     float sizeOfObjects;
 
     //Planets
@@ -34,11 +34,12 @@ private:
     //Enemies
     int numberOfEnemiesPerHorde;
     int numberOfHordes;
-    int m_distanceOfEnemies = 1;
     std::vector <Entity*> m_ListEnemies;
 
-    Entity*                m_pMainPlayer;
-    DirectX12Instance*     m_pInst;
+
+
+    Entity* m_pMainPlayer;
+    DirectX12Instance* m_pInst;
 
 
 public:
@@ -48,8 +49,8 @@ public:
     Map(Entity* player, DirectX12Instance* inst);
     ~Map();
 
-    void CreateEntities();
-    void PlaceEntities();
+    void CreateEntities(bool m_planet, bool m_enemies);
+    void PlaceEntities(bool m_planet, bool m_enemies);
     void UpdateEntities();
 
     void GenerateEntities();

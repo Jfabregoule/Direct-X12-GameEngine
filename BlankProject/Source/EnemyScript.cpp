@@ -94,7 +94,7 @@ VOID   EnemyScript::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 p
 
 
     m_pTransform = m_pSelf->GetTransform();
-    m_pSelf->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
+    //m_pSelf->Translate(m_Path[m_pathState].x, m_Path[m_pathState].y, m_Path[m_pathState].z);
     m_pTransform->UpdateMatrix();
     m_Spawn = m_Path[0];
 
@@ -147,7 +147,7 @@ VOID EnemyScript::CheckDistancePath() {
 
 VOID EnemyScript::CheckDistancePlayer() {
 
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 10) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) <= 40) {
 
         OutputDebugString(L"Ennemy spoted");
 
@@ -169,7 +169,7 @@ VOID EnemyScript::FocusOnPlayer() {
 
 VOID EnemyScript::CheckDistancePlayerOutOfRange() {
 
-    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) >= 20) {
+    if (Maths::GetNorm(m_pTransform->m_VectorPosition, m_pPlayer->GetTransform()->m_VectorPosition) >= 60) {
 
         ChangeDirection(m_Spawn);
 

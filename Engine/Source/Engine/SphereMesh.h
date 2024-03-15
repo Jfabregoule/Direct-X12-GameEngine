@@ -75,7 +75,7 @@ struct ENGINE_API SphereMesh
 	{
 		float x, y, z, phi, theta, phiStep, thetaStep;
 		// Center Vertices
-		sphere[0] = Vertex(DirectX::XMFLOAT3(0.0f, 2.0f, 0.0f), DirectX::XMFLOAT4(Colors::AntiqueWhite), DirectX::XMFLOAT2(0, 0));
+		sphere[0] = Vertex(DirectX::XMFLOAT3(0.0f, 2.0f, 0.0f), DirectX::XMFLOAT4(Colors::LightSkyBlue), DirectX::XMFLOAT2(0, 0));
 
 		// Defining angles Steps
 		phiStep = XM_PI / m_PartCount; // Divided by 2 for half-sphere
@@ -116,7 +116,7 @@ struct ENGINE_API SphereMesh
 				y = -radius * sin(phi) * sin(theta);
 				z = radius * cos(phi); // Inversion de z
 
-				sphere[index++] = Vertex(DirectX::XMFLOAT3(x, y, z), DirectX::XMFLOAT4(Colors::Beige), DirectX::XMFLOAT2(0, 0));
+				sphere[index++] = Vertex(DirectX::XMFLOAT3(x, y, z), DirectX::XMFLOAT4(Colors::LightSkyBlue), DirectX::XMFLOAT2(0, 0));
 			}
 		}
 		assert(index = sphereVerticesCount);

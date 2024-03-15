@@ -31,15 +31,14 @@ private:
 
 #pragma region Attributs
 
-	Mesh* m_pMesh = nullptr;
-	Texture* m_pTexture = nullptr;
-	Shader* m_pShader = nullptr;
+	Mesh*				m_pMesh = nullptr;
+	Texture*			m_pTexture = nullptr;
+	Shader*				m_pShader = nullptr;
 
-	ID3D12Resource* m_pConstantBufferGPU;
-	// Méthode pour initialiser le tampon de constantes sur le GPU
+	ID3D12Resource*		m_pConstantBufferGPU;
 
 
-	UINT8* m_pConstantBufferData;
+	UINT8*				m_pConstantBufferData;
 
 #pragma endregion
 

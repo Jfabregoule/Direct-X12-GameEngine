@@ -11,30 +11,30 @@
 struct Texture
 {
 	// Unique material name for lookup.
-	std::string Name;
+	std::string								Name;
 
-	std::wstring Filename;
+	std::wstring							Filename;
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource>	Resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource>	UploadHeap = nullptr;
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE m_DescriptorHandleCPU;
-	CD3DX12_GPU_DESCRIPTOR_HANDLE m_DescriptorHandleGPU;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE			m_DescriptorHandleCPU;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE			m_DescriptorHandleGPU;
 
 };
 
 class ENGINE_API TextureManager {
 private:
 
-	std::map <std::string, Texture*> m_pListTexture = {};
-	DirectX12Instance* m_pInst = nullptr;
+	std::map <std::string, Texture*>		m_pListTexture = {};
+	DirectX12Instance*						m_pInst = nullptr;
 
-	ID3D12DescriptorHeap* m_SrvHeap;
-	D3D12_SHADER_RESOURCE_VIEW_DESC m_SrvDesc = {};
-	D3D12_DESCRIPTOR_HEAP_DESC m_HeapDesc = {};
+	ID3D12DescriptorHeap*					m_SrvHeap;
+	D3D12_SHADER_RESOURCE_VIEW_DESC			m_SrvDesc = {};
+	D3D12_DESCRIPTOR_HEAP_DESC				m_HeapDesc = {};
 
-	UINT m_DescriptorIndexCPU = 0; // Suivi de l'index du prochain emplacement disponible dans le heap de descripteurs CPU
-	UINT m_DescriptorIndexGPU = 0; // Suivi de l'index du prochain emplacement disponible dans le heap de descripteurs GPU
+	UINT									m_DescriptorIndexCPU = 0; 
+	UINT									m_DescriptorIndexGPU = 0; 
 
 
 
@@ -42,7 +42,7 @@ public:
 
 	/*
 	* |----------------------------------------------
-	* |                        Init                     |
+	* |                        Init                  |
 	* |----------------------------------------------
 	*/
 
@@ -51,7 +51,7 @@ public:
 
 	/*
 	* |----------------------------------------------
-	* |                 Getters/Setters                 |
+	* |                 Getters/Setters              |
 	* |----------------------------------------------
 	*/
 

@@ -58,7 +58,7 @@ void ShipScript::Shoot() {
 
     m_pInst->m_ListEntities.push_back(new Entity(m_pInst));
     entity = m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1);
-    entity->InitObject("cube", "textured", "bark");
+    entity->InitObject("cube");
     entity->AttachComponent(new BulletScript(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)));
     bullet = dynamic_cast<BulletScript*>(m_pInst->m_ListEntities.at(m_pInst->m_ListEntities.size() - 1)->GetComponentByName("bulletscript"));
     bullet->InitBulletScript(10, 5, forwardVect, 1);

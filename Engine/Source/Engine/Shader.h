@@ -44,25 +44,25 @@ private:
 
 #pragma region Attributes
 
-	ID3D12Device* m_Device;
+	ID3D12Device*						m_Device;
 
-	ID3D12PipelineState* m_pPipelineState;
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC m_PipelineDesc;
-	ID3DBlob* m_VSByteCode = nullptr;
-	ID3DBlob* m_PSByteCode = nullptr;
-	bool m_M4XMsaaState;
-	UINT m_M4XMsaaQuality;
+	ID3D12PipelineState*				m_pPipelineState;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC	m_PipelineDesc;
+	ID3DBlob*							m_VSByteCode = nullptr;
+	ID3DBlob*							m_PSByteCode = nullptr;
+	bool								m_M4XMsaaState;
+	UINT								m_M4XMsaaQuality;
 
-	ID3D12RootSignature* m_pRootSignature;
-	ComPtr<ID3DBlob> m_SerializedRootSignature = nullptr;
-	ComPtr<ID3DBlob> m_ErrorBlob = nullptr;
+	ID3D12RootSignature*				m_pRootSignature;
+	ComPtr<ID3DBlob>					m_SerializedRootSignature = nullptr;
+	ComPtr<ID3DBlob>					m_ErrorBlob = nullptr;
 
-	HRESULT m_HResult;
+	HRESULT								m_HResult;
 
-	vector<D3D12_INPUT_ELEMENT_DESC> m_InputLayout;
+	vector<D3D12_INPUT_ELEMENT_DESC>	m_InputLayout;
 
-	int m_rootParamSize; 
-	int m_isDescTable;
+	int									m_rootParamSize; 
+	int									m_isDescTable;
 
 #pragma endregion
 

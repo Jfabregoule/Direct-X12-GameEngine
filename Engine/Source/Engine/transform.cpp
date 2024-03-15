@@ -39,7 +39,6 @@ void Transform::Identity() {
 
     m_MatrixRotation = IDENTITY;
 
-
     // Position
     m_VectorPosition = { 0.0f,0.0f,0.0f };
 
@@ -133,6 +132,8 @@ void Transform::UpdateMatrix() {
     DirectX::XMStoreFloat4x4(&m_Matrix, globalMatrix);
 }
 
+#pragma region GetVectors
+
 DirectX::XMFLOAT3 Transform::GetForwardVector() {
     // Construire une matrice de rotation à partir des angles d'Euler de la caméra
 
@@ -182,20 +183,16 @@ DirectX::XMVECTOR Transform::GetUpVector() {
     return up;
 }
 
-void Transform::RotateEntityTowardsObject(const DirectX::XMFLOAT3& objectPosition) {
-    
-}
+#pragma endregion
 
 VOID Transform::SetDirection(DirectX::XMFLOAT3 posTarget) {
+    //Set la direction de l'entité a partir de la position de la cible
 
-
-    // Calcul de la direction vers la cible
     DirectX::XMFLOAT3 direction;
     direction.x = posTarget.x - m_VectorPosition.x;
     direction.y = posTarget.y - m_VectorPosition.y;
     direction.z = posTarget.z - m_VectorPosition.z;
 
-    // Normalisation de la direction
     float length = sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
     if (length > 0.0f) {
         direction.x /= length;
@@ -203,22 +200,17 @@ VOID Transform::SetDirection(DirectX::XMFLOAT3 posTarget) {
         direction.z /= length;
     }
 
-    // Calcul de l'angle de rotation autour de l'axe Y (yaw)
     float yaw = atan2(direction.x, direction.z);
-
-    // Calcul de l'angle de rotation autour de l'axe X (pitch)
     float pitch = asin(-direction.y);
 
-    // Mise à jour du vecteur de rotation
     m_VectorRotation.x = pitch;
     m_VectorRotation.y = yaw;
-    m_VectorRotation.z = 0.0f; // Le roll est souvent considéré comme nul lorsqu'on vise une direction précise
+    m_VectorRotation.z = 0.0f;
 
-    // Création de la matrice de rotation à partir des angles de rotation
+
     DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, 0.0f);
     DirectX::XMStoreFloat4x4(&m_MatrixRotation, rotationMatrix);
 
-    // Mise à jour des vecteurs de direction, de droite et de haut à partir de la matrice de rotation
     m_VectorDirection.x = m_MatrixRotation._31;
     m_VectorDirection.y = m_MatrixRotation._32;
     m_VectorDirection.z = m_MatrixRotation._33;
