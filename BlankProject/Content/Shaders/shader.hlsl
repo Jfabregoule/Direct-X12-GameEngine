@@ -1,29 +1,35 @@
+cbuffer WorldViewProjBuffer : register(b0)
+{
+    float4x4 worldViewProjMatrix; // Combined transformation matrix
+}
+
 struct VSInput
 {
     float3 position : POSITION;
+    float4 color : COLOR; // Texture coordinates
 };
 
 struct PSInput
 {
     float4 position : SV_POSITION;
-    float3 color : COLOR;
+    float4 color : COLOR;
 };
 
 PSInput vs_main(VSInput input)
 {
     PSInput output;
-    
-    // Transformation de la position en coordonnées homogènes 4D
-    output.position = float4(input.position, 1.0f);
 
-    // Vous pouvez définir une couleur ici ou la transmettre à partir de VS à PS
-    output.color = float3(1.0f, 0.0f, 0.0f); // Rouge
+    // Pass through transformed position
+    //output.position = mul(worldViewProjMatrix, float4(input.position, 1.0f));
+    output.position = mul(float4(input.position, 1.0f), worldViewProjMatrix);
+    // Set color to white initially
+    output.color = input.color;
+    input.color.a = 1.0f;
 
     return output;
 }
 
 float4 ps_main(PSInput input) : SV_TARGET
 {
-    // Utilisez la couleur interpolée provenant du vertex shader
-    return float4(input.color, 1.0f); // Utilisation de la couleur interpolée pour le fragment
+    return input.color;
 }

@@ -22,6 +22,30 @@
     <Filter Include="Ressources\Icons">
       <UniqueIdentifier>{f12e2071-eb5c-42ca-bdfa-c9021874c5a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{0e8a3863-82f1-4362-856a-9bae39ce9d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Classes">
+      <UniqueIdentifier>{1c2d7b40-a32b-48cf-9082-7053c6240ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Private">
+      <UniqueIdentifier>{8c535611-f83f-4da3-a952-723a31fb7ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common\Public">
+      <UniqueIdentifier>{e639deb2-d17f-462b-9782-ad6e6620da1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts">
+      <UniqueIdentifier>{0ca51efa-b2dc-4759-877c-15a06f79c6a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Public">
+      <UniqueIdentifier>{b702166b-e640-4f1d-a541-84f34b163ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Private">
+      <UniqueIdentifier>{d34ec596-5cb5-459b-b237-08d396bb1346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scripts\Classes">
+      <UniqueIdentifier>{b861c274-325f-4177-a6c5-bcd25980b0f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -29,6 +53,36 @@
     </ClInclude>
     <ClInclude Include="Source\BlankProject.h">
       <Filter>Source\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HandleInputs.h">
+      <Filter>Source\Common\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HandleCollisions.h">
+      <Filter>Source\Common\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameManager.h">
+      <Filter>Source\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BulletScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnemyScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map.h">
+      <Filter>Source\Common\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LaserScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Rocketscript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ShipScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerScript.h">
+      <Filter>Source\Scripts\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +98,36 @@
   <ItemGroup>
     <ClCompile Include="Source\BlankProject.cpp">
       <Filter>Source\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HandleInputs.cpp">
+      <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HandleCollisions.cpp">
+      <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameManager.cpp">
+      <Filter>Source\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BulletScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
+      <Filter>Source\Common\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LaserScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rocketscript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ShipScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerScript.cpp">
+      <Filter>Source\Scripts\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

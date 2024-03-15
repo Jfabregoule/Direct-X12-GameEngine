@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 namespace Time {
@@ -14,4 +15,6 @@ namespace Time {
 	/* - Get current Date and Time in string format - */
 
 	std::wstring ENGINE_API GetDateTimeString(BOOL stripped = FALSE);
+
+	float ENGINE_API GetCurrentTime();
 }

@@ -1,5 +1,15 @@
 #include "Engine.h"
 
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									  Engine Namespace 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Engine Namespace
+
 namespace Engine {
 
 	OEngine g_Engine;
@@ -26,10 +36,19 @@ namespace Engine {
 		default:     return L"None";
 		}
 	}
-
-
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									Constructor/Destructor								|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Constructor And Destructor
 
 OEngine::OEngine()
 {
@@ -44,6 +63,18 @@ OEngine::~OEngine()
 {
 }
 
+#pragma endregion
+
+/*
+*  -------------------------------------------------------------------------------------
+* |                                                                                     |
+* |									   Getters/Setters 									|
+* |                                                                                     |
+*  -------------------------------------------------------------------------------------
+*/
+
+#pragma region Getters And Setters
+
 EngineMode OEngine::GetEngineMode()
 {
 	return m_EngineMode;
@@ -53,3 +84,5 @@ VOID OEngine::SetEngineMode(EngineMode mode)
 {
 	m_EngineMode = mode;
 }
+
+#pragma endregion

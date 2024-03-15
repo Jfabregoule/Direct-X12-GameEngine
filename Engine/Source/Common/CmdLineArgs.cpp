@@ -1,6 +1,8 @@
 #include "Engine.h"
-#include "CmdLineArgs.h"
+
 #include <algorithm>
+
+#include "CmdLineArgs.h"
 
 VOID CmdLineArgs::ReadArguments()
 {

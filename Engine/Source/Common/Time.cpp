@@ -1,4 +1,5 @@
 #include "Engine.h"
+
 #include <ctime>
 #include <sstream>
 #include <iomanip>
@@ -61,4 +62,8 @@ std::wstring Time::GetDateTimeString(BOOL stripped)
 		}
 	}
 	return timeString;
+}
+
+float Time::GetCurrentTime() {
+	return static_cast<float>(clock()) / CLOCKS_PER_SEC; // Conversion en millisecondes
 }

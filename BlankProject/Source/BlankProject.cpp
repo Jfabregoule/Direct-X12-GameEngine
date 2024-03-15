@@ -1,9 +1,11 @@
 #include "BlankProject.h"
-#include "Engine/Simulation.h"
+
+#include "GameManager.h"
+
 #include "Platform/Win32/WinEntry.h"
-#include "Engine/DirectX12Utils.h"
-#include "DirectX12/dx12Inst.h"
-#include "DirectX12/DX12Camera.h"
+
+#include "Engine/Simulation.h"
+#include "Engine/ParticleSystem.h"
 
 BOOL GameRunning = TRUE;
 
@@ -33,43 +35,32 @@ public:
     /* - Called to Initialize the Application - */
 
     VOID Initialize() {
+        //Shader shader;
         HWND handle;
         handle = Handle();
         Window *window = GetWindow();
-        DirectX12Instance DX12Inst(handle);
 
-        DX12Inst.InitGraphics();
-        DX12Inst.InitCamera();
-        DX12Inst.InitShaders();
-        DX12Inst.InitRootSignature();
-        DX12Inst.InitPipelineState();
-        DX12Inst.CreateFencesAndEvents();
-        DX12Inst.BuildBoxGeometry();
 
+
+        GameManager* gameManager = new GameManager();
+        gameManager->Initialize(handle);
+
+        
 
         MSG message;
         while (GameRunning) {
             while (PeekMessage(&message, handle, 0, 0, PM_REMOVE)) {
-                TranslateMessage(&message);
+                TranslateMessage(&message);     
                 DispatchMessage(&message);
             }
 
-            // Gérer les entrées de l'utilisateur pour déplacer la caméra
-            HandleInput(DX12Inst);
-
-            // Faire tourner automatiquement la caméra
-            float deltaTime = 0.016f; // Par exemple, supposez un temps fixe entre les frames
-            DX12Inst.camera.RotateAutomatically(deltaTime);
-
             // Rendre la frame
-            DX12Inst.RenderFrame();
+            gameManager->Update();
 
             GameRunning = window->IsRunning();
+            if (GameRunning == false)
+                exit(0);
         }
-        DX12Inst.ReleaseFrame();
-        DX12Utils::ReportLiveObjects();
-        DX12Inst.ReleasePipeline();
-        DX12Inst.Cleanup();
     };
 
 
@@ -78,31 +69,6 @@ public:
     VOID Update() { };
 
     VOID Close() { GameRunning = FALSE; }
-
-    VOID HandleInput(DirectX12Instance& DX12Inst) {
-        // Gérer les entrées du clavier
-        if (GetAsyncKeyState('W') & 0x8000) {
-            DX12Inst.MoveCamera(0.0f, 0.0f, 0.1f); // Avancer
-        }
-        if (GetAsyncKeyState('S') & 0x8000) {
-            DX12Inst.MoveCamera(0.0f, 0.0f, -0.1f); // Reculer
-        }
-        if (GetAsyncKeyState('A') & 0x8000) {
-            DX12Inst.MoveCamera(-0.1f, 0.0f, 0.0f); // Aller à gauche
-        }
-        if (GetAsyncKeyState('D') & 0x8000) {
-            DX12Inst.MoveCamera(0.1f, 0.0f, 0.0f); // Aller à droite
-        }
-
-        // Gérer les entrées de la souris pour le déplacement de la caméra
-        POINT currentMousePos;
-        GetCursorPos(&currentMousePos);
-        float dx = static_cast<float>(currentMousePos.x - lastMousePos.x) * 0.001f;
-        float dy = static_cast<float>(currentMousePos.y - lastMousePos.y) * 0.001f;
-        DX12Inst.UpdateCamera(dx, dy, 0.0f);
-
-        lastMousePos = currentMousePos;
-    }
 };
 
 
