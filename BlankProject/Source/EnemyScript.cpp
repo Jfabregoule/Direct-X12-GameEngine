@@ -9,7 +9,7 @@
 
 EnemyScript::EnemyScript()
 {
-	m_Name = "enemyscript";
+    m_Name = "enemyscript";
 }
 
 EnemyScript::~EnemyScript()
@@ -18,60 +18,60 @@ EnemyScript::~EnemyScript()
 
 void EnemyScript::InitEnemyScript(float speed, Entity* self, Entity* player) {
 
-	m_Speed = speed;
+    m_Speed = speed;
     m_pSelf = self;
     m_pPlayer = player;
-	m_CurrentState = AFK;
-	m_pTransform = m_pSelf->GetTransform();
+    m_CurrentState = AFK;
+    m_pTransform = m_pSelf->GetTransform();
 
 }
 
 void EnemyScript::Update(float dt, float* gameSpeed)
 {
 
-	switch (m_CurrentState) {
-		case AFK:
-			UpdateAFK(dt, gameSpeed);
-			break;
-		case PATHING:
-			UpdatePATHING(dt, gameSpeed);
-			break;
-		case TRIGGERED:
-			UpdateTRIGGERED(dt, gameSpeed);
-			break;
-		case RETREAT:
-			UpdateRETREAT(dt, gameSpeed);
-			break;
-	}
+    switch (m_CurrentState) {
+    case AFK:
+        UpdateAFK(dt, gameSpeed);
+        break;
+    case PATHING:
+        UpdatePATHING(dt, gameSpeed);
+        break;
+    case TRIGGERED:
+        UpdateTRIGGERED(dt, gameSpeed);
+        break;
+    case RETREAT:
+        UpdateRETREAT(dt, gameSpeed);
+        break;
+    }
 
 }
 
 void EnemyScript::UpdateAFK(float dt, float* gameSpeed)
 {
-	CheckDistancePlayer();
+    CheckDistancePlayer();
 }
 
 void EnemyScript::UpdatePATHING(float dt, float* gameSpeed)
 {
-	m_pSelf->Forward(m_Speed, dt, gameSpeed);
+    m_pSelf->Forward(m_Speed, dt, gameSpeed);
 
-	CheckDistancePath();
+    CheckDistancePath();
 
-	CheckDistancePlayer();
+    CheckDistancePlayer();
 }
 
 void EnemyScript::UpdateTRIGGERED(float dt, float* gameSpeed)
 {
-	FocusOnPlayer();
+    FocusOnPlayer();
 
-	m_pTransform->UpdateMatrix();
+    m_pTransform->UpdateMatrix();
 
     m_pSelf->Forward(m_Speed, dt, gameSpeed);
 
-	CheckDistancePlayerOutOfRange();
+    CheckDistancePlayerOutOfRange();
 
-	if(InternClock(dt))
-		dynamic_cast<ShipScript*>(m_pSelf->GetComponentByName("shipscript"))->RocketShoot();
+    if (InternClock(dt))
+        dynamic_cast<ShipScript*>(m_pSelf->GetComponentByName("shipscript"))->RocketShoot();
 }
 
 void EnemyScript::UpdateRETREAT(float dt, float* gameSpeed)
@@ -86,7 +86,7 @@ VOID   EnemyScript::InitializeEnemy(DirectX12Instance* inst, DirectX::XMFLOAT3 p
 
     InitPath(path);
 
-    //Set de l'entité
+    //Set de l'entit?
     m_pSelf->InitObject("pyramid");
     m_pSelf->SetCollider();
     dynamic_cast<Tags*>(m_pSelf->AddComponentByName("tags"))->AddTags("enemy");
@@ -195,12 +195,12 @@ VOID EnemyScript::ChangeDirection(DirectX::XMFLOAT3 pos) {
 
 bool EnemyScript::InternClock(float dt) {
 
-	m_clock += dt;
-	if (m_clock >= 1.5) {
-		m_clock = 0;
-		return true;
-	}
+    m_clock += dt;
+    if (m_clock >= 1.5) {
+        m_clock = 0;
+        return true;
+    }
 
-	return false;
+    return false;
 
 }

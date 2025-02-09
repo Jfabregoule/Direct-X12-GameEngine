@@ -36,14 +36,14 @@ private:
 
 #pragma region Attributs
 
-	Entity*					m_pSelf;
-	Entity*					m_pPlayer;
-	Transform*				m_pTransform;
+	Entity* m_pSelf;
+	Entity* m_pPlayer;
+	Transform* m_pTransform;
 
-	DirectX12Instance*		m_pInst;
+	DirectX12Instance* m_pInst;
 
 	State					m_CurrentState;
-	
+
 	float					m_Speed;
 	DirectX::XMFLOAT3		m_Direction;
 
@@ -57,6 +57,8 @@ private:
 	DirectX::XMFLOAT3		m_Spawn;
 
 	float					m_Range;
+
+	float					m_clock = 0;
 
 #pragma endregion
 
@@ -118,6 +120,8 @@ public:
 	VOID ChangeDirection(DirectX::XMFLOAT3 pos);
 
 	VOID SetCurrentState(State state) { m_CurrentState = state; };
+
+	bool InternClock(float dt);
 
 #pragma endregion
 
